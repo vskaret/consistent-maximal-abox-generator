@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#"
+     xml:base="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:untitled-ontology-21="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#hasSealingProperty -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#hasSealingProperty">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Fault"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Fault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Fault">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#hasSealingProperty"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealing -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealing">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealingFault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealingFault">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Fault"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#hasSealingProperty"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Sealing -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Sealing">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingFault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingFault">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Fault"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#hasSealingProperty"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Sealing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealing -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealing">
+        <rdf:type rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealing"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealingFault -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealingFault">
+        <rdf:type rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#NonSealingFault"/>
+        <hasSealingProperty rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealing"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealing -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealing">
+        <rdf:type rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#Sealing"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealingFault -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealingFault">
+        <rdf:type rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#SealingFault"/>
+        <hasSealingProperty rdf:resource="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealing"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#non-sealing"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#sealing"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
