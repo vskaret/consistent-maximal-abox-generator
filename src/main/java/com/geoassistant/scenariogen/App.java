@@ -1,5 +1,7 @@
 package com.geoassistant.scenariogen;
 
+import java.util.ArrayList;
+
 /**
  * Hello world!
  *
@@ -11,10 +13,14 @@ public class App
         System.out.println( "Hello World!" );
 
         TemplateOntology to = new TemplateOntology();
-        to.loadFromFile("geo.owl");
+        to.loadFromFile("geo2.owl");
 
         WorkerOntology wo = new WorkerOntology(to);
         wo.loadOntology();
-        wo.generateScenarios();
+
+        ArrayList<String> queries = new ArrayList<>();
+        queries.add("Fault");
+        // queries.add("SealingProperty"); // gives exception
+        wo.generateScenarios(queries);
     }
 }

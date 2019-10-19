@@ -1,16 +1,15 @@
 package com.geoassistant.scenariogen;
 
 import org.semanticweb.HermiT.Reasoner;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents an ontology that is used to create permutations
@@ -52,42 +51,97 @@ public class WorkerOntology extends Ontology {
         factory = manager.getOWLDataFactory();
         pm = (PrefixOWLOntologyFormat) manager.getOntologyFormat(ontology);
 
-        System.out.println("Loaded template ontology: " + ontology.getOntologyID());
+        ontologyIRI = ontology.getOntologyID().getOntologyIRI().toString();
+        System.out.println("Loaded template ontology: " + ontologyIRI);
+
+        System.out.println(ontologyIRI);
 
         removeIndividuals();
     }
 
-    public void generateScenarios() {
-        //String[] individualClasses = new String[3];
-        //String[] individualClasses = {"Fault", "Fault", "Fault"};
-        ArrayList<String> queries = new ArrayList<String>();
-        queries.add("Fault");
-        queries.add("Fault");
+    public void generateScenarios(ArrayList<String> queries) throws Exception {
+        // base case, when the current proto-scenario is not consistent
+        if (!reasoner.isConsistent()) {
+            System.out.println("Aborting branch, inconsistent proto-scenario!");
+            return;
+        }
 
-        for (String q : queries) {
-            Set<OWLNamedIndividual> individuals = queryTemplate(q).getFlattened();
+        // base case, when no queries left
+        if (queries.isEmpty()) {
+            System.out.println("Consistent proto-scenario generated!");
+            // store ontology
+            // save as an ontology file or a maude file or something else?
+            return;
+        }
+
+        if (DEBUG) {
+            System.out.println(ontology);
+        }
+
+        //for (String q : queries) {
+        for (int i = 0; i < queries.size(); i++) {
+            String q = queries.get(i);
+            Set<OWLClassAssertionAxiom> permutationAxioms = templateOntology.getClassAssertionAxioms(q);
+            queries.remove(0);
+
+            if (permutationAxioms.isEmpty()) {
+                throw new Exception("No permutation axioms returned when querying template ontology for " + q);
+            }
 
             if (DEBUG) {
-                System.out.println("queried for " + q + " and got " + individuals.size() + " individuals");
+                System.out.println("queried for " + q + " and got " + permutationAxioms.size() + " axioms");
             }
 
-            for (OWLNamedIndividual individual : individuals) {
+            // continue with scenario generation in this branch only if the ontology is consistent
+            //for (OWLNamedIndividual individual : individuals) {
+            for (OWLClassAssertionAxiom axiom : permutationAxioms) {
                 if (DEBUG) {
-                    System.out.println("adding individual : " + individual.getIRI().getShortForm());
+                    System.out.println("adding axiom : " + axiom);
                 }
 
-                addIndividual(individual);
+                // add axiom to use in current branch
+                manager.addAxiom(ontology, axiom);
+
+                // add all related axioms
+                System.out.println("individ: " + axiom.getIndividual());
+                OWLEntity entity = (OWLEntity) axiom.getIndividual();
+                Set<OWLAxiom> queryResult = templateOntology.getAllAxiomsWithEntity(entity);
+                Set<OWLAxiom> newAxioms = removeDuplicates(queryResult);
+
+                if (DEBUG) {
+                    System.out.println("*****relatedaxioms*****");
+                    for (OWLAxiom a : newAxioms) {
+                        System.out.println(a);
+                    }
+                    System.out.println("***********************");
+
+                }
+
+                manager.addAxioms(ontology, newAxioms);
+
+
+                // copy of query list
+                ArrayList<String> copy = (ArrayList<String>) queries.clone();
+
+                // recurse onwards to victory
+                generateScenarios(copy);
+
+                // this branch finished, so remove axiomx
+                // remove all new axioms related to the individual
+                manager.removeAxioms(ontology, newAxioms);
+                // remove class axiom
+                manager.removeAxiom(ontology, axiom);
             }
+        }
+
+        if (DEBUG) {
+            System.out.println(ontology);
         }
     }
 
+    // finds individuals of a class, but not useful? need to use axioms
     private NodeSet<OWLNamedIndividual> queryTemplate(String className) {
         return templateOntology.classQuery(className);
-    }
-
-    private void addIndividual(OWLNamedIndividual individual) {
-        OWLClassAssertionAxiom assertion = factory.getOWLClassAssertionAxiom(individual.asOWLClass(), individual);
-        manager.addAxiom(ontology, assertion);
     }
 
     private void removeIndividuals() {
@@ -111,4 +165,10 @@ public class WorkerOntology extends Ontology {
 
         System.out.println("Removed all individuals from worker ontology");
     }
+
+    private void queryClassAssertionAxioms(String className) {
+        Set<OWLClassAssertionAxiom> newAxioms = templateOntology.getClassAssertionAxioms(className);
+        manager.addAxioms(ontology, newAxioms);
+    }
+
 }
