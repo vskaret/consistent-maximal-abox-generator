@@ -25,8 +25,6 @@ import java.util.*;
  * step.
  */
 public class WorkerOntology extends Ontology {
-    private final static boolean DEBUG = true;
-
     // an instance of the template ontology that can be queried
     private TemplateOntology templateOntology;
 
@@ -144,31 +142,9 @@ public class WorkerOntology extends Ontology {
         return templateOntology.classQuery(className);
     }
 
-    private void removeIndividuals() {
-        OWLEntityRemover remover = new OWLEntityRemover(manager, Collections.singleton(ontology));
-
-        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
-
-        if (DEBUG) {
-            System.out.println("individuals.size() before removal: " + individuals.size());
-        }
-
-        for (OWLNamedIndividual individual : individuals) {
-            remover.visit(individual);
-        }
-        manager.applyChanges(remover.getChanges());
-
-        if (DEBUG) {
-            individuals = ontology.getIndividualsInSignature();
-            System.out.println("individuals.size() after removal: " + individuals.size());
-        }
-
-        System.out.println("Removed all individuals from worker ontology");
-    }
 
     private void queryClassAssertionAxioms(String className) {
         Set<OWLClassAssertionAxiom> newAxioms = templateOntology.getClassAssertionAxioms(className);
         manager.addAxioms(ontology, newAxioms);
     }
-
 }

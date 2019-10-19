@@ -3,9 +3,11 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -19,6 +21,8 @@ import java.util.Set;
  * They will be duplicates of each other except for the individuals.
  */
 public abstract class Ontology {
+    protected final static boolean DEBUG = true;
+
     // the OWL ontology manager
     protected OWLOntologyManager manager;
 
@@ -52,5 +56,27 @@ public abstract class Ontology {
         }
 
         return result;
+    }
+
+    protected void removeIndividuals() {
+        OWLEntityRemover remover = new OWLEntityRemover(manager, Collections.singleton(ontology));
+
+        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
+
+        if (DEBUG) {
+            System.out.println("individuals.size() before removal: " + individuals.size());
+        }
+
+        for (OWLNamedIndividual individual : individuals) {
+            remover.visit(individual);
+        }
+        manager.applyChanges(remover.getChanges());
+
+        if (DEBUG) {
+            individuals = ontology.getIndividualsInSignature();
+            System.out.println("individuals.size() after removal: " + individuals.size());
+        }
+
+        System.out.println("Removed all individuals from worker ontology");
     }
 }
