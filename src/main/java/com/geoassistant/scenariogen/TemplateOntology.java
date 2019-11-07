@@ -5,6 +5,7 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
+import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 
 import java.io.File;
 import java.util.HashSet;
@@ -77,6 +78,31 @@ public class TemplateOntology extends Ontology {
         return result;
     }
 
+    public Set<OWLObjectProperty> getObjectProperties() {
+        Set<OWLObjectProperty> properties = ontology.getObjectPropertiesInSignature();
+
+        for (OWLObjectProperty p : properties) {
+            System.out.println(p);
+            //System.out.println(reasoner.getObjectPropertyDomains(p, false));
+            System.out.println(p.getDomains(ontology));
+            Object[] classes = p.getDomains(ontology).toArray();
+
+            if (classes.length > 0) {
+                System.out.println(reasoner.getSubClasses((OWLClassExpression) classes[0], false));
+            }
+
+            //System.out.println(p.getDomains(ontology).toArray()[0].getClass());
+            //System.out.println(p.getRanges(ontology));
+        }
+
+        return properties;
+    }
+
+    //public void query(OWLQuery q) {
+        //String query = q.getQuery();
+        //q.setResults()
+    //}
+
     //public OWLClassAssertionAxiom getClass(OWLNamedIndividual individual) {
     public void getClass(OWLNamedIndividual individual) {
         Set<OWLClassExpression> e = individual.getTypes(ontology);
@@ -135,7 +161,9 @@ public class TemplateOntology extends Ontology {
         factory = manager.getOWLDataFactory();
         pm = (PrefixOWLOntologyFormat) manager.getOntologyFormat(ontology);
 
-        System.out.println("Loaded template ontology: " + ontology.getOntologyID());
+        if (DEBUG) {
+            System.out.println("Loaded template ontology: " + ontology.getOntologyID());
+        }
 
         // print axioms
         Set<OWLAxiom> aAxioms = ontology.getABoxAxioms(false);
@@ -151,10 +179,11 @@ public class TemplateOntology extends Ontology {
                 if (ce.asOWLClass().getIRI().getShortForm().equalsIgnoreCase("Fault")) {
                     Set<OWLClassAssertionAxiom> classAxioms = ontology.getClassAssertionAxioms(ce);
 
-                    for (OWLClassAssertionAxiom ca : classAxioms) {
-                        System.out.println(ca);
+                    if (DEBUG) {
+                        for (OWLClassAssertionAxiom ca : classAxioms) {
+                            System.out.println(ca);
+                        }
                     }
-
                 }
             } else {
                 //System.out.print("anonymous: ");

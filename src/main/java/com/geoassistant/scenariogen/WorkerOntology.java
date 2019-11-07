@@ -4,6 +4,7 @@ import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
@@ -28,6 +29,8 @@ public class WorkerOntology extends Ontology {
     // an instance of the template ontology that can be queried
     private TemplateOntology templateOntology;
 
+    private ArrayList<OWLEntity> individuals = new ArrayList<>();
+
     public WorkerOntology(TemplateOntology templateOntology) {
         super();
         this.templateOntology = templateOntology;
@@ -50,25 +53,214 @@ public class WorkerOntology extends Ontology {
         pm = (PrefixOWLOntologyFormat) manager.getOntologyFormat(ontology);
 
         ontologyIRI = ontology.getOntologyID().getOntologyIRI().toString();
-        System.out.println("Loaded template ontology: " + ontologyIRI);
 
-        System.out.println(ontologyIRI);
+        if (DEBUG) {
+            System.out.println("Loaded template ontology: " + ontologyIRI);
+        }
 
-        removeIndividuals();
+        //removeIndividuals();
+    }
+    public void permutate() throws Exception {
+        // get all Unknown individuals
+        Set<OWLClassAssertionAxiom> unknownSet = templateOntology.getClassAssertionAxioms("Unknown");
+        OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
+        ArrayList<OWLClassAssertionAxiom> unknowns = new ArrayList<>(Arrays.asList(unknownArr));
+        permutate(unknowns);
     }
 
-    public void generateScenarios(ArrayList<String> queries) throws Exception {
+    //public void permutate(OWLClassAssertionAxiom[] unknowns) throws Exception {
+    public void permutate(ArrayList<OWLClassAssertionAxiom> unknowns) throws Exception {
+        // inconsistent case
+        System.out.println("test");
+        reasoner.flush();
+        if (!reasoner.isConsistent()) {
+            System.out.println("inconsistent branch!");
+
+            Set<OWLAxiom> axioms = ontology.getAxioms();
+            for (OWLAxiom axiom : axioms) {
+                if (axiom instanceof OWLObjectPropertyAssertionAxiom) {
+                    System.out.println(axiom);
+                }
+            }
+            return;
+        }
+
+        // base case
+        if (unknowns.size() == 0) {
+            System.out.println("consistent ontology generated!");
+
+            Set<OWLAxiom> axioms = ontology.getAxioms();
+            for (OWLAxiom axiom : axioms) {
+                if (axiom instanceof OWLObjectPropertyAssertionAxiom) {
+                    System.out.println(axiom);
+                }
+            }
+            //System.out.println(ontology.getAxioms());
+            return;
+        }
+
+
+
+        OWLClassAssertionAxiom axiom = unknowns.get(0);
+        //unknowns.remove(0);
+        //System.out.println(axiom);
+        OWLIndividual unknown = axiom.getIndividual();
+        //System.out.println(unknown);
+
+        Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
+
+        // all class assertions
+        List<OWLClassAssertionAxiom> individuals = new ArrayList<>();
+        //for (OWLNamedIndividual individual : ontology.getIndividualsInSignature()) {
+        for (OWLClass ce : ontology.getClassesInSignature()) {
+            for (OWLClassAssertionAxiom ca : ontology.getClassAssertionAxioms(ce)) {
+                //if (!ca.getIndividual().equals(unknown)) {
+                individuals.add(ca);
+                //}
+
+                // tar ogsaa med unknown i tilfelle det er en refleksiv object property
+            }
+        }
+
+        /*for (OWLClassAssertionAxiom individual : ontology.getClassAssertionAxioms()) {
+            if (!individual.equals(axiom)) {
+                System.out.print("not equal : ");
+                individuals.add(individual);
+            } else {
+                System.out.print("equal : ");
+            }
+            System.out.println(individual);
+        }*/
+
+
+        // find classes the unknown can be
+        List<OWLClassExpression> classes = new ArrayList<OWLClassExpression>();
+
+        for (OWLClassAssertionAxiom ca : unknownClasses) {
+            if (!axiom.equals(ca)) {
+                OWLClassExpression c = ca.getClassExpression();
+                classes.add(c);
+            }
+        }
+
+        //System.out.println(classes);
+
+        // find all object properties the unknown can be a part of
+
+        Set<OWLObjectProperty> properties = ontology.getObjectPropertiesInSignature();
+        List<OWLObjectProperty> propertiesPartOfDomain = new ArrayList<>();
+        List<OWLObjectProperty> propertiesPartOfRange = new ArrayList<>();
+
+        // worst code ever written?
+
+        for (OWLObjectProperty property : properties) {
+            // skip owl:topproperty
+            if (!property.isBuiltIn()) {
+                // properties where unknown is part of the domain
+                Set<OWLClassExpression> domains = property.getDomains(ontology);
+                Set<OWLClassExpression> ranges = property.getRanges(ontology);
+                for (OWLClassExpression domain : domains) {
+                    for (OWLClassExpression ce : classes) {
+                        if (domain.equals(ce)) {
+                            for (OWLClassExpression range : ranges) {
+                                // all legal classes for the range
+                                List<OWLClassExpression> legalRanges = new ArrayList<>();
+                                legalRanges.add(range);
+                                for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(range.asOWLClass())) {
+                                    legalRanges.add(sub.getSubClass());
+                                }
+
+                                for (OWLClassExpression legalRange : legalRanges) {
+                                    for (OWLClassAssertionAxiom individual : individuals) {
+                                        //System.out.print(individual);
+                                        //System.out.print(" vs ");
+                                        //System.out.println(range);
+
+                                        if (individual.getClassExpression().equals(legalRange)) {
+                                            OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual());
+                                            manager.addAxiom(ontology, ax);
+                                            ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
+                                            copy.remove(0);
+                                            permutate(copy);
+                                            manager.removeAxiom(ontology, ax);
+                                            //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // properties where unknown is part of the range
+                /*
+                Set<OWLClassExpression> ranges = property.getRanges(ontology);
+                for (OWLClassExpression range : ranges) {
+                    for (OWLClassExpression ce : classes) {
+                        if (range.equals(ce)) {
+                            propertiesPartOfRange.add(property);
+                        }
+                    }
+                }
+                */
+            }
+        }
+
+        //System.out.println(propertiesPartOfDomain);
+        //System.out.println(propertiesPartOfRange);
+        // permutate on legal combinations in the object property
+
+
+        // ??
+    }
+
+    //public void generateScenario(ArrayList<String> queries) throws Exception {
+    public void generateScenario(ArrayList<OWLQuery> queries) throws Exception {
+
+        for (OWLQuery q : queries) {
+            //templateOntology.query(q);
+            //System.out.println(q.getQuery());
+            q.setResult(templateOntology.getClassAssertionAxioms(q.getQuery()));
+        }
+
+        /*
+        ArrayList<ArrayList<OWLClassAssertionAxiom>> axiomLists = new ArrayList<>();
+
+        for (int i = 0; i < queries.size(); i++) {
+            ArrayList<OWLClassAssertionAxiom> axioms = new ArrayList<>();
+            String q = queries.get(i);
+            Set<OWLClassAssertionAxiom> newAxioms = templateOntology.getClassAssertionAxioms(q);
+
+            for (OWLClassAssertionAxiom a : newAxioms) {
+                axioms.add(a);
+            }
+
+            axiomLists.add(axioms);
+        }
+        */
+
+        //generateScenarios(axioms);
+        generateScenarios(queries, 0);
+        //generateScenarios(axiomLists);
+        //generateScenarios(queries, new ArrayList<OWLEntity>());
+    }
+
+    protected void generateScenarios(ArrayList<OWLQuery> queries, int k) throws Exception {
         // base case, when the current proto-scenario is not consistent
         if (!reasoner.isConsistent()) {
             System.out.println("Aborting branch, inconsistent proto-scenario!");
             return;
         }
 
-        // base case, when no queries left
-        if (queries.isEmpty()) {
-            System.out.println("Consistent proto-scenario generated!");
-            // store ontology
-            // save as an ontology file or a maude file or something else?
+        // increment k
+        if (queries.get(k).finished()) {
+            k++;
+        }
+
+        // base case
+        if (k >= queries.size()) {
+            System.out.print("individuals in the end: ");
+            System.out.println(individuals);
             return;
         }
 
@@ -76,66 +268,59 @@ public class WorkerOntology extends Ontology {
             System.out.println(ontology);
         }
 
-        //for (String q : queries) {
-        for (int i = 0; i < queries.size(); i++) {
-            String q = queries.get(i);
-            Set<OWLClassAssertionAxiom> permutationAxioms = templateOntology.getClassAssertionAxioms(q);
-            queries.remove(0);
+        ArrayList<OWLClassAssertionAxiom> axioms = queries.get(k).getResults();
 
-            if (permutationAxioms.isEmpty()) {
-                throw new Exception("No permutation axioms returned when querying template ontology for " + q);
-            }
+        for (int j = 0; j < axioms.size(); j++) {
+             OWLClassAssertionAxiom axiom = axioms.get(j);
+
+             if (DEBUG) {
+                 System.out.println("addming axiom : " + axiom);
+             }
+
+             // add axiom in branch
+             manager.addAxiom(ontology, axiom);
+
+            // add all related axioms
+            OWLEntity entity = (OWLEntity) axiom.getIndividual();
+            Set<OWLAxiom> queryResult = templateOntology.getAllAxiomsWithEntity(entity);
+            Set<OWLAxiom> newAxioms = removeDuplicates(queryResult);
+            newAxioms = removeUnknownIndividuals(newAxioms);
 
             if (DEBUG) {
-                System.out.println("queried for " + q + " and got " + permutationAxioms.size() + " axioms");
+                System.out.println("*****relatedaxioms*****");
+                for (OWLAxiom a : newAxioms) {
+                    System.out.println(a);
+                }
+                System.out.println("***********************");
+
             }
 
-            // continue with scenario generation in this branch only if the ontology is consistent
-            //for (OWLNamedIndividual individual : individuals) {
-            for (OWLClassAssertionAxiom axiom : permutationAxioms) {
-                if (DEBUG) {
-                    System.out.println("adding axiom : " + axiom);
-                }
+            individuals.add(entity);
+            manager.addAxioms(ontology, newAxioms);
 
-                // add axiom to use in current branch
-                manager.addAxiom(ontology, axiom);
-
-                // add all related axioms
-                System.out.println("individ: " + axiom.getIndividual());
-                OWLEntity entity = (OWLEntity) axiom.getIndividual();
-                Set<OWLAxiom> queryResult = templateOntology.getAllAxiomsWithEntity(entity);
-                Set<OWLAxiom> newAxioms = removeDuplicates(queryResult);
-
-                if (DEBUG) {
-                    System.out.println("*****relatedaxioms*****");
-                    for (OWLAxiom a : newAxioms) {
-                        System.out.println(a);
-                    }
-                    System.out.println("***********************");
-
-                }
-
-                manager.addAxioms(ontology, newAxioms);
+            queries.get(k).countDown();
+            generateScenarios(queries, k);
+            queries.get(k).countUp();
 
 
-                // copy of query list
-                ArrayList<String> copy = (ArrayList<String>) queries.clone();
+            // this branch finished, so remove axiomx
+            // remove all new axioms related to the individual
+            manager.removeAxioms(ontology, newAxioms);
+            // remove class axiom
+            manager.removeAxiom(ontology, axiom);
+            individuals.remove(entity);
 
-                // recurse onwards to victory
-                generateScenarios(copy);
-
-                // this branch finished, so remove axiomx
-                // remove all new axioms related to the individual
-                manager.removeAxioms(ontology, newAxioms);
-                // remove class axiom
-                manager.removeAxiom(ontology, axiom);
-            }
         }
 
         if (DEBUG) {
             System.out.println(ontology);
         }
     }
+
+    //protected void generateForQuery(OWLQuery query) {
+        //ArrayList<OWLClassAssertionAxiom> axioms = queries.get(i).getResults();
+        //
+    //}
 
     // finds individuals of a class, but not useful? need to use axioms
     private NodeSet<OWLNamedIndividual> queryTemplate(String className) {

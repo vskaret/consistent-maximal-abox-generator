@@ -21,7 +21,7 @@ import java.util.Set;
  * They will be duplicates of each other except for the individuals.
  */
 public abstract class Ontology {
-    protected final static boolean DEBUG = true;
+    protected static boolean DEBUG = false;
 
     // the OWL ontology manager
     protected OWLOntologyManager manager;
@@ -45,6 +45,10 @@ public abstract class Ontology {
         manager.saveOntology(ontology, documentIRI);
     }
 
+    public void setDebug(boolean debug) {
+        this.DEBUG = debug;
+    }
+
     // removes axioms from the set that already exist in this ontology
     protected Set<OWLAxiom> removeDuplicates(Set<OWLAxiom> axioms) {
         Set<OWLAxiom> result = new HashSet<>();
@@ -58,6 +62,39 @@ public abstract class Ontology {
         return result;
     }
 
+    // removes axioms from the set where the individual does not exist in the ontology
+    // need this to ensure that individuals are not added prematurely
+    protected Set<OWLAxiom> removeUnknownIndividuals(Set<OWLAxiom> axioms) {
+        Set<OWLAxiom> result = new HashSet<>();
+
+        //System.out.println("Start removeunknown");
+
+        for (OWLAxiom a : axioms) {
+            boolean addAxiom = true;
+
+            for (OWLNamedIndividual i : a.getIndividualsInSignature()) {
+                if (!ontology.containsEntityInSignature(i)) {
+                    addAxiom = false;
+                    //System.out.println(i);
+                }
+            }
+
+            if (addAxiom) {
+                //System.out.print("adding ");
+                //System.out.println(a);
+                result.add(a);
+            }
+            //if (!ontology.containsAxiom(a)) {
+                //result.add(a);
+            //}
+        }
+
+        //System.out.println("End removeunknown");
+
+        return result;
+    }
+
+    // removes all individuals from the ontology
     protected void removeIndividuals() {
         OWLEntityRemover remover = new OWLEntityRemover(manager, Collections.singleton(ontology));
 
