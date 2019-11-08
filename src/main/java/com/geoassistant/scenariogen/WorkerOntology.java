@@ -71,7 +71,7 @@ public class WorkerOntology extends Ontology {
     //public void permutate(OWLClassAssertionAxiom[] unknowns) throws Exception {
     public void permutate(ArrayList<OWLClassAssertionAxiom> unknowns) throws Exception {
         // inconsistent case
-        System.out.println("test");
+        //System.out.println("test");
         reasoner.flush();
         if (!reasoner.isConsistent()) {
             System.out.println("inconsistent branch!");
@@ -101,10 +101,9 @@ public class WorkerOntology extends Ontology {
 
 
 
-        OWLClassAssertionAxiom axiom = unknowns.get(0);
-        //unknowns.remove(0);
-        //System.out.println(axiom);
-        OWLIndividual unknown = axiom.getIndividual();
+        OWLClassAssertionAxiom currentUnknownClassAxiom = unknowns.get(0);
+        //System.out.println(currentUnknownClassAxiom);
+        OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
         //System.out.println(unknown);
 
         Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
@@ -123,7 +122,7 @@ public class WorkerOntology extends Ontology {
         }
 
         /*for (OWLClassAssertionAxiom individual : ontology.getClassAssertionAxioms()) {
-            if (!individual.equals(axiom)) {
+            if (!individual.equals(currentUnknownClassAxiom)) {
                 System.out.print("not equal : ");
                 individuals.add(individual);
             } else {
@@ -133,17 +132,17 @@ public class WorkerOntology extends Ontology {
         }*/
 
 
-        // find classes the unknown can be
-        List<OWLClassExpression> classes = new ArrayList<OWLClassExpression>();
+        // find currentUnknownClasses the unknown can be
+        List<OWLClassExpression> currentUnknownClasses = new ArrayList<OWLClassExpression>();
 
         for (OWLClassAssertionAxiom ca : unknownClasses) {
-            if (!axiom.equals(ca)) {
+            if (!currentUnknownClassAxiom.equals(ca)) {
                 OWLClassExpression c = ca.getClassExpression();
-                classes.add(c);
+                currentUnknownClasses.add(c);
             }
         }
 
-        //System.out.println(classes);
+        //System.out.println(currentUnknownClasses);
 
         // find all object properties the unknown can be a part of
 
@@ -151,19 +150,30 @@ public class WorkerOntology extends Ontology {
         List<OWLObjectProperty> propertiesPartOfDomain = new ArrayList<>();
         List<OWLObjectProperty> propertiesPartOfRange = new ArrayList<>();
 
+        // domains and ranges for each property
+        //HashMap<OWLObjectProperty, Set<OWLClassExpression>> propertyDomains = new HashMap<>();
+        //HashMap<OWLObjectProperty, Set<OWLClassExpression>> propertyRanges = new HashMap<>();
+
+        //HashMap<OWLObjectProperty, Set<OWLClassExpression>> propertyLegalDomain = new HashMap<>();
+        //HashMap<OWLObjectProperty, Set<OWLClassExpression>> propertyLegalRange = new HashMap<>();
+
         // worst code ever written?
 
         for (OWLObjectProperty property : properties) {
             // skip owl:topproperty
             if (!property.isBuiltIn()) {
                 // properties where unknown is part of the domain
+                //propertyDomains.put(property, property.getDomains(ontology));
+                //propertyRanges.put(property, property.getDomains(ontology));
+
                 Set<OWLClassExpression> domains = property.getDomains(ontology);
                 Set<OWLClassExpression> ranges = property.getRanges(ontology);
+
                 for (OWLClassExpression domain : domains) {
-                    for (OWLClassExpression ce : classes) {
-                        if (domain.equals(ce)) {
+                    for (OWLClassExpression currentUnknownClass : currentUnknownClasses) {
+                        if (domain.equals(currentUnknownClass)) {
                             for (OWLClassExpression range : ranges) {
-                                // all legal classes for the range
+                                // all legal currentUnknownClasses for the range
                                 List<OWLClassExpression> legalRanges = new ArrayList<>();
                                 legalRanges.add(range);
                                 for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(range.asOWLClass())) {
@@ -192,12 +202,46 @@ public class WorkerOntology extends Ontology {
                     }
                 }
 
+                for (OWLClassExpression range : ranges) {
+                    for (OWLClassExpression currentUnknownClass : currentUnknownClasses) {
+                        if (range.equals(currentUnknownClass)) {
+                            for (OWLClassExpression domain : domains) {
+                                // all legal currentUnknownClasses for the range
+                                List<OWLClassExpression> legalDomains = new ArrayList<>();
+                                legalDomains.add(domain);
+                                for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(range.asOWLClass())) {
+                                    legalDomains.add(sub.getSubClass());
+                                }
+
+                                for (OWLClassExpression legalDomain : legalDomains) {
+                                    for (OWLClassAssertionAxiom individual : individuals) {
+                                        //System.out.print(individual);
+                                        //System.out.print(" vs ");
+                                        //System.out.println(range);
+
+                                        if (individual.getClassExpression().equals(legalDomain)) {
+                                            //OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual());
+                                            OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, individual.getIndividual(), unknown);
+                                            manager.addAxiom(ontology, ax);
+                                            ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
+                                            copy.remove(0);
+                                            permutate(copy);
+                                            manager.removeAxiom(ontology, ax);
+                                            //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // properties where unknown is part of the range
                 /*
                 Set<OWLClassExpression> ranges = property.getRanges(ontology);
                 for (OWLClassExpression range : ranges) {
-                    for (OWLClassExpression ce : classes) {
-                        if (range.equals(ce)) {
+                    for (OWLClassExpression currentUnknownClass : currentUnknownClasses) {
+                        if (range.equals(currentUnknownClass)) {
                             propertiesPartOfRange.add(property);
                         }
                     }
