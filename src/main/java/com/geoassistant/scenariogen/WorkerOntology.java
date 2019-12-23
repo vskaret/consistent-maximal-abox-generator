@@ -31,6 +31,17 @@ public class WorkerOntology extends Ontology {
 
     private ArrayList<OWLEntity> individuals = new ArrayList<>();
 
+    // variables used in the recursive call
+    private List<OWLClassExpression> currentUnknownClasses;
+    private Set<OWLClassExpression> domains;
+    private Set<OWLClassExpression> ranges;
+    // domain
+    // property
+    // unknown
+    private OWLIndividual unknown;
+    // unknowns
+    ArrayList<OWLClassAssertionAxiom> unknowns;
+
     public WorkerOntology(TemplateOntology templateOntology) {
         super();
         this.templateOntology = templateOntology;
@@ -61,6 +72,16 @@ public class WorkerOntology extends Ontology {
         //removeIndividuals();
     }
     public void permutate() throws Exception {
+        /*
+        Set<OWLAxiom> axioms = ontology.getAxioms();
+        for (OWLAxiom axiom : axioms) {
+            if (axiom instanceof OWLObjectPropertyAssertionAxiom) {
+                System.out.println(axiom);
+            }
+        }
+        System.exit(0);
+        */
+
         // get all Unknown individuals
         Set<OWLClassAssertionAxiom> unknownSet = templateOntology.getClassAssertionAxioms("Unknown");
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
@@ -73,7 +94,9 @@ public class WorkerOntology extends Ontology {
         // inconsistent case
         //System.out.println("test");
         reasoner.flush();
+
         if (!reasoner.isConsistent()) {
+            /*
             System.out.println("inconsistent branch!");
 
             Set<OWLAxiom> axioms = ontology.getAxioms();
@@ -82,6 +105,7 @@ public class WorkerOntology extends Ontology {
                     System.out.println(axiom);
                 }
             }
+            */
             return;
         }
 
@@ -106,9 +130,13 @@ public class WorkerOntology extends Ontology {
         OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
         //System.out.println(unknown);
 
+        //Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
         Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
 
+        List<OWLClassAssertionAxiom> allClassAssertionAxioms = allClassAssertionAxioms();
+
         // all class assertions
+        /*
         List<OWLClassAssertionAxiom> individuals = new ArrayList<>();
         //for (OWLNamedIndividual individual : ontology.getIndividualsInSignature()) {
         for (OWLClass ce : ontology.getClassesInSignature()) {
@@ -120,6 +148,7 @@ public class WorkerOntology extends Ontology {
                 // tar ogsaa med unknown i tilfelle det er en refleksiv object property
             }
         }
+        */
 
         /*for (OWLClassAssertionAxiom individual : ontology.getClassAssertionAxioms()) {
             if (!individual.equals(currentUnknownClassAxiom)) {
@@ -188,12 +217,16 @@ public class WorkerOntology extends Ontology {
 
                                         if (individual.getClassExpression().equals(legalRange)) {
                                             OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual());
-                                            manager.addAxiom(ontology, ax);
-                                            ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
-                                            copy.remove(0);
-                                            permutate(copy);
-                                            manager.removeAxiom(ontology, ax);
-                                            //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+
+                                            if (!ontology.containsAxiom(ax)) {
+                                                manager.addAxiom(ontology, ax);
+                                                ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
+                                                copy.remove(0);
+                                                permutate(copy);
+                                                manager.removeAxiom(ontology, ax);
+                                                //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+
+                                            }
                                         }
                                     }
                                 }
@@ -222,12 +255,14 @@ public class WorkerOntology extends Ontology {
                                         if (individual.getClassExpression().equals(legalDomain)) {
                                             //OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual());
                                             OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, individual.getIndividual(), unknown);
-                                            manager.addAxiom(ontology, ax);
-                                            ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
-                                            copy.remove(0);
-                                            permutate(copy);
-                                            manager.removeAxiom(ontology, ax);
-                                            //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+                                            if (!ontology.containsAxiom(ax)) {
+                                                manager.addAxiom(ontology, ax);
+                                                ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
+                                                copy.remove(0);
+                                                permutate(copy);
+                                                manager.removeAxiom(ontology, ax);
+                                                //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+                                            }
                                         }
                                     }
                                 }
@@ -257,6 +292,46 @@ public class WorkerOntology extends Ontology {
 
         // ??
     }
+
+    /*
+    void innerPermutateCall(OWLClassExpression domain) {
+        for (OWLClassExpression currentUnknownClass : currentUnknownClasses) {
+            if (domain.equals(currentUnknownClass)) {
+                for (OWLClassExpression range : ranges) {
+                    // all legal currentUnknownClasses for the range
+                    List<OWLClassExpression> legalRanges = new ArrayList<>();
+                    legalRanges.add(range);
+                    for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(range.asOWLClass())) {
+                        legalRanges.add(sub.getSubClass());
+                    }
+
+                    for (OWLClassExpression legalRange : legalRanges) {
+                        for (OWLClassAssertionAxiom individual : individuals) {
+                            //System.out.print(individual);
+                            //System.out.print(" vs ");
+                            //System.out.println(range);
+
+                            if (individual.getClassExpression().equals(legalRange)) {
+                                OWLAxiom ax = factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual());
+
+                                if (!ontology.containsAxiom(ax)) {
+                                    manager.addAxiom(ontology, ax);
+                                    ArrayList<OWLClassAssertionAxiom> copy = (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
+                                    copy.remove(0);
+                                    permutate(copy);
+                                    manager.removeAxiom(ontology, ax);
+                                    //System.out.println(factory.getOWLObjectPropertyAssertionAxiom(property, unknown, individual.getIndividual()));
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }
+    */
 
     //public void generateScenario(ArrayList<String> queries) throws Exception {
     public void generateScenario(ArrayList<OWLQuery> queries) throws Exception {
@@ -288,6 +363,32 @@ public class WorkerOntology extends Ontology {
         //generateScenarios(axiomLists);
         //generateScenarios(queries, new ArrayList<OWLEntity>());
     }
+
+    private List<OWLClassAssertionAxiom> allClassAssertionAxioms() {
+        List<OWLClassAssertionAxiom> classAxioms = new ArrayList<>();
+
+        for (OWLClass ce : ontology.getClassesInSignature()) {
+            for (OWLClassAssertionAxiom ca : ontology.getClassAssertionAxioms(ce)) {
+                classAxioms.add(ca);
+            }
+        }
+
+        return classAxioms;
+    }
+
+    /*
+    private List<OWLClassExpression> legalUnknownClasses(OWLClassAssertionAxiom allUnknownClasses) {
+        List<OWLClassExpression> legalUnknownClasses = new ArrayList<>();
+
+        for (OWLClassAssertionAxiom ca : allUnknownClasses) {
+            if (!unknownClassAxiom.equals(ca)) {
+                legalUnknownClasses.add(ca.getClassExpression());
+            }
+        }
+
+        return legalUnknownClasses;
+    }
+    */
 
     protected void generateScenarios(ArrayList<OWLQuery> queries, int k) throws Exception {
         // base case, when the current proto-scenario is not consistent
