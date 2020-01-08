@@ -39,6 +39,7 @@ public class OntologyPermutator extends Ontology {
     public void permutate() throws Exception {
         // all individuals with asserted classes in the ontology?
         this.individuals = allClassAssertionAxioms();
+        //this.currentUnknownClasses = new ArrayList<OWLClassExpression>();
 
         Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
@@ -74,6 +75,7 @@ public class OntologyPermutator extends Ontology {
 
         // stop when inconsistent
         if (!reasoner.isConsistent()) {
+            if (DEBUG) System.out.println("inconsistent ontology");
             return;
         }
 
@@ -280,7 +282,7 @@ public class OntologyPermutator extends Ontology {
         for (OWLClassAssertionAxiom ca : classAssertionAxioms) {
             if (!classAssertionAxiom.equals(ca)) {
                 OWLClassExpression c = ca.getClassExpression();
-                currentUnknownClasses.add(c);
+                legalClasses.add(c);
             }
         }
 

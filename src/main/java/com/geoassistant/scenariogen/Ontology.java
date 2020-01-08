@@ -26,7 +26,7 @@ import java.util.Set;
  * - Javadoc: http://owlcs.github.io/owlapi/apidocs_4/index.html
  */
 public abstract class Ontology {
-    protected static boolean DEBUG = false;
+    protected static boolean DEBUG = true;
 
     // ontology file related variables
     protected File ontologyFile;
@@ -59,7 +59,7 @@ public abstract class Ontology {
             throw new Exception("Already loaded an ontology.");
         }
 
-        this.ontologyFile = new File(cwd + filename);
+        this.ontologyFile = new File(cwd + "/" + filename);
 
         ontology = manager.loadOntologyFromOntologyDocument(ontologyFile);
         reasoner = new Reasoner.ReasonerFactory().createReasoner(ontology);
