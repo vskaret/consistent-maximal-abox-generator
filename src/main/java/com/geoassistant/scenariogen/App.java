@@ -12,13 +12,8 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        TemplateOntology to = new TemplateOntology();
-        to.loadFromFile("geo3.owl");
-
-        //to.getObjectProperties();
-
-        WorkerOntology wo = new WorkerOntology(to);
-        wo.loadOntology();
+        OntologyPermutator op = new OntologyPermutator();
+        op.loadOntology("geo3.owl");
 
         //ArrayList<String> queries = new ArrayList<>();
         ArrayList<OWLQuery> queries = new ArrayList<>();
@@ -28,7 +23,6 @@ public class App
 
         queries.add(new OWLQuery("InDistributaryChannel", 2));
         queries.add(new OWLQuery("InFeederChannel", 2));
-        //wo.generateScenario(queries);
-        wo.permutate();
+        op.permutate();
     }
 }
