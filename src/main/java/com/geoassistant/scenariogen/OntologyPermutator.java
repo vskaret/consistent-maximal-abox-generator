@@ -1,6 +1,7 @@
 package com.geoassistant.scenariogen;
 
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ public class OntologyPermutator extends Ontology {
 
     // variables used in the recursive call
     private List<OWLClassExpression> currentUnknownClasses;
+    private List<OWLClassExpression> currentSubClasses;
     private Set<OWLClassExpression> domains;
     private Set<OWLClassExpression> ranges;
     // domain
@@ -93,9 +95,22 @@ public class OntologyPermutator extends Ontology {
         Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
 
         // find all unknown classes the current unknown can be
+        // is it assumed that the unknown can only be its own class or superclasses?
         this.currentUnknownClasses = legalClasses(
                 currentUnknownClassAxiom, unknownClasses
         );
+
+        this.currentSubClasses = subClasses(currentUnknownClasses);
+        List<OWLAxiom> subclassAxioms = generateClassAssertionAxioms(currentSubClasses, currentUnknownClassAxiom);  // TODO : vær konsistent i bruken av unknown
+        // can create the class assertion axioms already here?
+
+        if (DEBUG) {
+            System.out.println("Start subclasses");
+            for (OWLClassExpression c : currentUnknownClasses) {
+                System.out.println(c);
+            }
+            System.out.println("End subclasses");
+        }
 
 
         // a property is a binary relation
@@ -116,7 +131,7 @@ public class OntologyPermutator extends Ontology {
                     List<OWLAxiom> axioms = generatePropertyAxioms(
                             property, individual, currentUnknownClassAxiom
                     );
-                    permutateWithAxioms(unknownsCopy, axioms);
+                    permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
                 }
 
                 // properties where unknown is in the range
@@ -129,23 +144,40 @@ public class OntologyPermutator extends Ontology {
                     List<OWLAxiom> axioms = generatePropertyAxioms(
                             property, currentUnknownClassAxiom, individual
                     );
-                    permutateWithAxioms(unknownsCopy, axioms);
+                    permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
                 }
             }
         }
     }
 
-    private void permutateWithAxioms(ArrayList<OWLClassAssertionAxiom> unknownsCopy, List<OWLAxiom> axioms) throws Exception {
-        for (OWLAxiom axiom : axioms) {
-            manager.addAxiom(ontology, axiom);
-            permutate(unknownsCopy);
-            manager.removeAxiom(ontology, axiom);
+    private void permutateWithAxioms(ArrayList<OWLClassAssertionAxiom> unknownsCopy, List<OWLAxiom> propertyAxioms, List<OWLAxiom> classAxioms) throws Exception {
+        for (OWLAxiom propertyAxiom : propertyAxioms) {
+            manager.addAxiom(ontology, propertyAxiom);
+
+            for (OWLAxiom classAxiom : classAxioms) {
+                manager.addAxiom(ontology, classAxiom);
+                //System.out.println(classAxiom);
+                permutate(unknownsCopy);
+                manager.removeAxiom(ontology, classAxiom);
+            }
+
+            manager.removeAxiom(ontology, propertyAxiom);
         }
 
     }
 
 
     //private void permutate(ArrayList<OWLClassAssertionAxiom> unknowns, OWLObjectProperty property, OWLClassAssertionAxiom individualInRange, OWLClassAssertionAxiom individualInDomain) throws Exception {
+
+    /**
+     * Generates a list of property assertion axioms that do not already exist in the ontology.
+     *
+     * @param property
+     * @param individualInRange
+     * @param individualInDomain
+     * @return
+     * @throws Exception
+     */
     private List<OWLAxiom> generatePropertyAxioms(
             OWLObjectProperty property,
             OWLClassAssertionAxiom individualInRange,
@@ -158,16 +190,29 @@ public class OntologyPermutator extends Ontology {
 
         if (!ontology.containsAxiom(axiom)) {
             propertyAxioms.add(axiom);
-            /*
-            manager.addAxiom(ontology, axiom);
-            ArrayList<OWLClassAssertionAxiom> unknownsCopy =
-                    (ArrayList<OWLClassAssertionAxiom>) unknowns.clone();
-            unknownsCopy.remove(0);
-            permutate(unknownsCopy);
-            manager.removeAxiom(ontology, axiom);
-            */
         }
         return propertyAxioms;
+    }
+
+    /**
+     * Generates a list of class assertion axioms that do not already exist in the ontology.
+     *
+     * @param ce
+     * @param individual
+     * @return
+     * @throws Exception
+     */
+    private List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLClassAssertionAxiom individual) throws Exception {
+        List<OWLAxiom> classAxioms = new ArrayList<>();
+
+        for (OWLClassExpression c : ce) {
+            OWLAxiom ax = factory.getOWLClassAssertionAxiom(c, individual.getIndividual());
+            if (!ontology.containsAxiom(ax)) {
+                classAxioms.add(ax);
+            }
+        }
+
+        return classAxioms;
     }
 
     private ArrayList<OWLClassAssertionAxiom> copyWithoutFirstElement(ArrayList<OWLClassAssertionAxiom> list) {
@@ -182,6 +227,8 @@ public class OntologyPermutator extends Ontology {
     private List<OWLClassAssertionAxiom> individualsInRange(Set<OWLClassExpression> domains, Set<OWLClassExpression> ranges, OWLObjectProperty property) {
         //List<OWLAxiom> newAxioms = new ArrayList<>();
         List<OWLClassAssertionAxiom> individualsInRange = new ArrayList<>();
+
+        // TODO: erstatt med map (stream?) og filter
 
         // domains: all possible classes in the left side of the property
         for (OWLClassExpression domain : domains) {
@@ -211,17 +258,12 @@ public class OntologyPermutator extends Ontology {
         return individualsInRange;
     }
 
-    private List<OWLClassAssertionAxiom> generateNewAxioms() {
-        ArrayList<OWLClassAssertionAxiom> axioms = new ArrayList<>();
-
-        return axioms;
-    }
 
     /**
      * Returns a list with the range and all its sub-classes.
      *
      * @param ce
-     * @return A list with all sub-classes of ce (including the class expression given as a paremeter).
+     * @return A list with all sub-classes of ce (including the class expression given as a parameter).
      */
     private List<OWLClassExpression> allSubClasses(OWLClassExpression ce) {
         List<OWLClassExpression> allSubClasses = new ArrayList<>();
@@ -229,6 +271,28 @@ public class OntologyPermutator extends Ontology {
 
         for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(ce.asOWLClass())) {
             allSubClasses.add(sub.getSubClass());
+        }
+
+        return allSubClasses;
+    }
+
+    // TODO : hva er forskjellen på denne og den over?
+    /**
+     * Finds all legal subclasses for all of the classes in the given parameter.
+     *
+     * @param unknownClasses A list containing OWL Classes
+     * @return List containing OWL (sub)Classes
+     */
+    private List<OWLClassExpression> subClasses(List<OWLClassExpression> unknownClasses) {
+        ArrayList<OWLClassExpression> allSubClasses = new ArrayList<>();
+
+        for (OWLClassExpression ce : unknownClasses) {
+            for (Node<OWLClass> classNode : reasoner.getSubClasses(ce, false)) {
+                OWLClassExpression cAdd = classNode.getRepresentativeElement();
+                if (!(cAdd.isOWLNothing() || cAdd.isOWLThing())) {
+                    allSubClasses.add(cAdd);
+                }
+            }
         }
 
         return allSubClasses;
@@ -262,7 +326,7 @@ public class OntologyPermutator extends Ontology {
 
             Set<OWLAxiom> axioms = ontology.getAxioms();
             for (OWLAxiom axiom : axioms) {
-                if (axiom instanceof OWLObjectPropertyAssertionAxiom) {
+                if (axiom instanceof OWLObjectPropertyAssertionAxiom || axiom instanceof OWLClassAssertionAxiom) {
                     System.out.println(axiom);
                 }
             }
@@ -272,6 +336,8 @@ public class OntologyPermutator extends Ontology {
     /**
      * Compares all class assertion axioms with the class assertion axiom to see if they are equal.
      * This is a way to make sure all the different assertion axioms that can be used are added.
+     *
+     * Make a hashmap with (k, v) : (OWLClassAssertionAxiom, List<OWLClassAssertionAxiom>)?
      *
      * @param classAssertionAxioms
      * @return
@@ -288,4 +354,5 @@ public class OntologyPermutator extends Ontology {
 
         return legalClasses;
     }
+
 }

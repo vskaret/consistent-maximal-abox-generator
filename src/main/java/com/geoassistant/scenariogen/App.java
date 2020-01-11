@@ -13,16 +13,7 @@ public class App
         System.out.println( "Hello World!" );
 
         OntologyPermutator op = new OntologyPermutator();
-        op.loadOntology("geo3.owl");
-
-        //ArrayList<String> queries = new ArrayList<>();
-        ArrayList<OWLQuery> queries = new ArrayList<>();
-        //queries.add(new OWLQuery("Fault", 3));
-        //queries.add(new OWLQuery("SealingProperty", 1));
-        //queries.add(new OWLQuery("Rock", 2));
-
-        queries.add(new OWLQuery("InDistributaryChannel", 2));
-        queries.add(new OWLQuery("InFeederChannel", 2));
+        op.loadOntology("geo-test.owl");
         op.permutate();
     }
 }
