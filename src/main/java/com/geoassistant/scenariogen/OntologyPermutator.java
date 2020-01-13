@@ -27,8 +27,8 @@ public class OntologyPermutator extends Ontology {
     //ArrayList<OWLClassAssertionAxiom> unknowns;
 
 
-    public OntologyPermutator() {
-        super();
+    public OntologyPermutator(boolean debug) {
+        super(debug);
     }
 
     /**
@@ -38,7 +38,9 @@ public class OntologyPermutator extends Ontology {
      * The ontology needs to follow as certain "style(?)" to be able to use this permutation method.
      * @throws Exception
      */
-    public void permutate() throws Exception {
+    public boolean permutate() throws Exception {
+        System.out.println("initial ontology");
+        writeOntologyToFile();
         // all individuals with asserted classes in the ontology?
         this.individuals = allClassAssertionAxioms();
         //this.currentUnknownClasses = new ArrayList<OWLClassExpression>();
@@ -46,8 +48,7 @@ public class OntologyPermutator extends Ontology {
         Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
         ArrayList<OWLClassAssertionAxiom> unknowns = new ArrayList<>(Arrays.asList(unknownArr));
-        permutate(unknowns);
-
+        return permutate(unknowns);
     }
 
     /**
@@ -71,25 +72,33 @@ public class OntologyPermutator extends Ontology {
      * @param unknowns
      * @throws Exception
      */
-    public void permutate(ArrayList<OWLClassAssertionAxiom> unknowns) throws Exception {
+    public boolean permutate(ArrayList<OWLClassAssertionAxiom> unknowns) throws Exception {
         // update reasoner
         reasoner.flush();
 
         // stop when inconsistent
         if (!reasoner.isConsistent()) {
-            if (DEBUG) System.out.println("inconsistent ontology");
-            return;
+            if (DEBUG) {
+                System.out.println("inconsistent ontology");
+                writeOntologyToFile();
+            }
+            return false;
         }
 
         // no more unknown assertion axioms, consistent ontology generated!
         if (unknowns.size() == 0) {
+            System.out.println("consistent ontology generated");
             writeOntologyToFile();
-            return;
+            return true;
         }
 
         ArrayList<OWLClassAssertionAxiom> unknownsCopy = copyWithoutFirstElement(unknowns);
 
         OWLClassAssertionAxiom currentUnknownClassAxiom = unknowns.get(0);
+
+        // the unknown class assertion axiom no longer needed
+        manager.removeAxiom(ontology, currentUnknownClassAxiom);
+
         //OWLClassAssertionAxiom unknownAssertion = unknown
         OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
         Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
@@ -120,50 +129,119 @@ public class OntologyPermutator extends Ontology {
             if (!property.isBuiltIn()) {
                 Set<OWLClassExpression> domains = property.getDomains(ontology);
                 Set<OWLClassExpression> ranges = property.getRanges(ontology);
+                List<OWLAxiom> axioms;
+
 
                 // properties where unknown is in the domain
                 List<OWLClassAssertionAxiom> individualsInRange = individualsInRange(
                         domains, ranges, property
                 );
 
-                // generate permutations with new properties where unknown is in the domain of the property
-                for (OWLClassAssertionAxiom individual : individualsInRange) {
-                    List<OWLAxiom> axioms = generatePropertyAxioms(
-                            property, individual, currentUnknownClassAxiom
-                    );
-                    permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
-                }
-
                 // properties where unknown is in the range
                 List<OWLClassAssertionAxiom> individualsInDomain = individualsInRange(
                         ranges, domains, property
                 );
 
-                // generate permutations with new properties where unknown is in the range of the property
-                for (OWLClassAssertionAxiom individual : individualsInDomain) {
-                    List<OWLAxiom> axioms = generatePropertyAxioms(
-                            property, currentUnknownClassAxiom, individual
-                    );
-                    permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
+                boolean doubleSucceeded = false;
+
+                //if (domains.contains(property) && ranges.contains(property)) {
+                if (individualIsInClassAssertionSet(individualsInDomain, unknown) && individualIsInClassAssertionSet(individualsInRange, unknown)) {
+                    if (DEBUG) {
+                        System.out.println("property with individual in domain and range");
+                    }
+
+                    for (OWLClassAssertionAxiom individual : individualsInRange) {
+                        // add axioms where individual is in the range
+                        axioms = generatePropertyAxioms(
+                                property, individual, currentUnknownClassAxiom
+                        );
+
+                        // add axioms where individual is in the domain
+                        for (OWLClassAssertionAxiom individualInDomain : individualsInDomain) {
+                            axioms.addAll(generatePropertyAxioms(
+                                    property, currentUnknownClassAxiom, individualInDomain
+                            ));
+                            List<Boolean> returnVals = permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
+
+                            // check if any permutation succeeded
+                            for (Boolean returnVal : returnVals) {
+                                if (returnVal) {
+                                    doubleSucceeded = true;
+                                }
+                            }
+                            axioms.remove(axioms.size()-1);
+                        }
+                    }
                 }
+
+                //System.out.println("***");
+                //System.out.println(doubleSucceeded);
+                //System.out.println("***");
+
+                //if (!doubleSucceeded || individualIsInClassAssertionSet(individualsInDomain, unknown)) {
+                else if (individualIsInClassAssertionSet(individualsInDomain, unknown)) {
+                    if (DEBUG) {
+                        System.out.println("property with individual in domain");
+                    }
+
+                    // generate permutations with new properties where unknown is in the domain of the property
+                    for (OWLClassAssertionAxiom individual : individualsInRange) {
+                        axioms = generatePropertyAxioms(
+                                property, individual, currentUnknownClassAxiom
+                        );
+                        permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
+                    }
+                    //} else if (ranges.contains(property)) {
+                }
+
+                //if (!doubleSucceeded || individualIsInClassAssertionSet(individualsInRange, unknown)) {
+                else if (individualIsInClassAssertionSet(individualsInRange, unknown)) {
+                    if (DEBUG) {
+                        System.out.println("property with individual in range");
+                    }
+                    // generate permutations with new properties where unknown is in the range of the property
+                    for (OWLClassAssertionAxiom individual : individualsInDomain) {
+                        axioms = generatePropertyAxioms(
+                                property, currentUnknownClassAxiom, individual
+                        );
+                        permutateWithAxioms(unknownsCopy, axioms, subclassAxioms);
+                    }
+                } else {
+                    if (DEBUG) {
+                        //System.out.println("no matches :(");
+                        System.out.println(unknown + " is neither in the range nor domain of " + property);
+                    }
+                }
+
+
+
             }
         }
+
+        return false;
     }
 
-    private void permutateWithAxioms(ArrayList<OWLClassAssertionAxiom> unknownsCopy, List<OWLAxiom> propertyAxioms, List<OWLAxiom> classAxioms) throws Exception {
+    private List<Boolean> permutateWithAxioms(ArrayList<OWLClassAssertionAxiom> unknownsCopy, List<OWLAxiom> propertyAxioms, List<OWLAxiom> classAxioms) throws Exception {
+        List<Boolean> returnVals = new ArrayList<>();
+        // add all property axioms
         for (OWLAxiom propertyAxiom : propertyAxioms) {
             manager.addAxiom(ontology, propertyAxiom);
+        }
 
-            for (OWLAxiom classAxiom : classAxioms) {
-                manager.addAxiom(ontology, classAxiom);
-                //System.out.println(classAxiom);
-                permutate(unknownsCopy);
-                manager.removeAxiom(ontology, classAxiom);
-            }
+        // permute on class axioms
+        for (OWLAxiom classAxiom : classAxioms) {
+            manager.addAxiom(ontology, classAxiom);
+            //System.out.println(classAxiom);
+            returnVals.add(permutate(unknownsCopy));
+            manager.removeAxiom(ontology, classAxiom);
+        }
 
+        // remove property axioms
+        for (OWLAxiom propertyAxiom : propertyAxioms) {
             manager.removeAxiom(ontology, propertyAxiom);
         }
 
+        return returnVals;
     }
 
 
@@ -321,16 +399,18 @@ public class OntologyPermutator extends Ontology {
      * Writes the ontology to a file.
      */
     public void writeOntologyToFile() {
-        if (DEBUG) {
-            System.out.println("Consistent ontology generated");
+        //if (DEBUG) {
+        //System.out.println("Consistent ontology generated");
 
-            Set<OWLAxiom> axioms = ontology.getAxioms();
-            for (OWLAxiom axiom : axioms) {
-                if (axiom instanceof OWLObjectPropertyAssertionAxiom || axiom instanceof OWLClassAssertionAxiom) {
-                    System.out.println(axiom);
-                }
+        Set<OWLAxiom> axioms = ontology.getAxioms();
+        for (OWLAxiom axiom : axioms) {
+            if (axiom instanceof OWLObjectPropertyAssertionAxiom || axiom instanceof OWLClassAssertionAxiom) {
+                System.out.println(axiom);
             }
         }
+
+        System.out.println();
+        //}
     }
 
     /**

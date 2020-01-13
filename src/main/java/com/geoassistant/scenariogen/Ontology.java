@@ -8,10 +8,7 @@ import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This abstract class is a way to represent an ontology in the OWLAPI.
@@ -44,8 +41,9 @@ public abstract class Ontology {
     protected String ontologyIRI;
 
 
-    public Ontology() {
+    public Ontology(boolean debug) {
         manager = OWLManager.createOWLOntologyManager();
+        this.DEBUG = debug;
     }
 
     /**
@@ -121,6 +119,7 @@ public abstract class Ontology {
      * @param axioms
      * @return
      */
+    /*
     protected Set<OWLAxiom> removeUnknownIndividuals(Set<OWLAxiom> axioms) {
         Set<OWLAxiom> result = new HashSet<>();
 
@@ -151,10 +150,13 @@ public abstract class Ontology {
         return result;
     }
 
+     */
+
     /**
      * NOT NEEDED?
      * Removes all individuals from the ontology.
      */
+    /*
     protected void removeIndividuals() {
         OWLEntityRemover remover = new OWLEntityRemover(manager, Collections.singleton(ontology));
 
@@ -176,6 +178,7 @@ public abstract class Ontology {
 
         System.out.println("Removed all individuals from worker ontology");
     }
+     */
 
     /**
      * Debug method. Printis all class axioms with fault.
@@ -217,10 +220,14 @@ public abstract class Ontology {
         return result;
     }
 
+
     /**
      * Get all class assertion axioms concerning className.
+     *
+     * Used to generate the list of unknowns.
+     *
      * @param className
-     * @return
+     * @return A set with all class assertion axioms that is of class className
      */
     public Set<OWLClassAssertionAxiom> getClassAssertionAxioms(String className) {
         Set<OWLClassExpression> classExpressions = getClassExpressions(className);
@@ -234,6 +241,23 @@ public abstract class Ontology {
             }
         }
 
+
         return result;
+    }
+
+    /**
+     * Returns true if the individual is in the class assertion set, otherwise false.
+     *
+     * @param list
+     * @param individual
+     * @return
+     */
+    public boolean individualIsInClassAssertionSet(List<OWLClassAssertionAxiom> list, OWLIndividual individual) {
+        for (OWLClassAssertionAxiom ca : list) {
+            if (ca.getIndividual().equals(individual)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
