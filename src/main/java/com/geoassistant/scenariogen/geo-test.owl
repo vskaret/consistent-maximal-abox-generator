@@ -55,10 +55,10 @@
         <Class IRI="#InLobe"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Rock"/>
+        <Class IRI="#Permute"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Unknown"/>
+        <Class IRI="#Rock"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="cuts"/>
@@ -197,6 +197,10 @@
         <Class IRI="GeoUnit"/>
     </SubClassOf>
     <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="#Rock"/>
+    </DisjointClasses>
+    <DisjointClasses>
         <Class IRI="InBasinPlain"/>
         <Class IRI="InLobeFringe"/>
         <Class IRI="#InDistributaryChannel"/>
@@ -212,7 +216,7 @@
         <Class IRI="SealingRock"/>
     </DisjointClasses>
     <ClassAssertion>
-        <Class IRI="#InFeederChannel"/>
+        <Class IRI="#Permute"/>
         <NamedIndividual IRI="GU0"/>
     </ClassAssertion>
     <ClassAssertion>
@@ -220,19 +224,11 @@
         <NamedIndividual IRI="GU0"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#Unknown"/>
-        <NamedIndividual IRI="GU0"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#InFeederChannel"/>
+        <Class IRI="#Permute"/>
         <NamedIndividual IRI="GU1"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Rock"/>
-        <NamedIndividual IRI="GU1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Unknown"/>
         <NamedIndividual IRI="GU1"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>

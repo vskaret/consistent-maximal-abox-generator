@@ -3,6 +3,8 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
@@ -41,13 +43,13 @@ public abstract class Ontology {
     protected String ontologyIRI;
 
 
-    public Ontology(boolean debug) {
+    public Ontology() {
         manager = OWLManager.createOWLOntologyManager();
-        this.DEBUG = debug;
+        //this.DEBUG = debug;
     }
 
     /**
-     * Load an ontology from a file.
+     * Load an ontology from a file. Also instantiates a Reasoner object.
      * @param filename
      * @throws Exception
      */
@@ -111,6 +113,7 @@ public abstract class Ontology {
      * @param axioms
      * @return
      */
+    /*
     protected Set<OWLAxiom> removeDuplicates(Set<OWLAxiom> axioms) {
         Set<OWLAxiom> result = new HashSet<>();
 
@@ -122,6 +125,8 @@ public abstract class Ontology {
 
         return result;
     }
+
+     */
 
     // removes axioms from the set where the individual does not exist in the ontology
     // need this to ensure that individuals are not added prematurely
@@ -301,5 +306,79 @@ public abstract class Ontology {
                 (ArrayList<OWLClassAssertionAxiom>) list.clone();
         copy.remove(0);
         return copy;
+    }
+
+    /**
+     * Returns all leaf sub classes of the class expression given. See isLeafClass() for definition of
+     * leaf sub class.
+     * @param ce
+     * @return
+     */
+    protected ArrayList<OWLClassExpression> allLeafSubClasses(OWLClassExpression ce) {
+        ArrayList<OWLClassExpression> leafSubClasses = new ArrayList<>();
+
+        try {
+            for (Node<OWLClass> subClass : reasoner.getSubClasses(ce, false)) {
+                OWLClass sc = subClass.getRepresentativeElement();
+
+                if (isLeafClass(sc)) {
+                    leafSubClasses.add(sc);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERRORRRR");
+            printClassAssertions();
+            throw e;
+        }
+
+        return leafSubClasses;
+    }
+
+    /**
+     * Checks if a class is a leaf class. Leaf class as in it has no sub classes.
+     *
+     * Returns true iff the direct sub class of the class expression is only bottom/OWL:Nothing
+     * @param ce
+     * @return
+     */
+    protected boolean isLeafClass(OWLClassExpression ce) {
+        return reasoner.getSubClasses(ce, true).isBottomSingleton();
+    }
+
+    /**
+     * Returns the top super class of a class. If none are found (meaning the class is a top super class
+     * itself), the class given as a parameter is returned back.
+     *
+     * @param c
+     * @return
+     */
+    protected OWLClassExpression topSuperClassOf(OWLClass c) throws Exception {
+        OWLClass thing = factory.getOWLThing();
+        NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
+        NodeSet<OWLClass> topClasses = reasoner.getSubClasses(thing, true);
+        OWLClassExpression topSuperClass = c;
+
+        boolean foundTopSuperClass = false;
+
+        for (Node<OWLClass> topClassNode : topClasses) {
+            if (superClasses.containsEntity(topClassNode.getRepresentativeElement())) {
+                if (foundTopSuperClass) {
+                    throw new Exception("More than one top super class found for: " + c);
+                }
+
+                foundTopSuperClass = true;
+                topSuperClass = topClassNode.getRepresentativeElement();
+            }
+        }
+
+        return topSuperClass;
+    }
+
+    /**
+     * Set debugging value (true for debug on).
+     * @param debug
+     */
+    public void setDEBUG(boolean debug) {
+        this.DEBUG = debug;
     }
 }

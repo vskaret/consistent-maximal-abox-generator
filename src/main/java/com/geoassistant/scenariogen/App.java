@@ -11,7 +11,8 @@ public class App
         //System.out.println( "Hello World!" );
         boolean debugging = false;
 
-        OntologyPermuter op = new OntologyPermuter(debugging);
+        OntologyPermuter op = new OntologyPermuter();
+        op.setDEBUG(debugging);
         op.loadOntology("geo-test.owl");
         op.permute();
     }
