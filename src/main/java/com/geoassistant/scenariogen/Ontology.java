@@ -84,6 +84,20 @@ public abstract class Ontology {
     }
 
     /**
+     * Writes the ontology to a file.
+     */
+    public void printClassAssertions() {
+        Set<OWLAxiom> axioms = ontology.getAxioms();
+        for (OWLAxiom axiom : axioms) {
+            if (axiom instanceof OWLClassAssertionAxiom) {
+                System.out.println(axiom);
+            }
+        }
+
+        System.out.println();
+    }
+
+    /**
      * Turn on debugging!
      * @param debug
      */
@@ -222,7 +236,7 @@ public abstract class Ontology {
 
 
     /**
-     * Get all class assertion axioms concerning className.
+     * Get all class assertion axioms concerning className (all individuals instantiated to be this class).
      *
      * Used to generate the list of unknowns.
      *
@@ -259,5 +273,33 @@ public abstract class Ontology {
             }
         }
         return false;
+    }
+
+    /**
+     * Generates a list of class assertion axioms that do not already exist in the ontology.
+     *
+     * @param ce
+     * @param individual
+     * @return
+     * @throws Exception
+     */
+    protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLClassAssertionAxiom individual) throws Exception {
+        List<OWLAxiom> classAxioms = new ArrayList<>();
+
+        for (OWLClassExpression c : ce) {
+            OWLAxiom ax = factory.getOWLClassAssertionAxiom(c, individual.getIndividual());
+            if (!ontology.containsAxiom(ax)) {
+                classAxioms.add(ax);
+            }
+        }
+
+        return classAxioms;
+    }
+
+    protected ArrayList<OWLClassAssertionAxiom> copyWithoutFirstElement(ArrayList<OWLClassAssertionAxiom> list) {
+        ArrayList<OWLClassAssertionAxiom> copy =
+                (ArrayList<OWLClassAssertionAxiom>) list.clone();
+        copy.remove(0);
+        return copy;
     }
 }
