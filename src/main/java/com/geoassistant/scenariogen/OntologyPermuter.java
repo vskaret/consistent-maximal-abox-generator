@@ -90,7 +90,7 @@ public class OntologyPermuter extends Ontology {
         // no more unknown assertion axioms, consistent ontology generated!
         if (unknowns.size() == 0) {
             System.out.println("consistent ontology generated");
-            //printClassAssertions();
+            printClassAssertions();
             return;
         }
 
@@ -104,8 +104,10 @@ public class OntologyPermuter extends Ontology {
         //OWLClassAssertionAxiom unknownAssertion = unknown
         OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
         Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
+
+        // debugging
         System.out.println(unknownClasses);
-        System.out.println(currentUnknownClasses);
+        //System.out.println(currentUnknownClasses);
 
         // find all unknown classes the current unknown can be
         // is it assumed that the unknown can only be its own class or superclasses?
