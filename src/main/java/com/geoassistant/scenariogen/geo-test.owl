@@ -55,7 +55,7 @@
         <Class IRI="#InLobe"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Permute"/>
+        <Class IRI="#Permutable"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Rock"/>
@@ -216,7 +216,7 @@
         <Class IRI="SealingRock"/>
     </DisjointClasses>
     <ClassAssertion>
-        <Class IRI="#Permute"/>
+        <Class IRI="#Permutable"/>
         <NamedIndividual IRI="GU0"/>
     </ClassAssertion>
     <ClassAssertion>
@@ -224,7 +224,7 @@
         <NamedIndividual IRI="GU0"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#Permute"/>
+        <Class IRI="#Permutable"/>
         <NamedIndividual IRI="GU1"/>
     </ClassAssertion>
     <ClassAssertion>

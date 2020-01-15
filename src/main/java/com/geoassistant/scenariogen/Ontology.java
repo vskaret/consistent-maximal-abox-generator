@@ -45,7 +45,14 @@ public abstract class Ontology {
 
     public Ontology() {
         manager = OWLManager.createOWLOntologyManager();
-        //this.DEBUG = debug;
+    }
+
+    /**
+     * Set debugging value (true for debug on).
+     * @param debug
+     */
+    public void setDEBUG(boolean debug) {
+        this.DEBUG = debug;
     }
 
     /**
@@ -108,99 +115,7 @@ public abstract class Ontology {
     }
 
     /**
-     * NOT NEEDED?
-     * Removes axioms from the set that already exist in the ontology.
-     * @param axioms
-     * @return
-     */
-    /*
-    protected Set<OWLAxiom> removeDuplicates(Set<OWLAxiom> axioms) {
-        Set<OWLAxiom> result = new HashSet<>();
-
-        for (OWLAxiom a : axioms) {
-            if (!ontology.containsAxiom(a)) {
-                result.add(a);
-            }
-        }
-
-        return result;
-    }
-
-     */
-
-    // removes axioms from the set where the individual does not exist in the ontology
-    // need this to ensure that individuals are not added prematurely
-
-    /**
-     * NOT NEEDED?
-     * Removes axioms from the set where the individual does not exist in the ontology. (?)
-     * Used to ensure that individuals are not added prematurely.
-     * @param axioms
-     * @return
-     */
-    /*
-    protected Set<OWLAxiom> removeUnknownIndividuals(Set<OWLAxiom> axioms) {
-        Set<OWLAxiom> result = new HashSet<>();
-
-        //System.out.println("Start removeunknown");
-
-        for (OWLAxiom a : axioms) {
-            boolean addAxiom = true;
-
-            for (OWLNamedIndividual i : a.getIndividualsInSignature()) {
-                if (!ontology.containsEntityInSignature(i)) {
-                    addAxiom = false;
-                    //System.out.println(i);
-                }
-            }
-
-            if (addAxiom) {
-                //System.out.print("adding ");
-                //System.out.println(a);
-                result.add(a);
-            }
-            //if (!ontology.containsAxiom(a)) {
-                //result.add(a);
-            //}
-        }
-
-        //System.out.println("End removeunknown");
-
-        return result;
-    }
-
-     */
-
-    /**
-     * NOT NEEDED?
-     * Removes all individuals from the ontology.
-     */
-    /*
-    protected void removeIndividuals() {
-        OWLEntityRemover remover = new OWLEntityRemover(manager, Collections.singleton(ontology));
-
-        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
-
-        if (DEBUG) {
-            System.out.println("individuals.size() before removal: " + individuals.size());
-        }
-
-        for (OWLNamedIndividual individual : individuals) {
-            remover.visit(individual);
-        }
-        manager.applyChanges(remover.getChanges());
-
-        if (DEBUG) {
-            individuals = ontology.getIndividualsInSignature();
-            System.out.println("individuals.size() after removal: " + individuals.size());
-        }
-
-        System.out.println("Removed all individuals from worker ontology");
-    }
-     */
-
-    /**
-     * Debug method. Printis all class axioms with fault.
+     * Debug method. Print all class axioms with fault.
      */
     protected void printFaultClassAxioms() {
         // axioms
@@ -216,13 +131,14 @@ public abstract class Ontology {
                         System.out.println(ca);
                     }
                 }
-
             }
         }
     }
 
     /**
      * Get all non-anonymous class expressions in the ontology with className as name.
+     *
+     * Used to generate the list of permutables.
      * @param className
      * @return
      */
@@ -243,7 +159,7 @@ public abstract class Ontology {
     /**
      * Get all class assertion axioms concerning className (all individuals instantiated to be this class).
      *
-     * Used to generate the list of unknowns.
+     * Used to generate the list of permutables.
      *
      * @param className
      * @return A set with all class assertion axioms that is of class className
@@ -260,47 +176,39 @@ public abstract class Ontology {
             }
         }
 
-
         return result;
-    }
-
-    /**
-     * Returns true if the individual is in the class assertion set, otherwise false.
-     *
-     * @param list
-     * @param individual
-     * @return
-     */
-    public boolean individualIsInClassAssertionSet(List<OWLClassAssertionAxiom> list, OWLIndividual individual) {
-        for (OWLClassAssertionAxiom ca : list) {
-            if (ca.getIndividual().equals(individual)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
      * Generates a list of class assertion axioms that do not already exist in the ontology.
      *
+     * Just like generateAxioms in the pseudo code.
      * @param ce
      * @param individual
      * @return
      * @throws Exception
      */
-    protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLClassAssertionAxiom individual) throws Exception {
+    protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLIndividual individual) throws Exception {
         List<OWLAxiom> classAxioms = new ArrayList<>();
 
+        //System.out.println(ce);
+
         for (OWLClassExpression c : ce) {
-            OWLAxiom ax = factory.getOWLClassAssertionAxiom(c, individual.getIndividual());
-            if (!ontology.containsAxiom(ax)) {
-                classAxioms.add(ax);
-            }
+            OWLAxiom ax = factory.getOWLClassAssertionAxiom(c, individual);
+            classAxioms.add(ax);
+            //if (!ontology.containsAxiom(ax)) {
+                //classAxioms.add(ax);
+            //}
         }
 
         return classAxioms;
     }
 
+    /**
+     * Used to get restOfPermutables.
+     * @param list
+     * @return
+     */
     protected ArrayList<OWLClassAssertionAxiom> copyWithoutFirstElement(ArrayList<OWLClassAssertionAxiom> list) {
         ArrayList<OWLClassAssertionAxiom> copy =
                 (ArrayList<OWLClassAssertionAxiom>) list.clone();
@@ -314,16 +222,34 @@ public abstract class Ontology {
      * @param ce
      * @return
      */
-    protected ArrayList<OWLClassExpression> allLeafSubClasses(OWLClassExpression ce) {
+    //protected ArrayList<OWLClassExpression> allLeafSubClasses(OWLClassExpression ce) {
+    protected ArrayList<ArrayList<OWLClassExpression>> allLeafSubClasses(OWLClassExpression ce) {
         ArrayList<OWLClassExpression> leafSubClasses = new ArrayList<>();
+        ArrayList<ArrayList<OWLClassExpression>> listOfLeafClasses = new ArrayList<>();
+
+        NodeSet<OWLClass> dirSubClasses = reasoner.getSubClasses(ce, true);
+
+        System.out.print("Starting point: ");
+        System.out.println(ce);
+
 
         try {
-            for (Node<OWLClass> subClass : reasoner.getSubClasses(ce, false)) {
-                OWLClass sc = subClass.getRepresentativeElement();
+            for (OWLClass dirSubClass : dirSubClasses.getFlattened()) {
+                //System.out.println(dirSubClass.getRepresentativeElement());
+                ArrayList<OWLClassExpression> leafClasses = new ArrayList<>();
 
-                if (isLeafClass(sc)) {
-                    leafSubClasses.add(sc);
+                for (OWLClass subClass : reasoner.getSubClasses(dirSubClass, false).getFlattened()) {
+                    if (isLeafClass(subClass)) {
+                        //System.out.print("leaf: ");
+                        //System.out.println(subClass);
+                        leafClasses.add(subClass);
+                    } else {
+                        //System.out.print("no leaf: ");
+                        //System.out.println(subClass);
+                    }
                 }
+
+                listOfLeafClasses.add(leafClasses);
             }
         } catch (Exception e) {
             System.out.println("ERRORRRR");
@@ -331,7 +257,8 @@ public abstract class Ontology {
             throw e;
         }
 
-        return leafSubClasses;
+        System.out.println(listOfLeafClasses);
+        return listOfLeafClasses;
     }
 
     /**
@@ -345,6 +272,61 @@ public abstract class Ontology {
         return reasoner.getSubClasses(ce, true).isBottomSingleton();
     }
 
+    protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses) throws Exception {
+        OWLClassExpression thing = factory.getOWLThing();
+        NodeSet<OWLClass> topClasses = reasoner.getSubClasses(thing, true);
+
+        return greatestCommonClass(commonClasses, topClasses);
+    }
+
+    /**
+     * Finds the greatest common class of a set of class expressions.
+     *
+     * @param commonClasses
+     * @param classes
+     * @return
+     * @throws Exception
+     */
+    protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses, NodeSet<OWLClass> classes) throws Exception {
+        OWLClassExpression greatest = factory.getOWLThing();
+        //System.out.print("common classes is ");
+        //System.out.println(commonClasses);
+        //System.out.print("classes is ");
+        //System.out.println(classes);
+        boolean classFound = false;
+
+        for (OWLClass treeClass : classes.getFlattened()) {
+            for (OWLClassExpression c : commonClasses) {
+                if (c.asOWLClass().equals(treeClass)) {
+                    //System.out.println(treeClass);
+                    if (classFound) {
+                        throw new Exception("Several common classes found");
+                    }
+                    greatest = c;
+                    classFound = true;
+                }
+            }
+
+            if (!classFound) {
+                return greatestCommonClass(commonClasses, reasoner.getSubClasses(treeClass, true));
+            }
+        }
+
+        //System.out.print("returning ");
+        //System.out.println(greatest);
+        return greatest;
+    }
+
+    protected Set<OWLClassExpression> classAssertionsToClassExpressions(Set<OWLClassAssertionAxiom> classAssertions) {
+        Set<OWLClassExpression> classExpressions = new HashSet<>();
+
+        for (OWLClassAssertionAxiom ax : classAssertions) {
+            classExpressions.add(ax.getClassExpression());
+        }
+
+        return classExpressions;
+    }
+
     /**
      * Returns the top super class of a class. If none are found (meaning the class is a top super class
      * itself), the class given as a parameter is returned back.
@@ -352,6 +334,7 @@ public abstract class Ontology {
      * @param c
      * @return
      */
+    /*
     protected OWLClassExpression topSuperClassOf(OWLClass c) throws Exception {
         OWLClass thing = factory.getOWLThing();
         NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
@@ -373,12 +356,143 @@ public abstract class Ontology {
 
         return topSuperClass;
     }
+     */
 
     /**
-     * Set debugging value (true for debug on).
-     * @param debug
+     * Finds top super classes of the class assertions. It is assumed to be class assertions for only one
+     * individual.
+     * @param classAssertions
+     * @return
+     * @throws Exception
      */
-    public void setDEBUG(boolean debug) {
-        this.DEBUG = debug;
+    /*
+    protected OWLClassExpression topSuperClass(Set<OWLClassAssertionAxiom> classAssertions) throws Exception {
+        OWLClassExpression c = factory.getOWLThing();
+        OWLClassExpression temp = c;
+        boolean changed = false;
+
+        for (OWLClassAssertionAxiom classAssertion : classAssertions) {
+            temp = topSuperClassOf(classAssertion.getClassExpression().asOWLClass());
+            if (changed && !temp.equals(c)) {
+                System.out.println(temp);
+                System.out.println(c);
+                throw new Exception("Conflicting top super classes found for " + classAssertion.getIndividual());
+            }
+            c = temp;
+            changed = true;
+        }
+
+        return c;
     }
+     */
+
+    /**
+     * Returns a list with the range and all its sub-classes.
+     *
+     * @param ce
+     * @return A list with all sub-classes of ce (including the class expression given as a parameter).
+     */
+    /*
+    protected List<OWLClassExpression> allSubClasses(OWLClassExpression ce) {
+        List<OWLClassExpression> allSubClasses = new ArrayList<>();
+        allSubClasses.add(ce);
+
+        for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(ce.asOWLClass())) {
+            allSubClasses.add(sub.getSubClass());
+        }
+
+        return allSubClasses;
+    }
+     */
+
+    // TODO : hva er forskjellen på denne og den over?
+    /**
+     * Finds all legal subclasses for all of the classes in the given parameter.
+     * What is a legal subclass?
+     *
+     * @param unknownClasses A list containing OWL Classes
+     * @return List containing OWL (sub)Classes
+     */
+    /*
+    private List<OWLClassExpression> subClassesOf(List<OWLClassExpression> unknownClasses) {
+        ArrayList<OWLClassExpression> allSubClasses = new ArrayList<>();
+
+        for (OWLClassExpression ce : unknownClasses) {
+            for (Node<OWLClass> classNode : reasoner.getSubClasses(ce, false)) {
+                OWLClassExpression cAdd = classNode.getRepresentativeElement();
+                if (!(cAdd.isOWLNothing() || cAdd.isOWLThing())) {
+                    allSubClasses.add(cAdd);
+                }
+            }
+        }
+
+        return allSubClasses;
+    }
+     */
+
+
+    /**
+     * Compares all class assertion axioms with the class assertion axiom to see if they are equal.
+     * This is a way to make sure all the different assertion axioms that can be used are added.
+     *
+     * Make a hashmap with (k, v) : (OWLClassAssertionAxiom, List<OWLClassAssertionAxiom>)?
+     *
+     * This is not necessary when using the reasoner, because then it will find all of the equal classes,
+     * sub-classes, etc.
+     *
+     * @param classAssertionAxioms
+     * @return
+     */
+    /*
+    private List<OWLClassExpression> legalClasses(OWLClassAssertionAxiom classAssertionAxiom, Set<OWLClassAssertionAxiom> classAssertionAxioms) {
+        List<OWLClassExpression> legalClasses = new ArrayList<>();
+
+        for (OWLClassAssertionAxiom ca : classAssertionAxioms) {
+            if (!classAssertionAxiom.equals(ca)) {
+                OWLClassExpression c = ca.getClassExpression();
+                legalClasses.add(c);
+            }
+        }
+
+        return legalClasses;
+    }
+     */
+
+    /**
+     * All class assertion axioms in the ontology. In other words, all the individuals with an asserted
+     * class?
+     *
+     * @return
+     */
+    /*
+    protected ArrayList<OWLClassAssertionAxiom> allClassAssertionAxioms() {
+        ArrayList<OWLClassAssertionAxiom> classAxioms = new ArrayList<>();
+
+        for (OWLClass ce : ontology.getClassesInSignature()) {
+            for (OWLClassAssertionAxiom ca : ontology.getClassAssertionAxioms(ce)) {
+                classAxioms.add(ca);
+            }
+        }
+
+        return classAxioms;
+    }
+     */
+
+    /**
+     * Returns true if the individual is in the class assertion set, otherwise false.
+     *
+     * @param list
+     * @param individual
+     * @return
+     */
+    /*
+    public boolean individualIsInClassAssertionSet(List<OWLClassAssertionAxiom> list, OWLIndividual individual) {
+        for (OWLClassAssertionAxiom ca : list) {
+            if (ca.getIndividual().equals(individual)) {
+                return true;
+            }
+        }
+        return false;
+    }
+     */
 }

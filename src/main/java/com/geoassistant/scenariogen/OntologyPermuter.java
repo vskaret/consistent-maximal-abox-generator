@@ -7,23 +7,13 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 import java.util.*;
 
 public class OntologyPermuter extends Ontology {
-    private final String unknownClassName = "Permute";
-
-    // are all of these needed?
-    private ArrayList<OWLClassAssertionAxiom> individuals = new ArrayList<>();
+    private final String unknownClassName = "Permutable";
 
     // variables used in the recursive call
     private List<OWLClassExpression> currentUnknownClasses;
     private List<OWLClassExpression> currentSubClasses;
     private Set<OWLClassExpression> domains;
     private Set<OWLClassExpression> ranges;
-    // domain
-    // property
-    // unknown
-    //private OWLIndividual unknown;
-    // unknowns
-    //ArrayList<OWLClassAssertionAxiom> unknowns;
-
 
     public OntologyPermuter() {
     }
@@ -38,15 +28,14 @@ public class OntologyPermuter extends Ontology {
     public void permute() throws Exception {
         System.out.println("initial ontology");
         printClassAssertions();
-        // all individuals with asserted classes in the ontology?
-        this.individuals = allClassAssertionAxioms();
         //this.currentUnknownClasses = new ArrayList<OWLClassExpression>();
 
         Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
+        //Set<OWLClassExpression> classExpressionSet = getClassExpressions(unknownClassName);
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
-        ArrayList<OWLClassAssertionAxiom> unknowns = new ArrayList<>(Arrays.asList(unknownArr));
+        ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
 
-        permute(unknowns);
+        permute(permutables);
     }
 
     /**
@@ -67,11 +56,11 @@ public class OntologyPermuter extends Ontology {
      *
      * ..or something like this.
      *
-     * @param unknowns
+     * @param permutables
      * @throws Exception
      */
 
-    public void permute(ArrayList<OWLClassAssertionAxiom> unknowns) throws Exception {
+    public void permute(ArrayList<OWLClassAssertionAxiom> permutables) throws Exception {
         // update reasoner
         reasoner.flush();
 
@@ -85,161 +74,45 @@ public class OntologyPermuter extends Ontology {
         }
 
         // no more unknown assertion axioms, consistent ontology generated!
-        if (unknowns.size() == 0) {
+        if (permutables.size() == 0) {
             System.out.println("consistent ontology generated");
             printClassAssertions();
             return;
         }
 
-        ArrayList<OWLClassAssertionAxiom> restOfUnknowns = copyWithoutFirstElement(unknowns);
-
-        OWLClassAssertionAxiom currentUnknownClassAxiom = unknowns.get(0);
+        ArrayList<OWLClassAssertionAxiom> restOfPermutables = copyWithoutFirstElement(permutables);
+        OWLClassAssertionAxiom currentUnknownClassAxiom = permutables.get(0);
+        OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
 
         // the unknown class assertion axiom no longer needed
         manager.removeAxiom(ontology, currentUnknownClassAxiom);
 
+        // all class assertions for the individual unknown
+        Set<OWLClassAssertionAxiom> unknownClassAssertions = ontology.getClassAssertionAxioms(unknown);
+        OWLClassExpression gcc = greatestCommonClass(classAssertionsToClassExpressions(unknownClassAssertions));
+        System.out.print("gcc is ");
+        System.out.println(gcc);
 
-        //OWLClassAssertionAxiom unknownAssertion = unknown
-        OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
-        Set<OWLClassAssertionAxiom> unknownClasses = ontology.getClassAssertionAxioms(unknown);
-        OWLClassExpression topSuper = topSuperClass(unknownClasses);
-        NodeSet<OWLClass> directSubclasses = reasoner.getSubClasses(topSuper, true);
+        ArrayList<List<OWLAxiom>> axiomLists = new ArrayList<>();
+        List<ArrayList<OWLClassExpression>> listOfListOfLeaves = allLeafSubClasses(gcc);
 
-
-        // for each direct subclass
-        for (Node<OWLClass> directSubclass : directSubclasses) {
-            //System.out.println(reasoner.isConsistent());
-
-            ArrayList<OWLClassExpression> leafClasses = allLeafSubClasses(directSubclass.getRepresentativeElement());
-            Set<OWLAxiom> axioms = new HashSet<>();
-
-            // add all possible axioms?
-            for (OWLClassExpression ce : leafClasses) {
-                OWLAxiom ax = factory.getOWLClassAssertionAxiom(ce, unknown);
-
-                if (!ontology.containsAxiom(ax)) {
-                    axioms.add(ax);
-                    //manager.addAxiom(ontology, ax);
-                    //permute(restOfUnknowns);
-                    //manager.removeAxiom(ontology, ax);
-                    //reasoner.flush();
-                }
-            }
-
-            manager.addAxioms(ontology, axioms);
-            permute(restOfUnknowns);
-            manager.removeAxioms(ontology, axioms);
-            reasoner.flush();
-        }
-    }
-
-
-    /**
-     * Returns a list with the range and all its sub-classes.
-     *
-     * @param ce
-     * @return A list with all sub-classes of ce (including the class expression given as a parameter).
-     */
-    private List<OWLClassExpression> allSubClasses(OWLClassExpression ce) {
-        List<OWLClassExpression> allSubClasses = new ArrayList<>();
-        allSubClasses.add(ce);
-
-        for (OWLSubClassOfAxiom sub : ontology.getSubClassAxiomsForSuperClass(ce.asOWLClass())) {
-            allSubClasses.add(sub.getSubClass());
+        for (List<OWLClassExpression> listOfLeaves : listOfListOfLeaves) {
+            axiomLists.add(generateClassAssertionAxioms(listOfLeaves, unknown));
         }
 
-        return allSubClasses;
-    }
+        System.out.println(axiomLists);
 
-    // TODO : hva er forskjellen på denne og den over?
-    /**
-     * Finds all legal subclasses for all of the classes in the given parameter.
-     * What is a legal subclass?
-     *
-     * @param unknownClasses A list containing OWL Classes
-     * @return List containing OWL (sub)Classes
-     */
-    private List<OWLClassExpression> subClassesOf(List<OWLClassExpression> unknownClasses) {
-        ArrayList<OWLClassExpression> allSubClasses = new ArrayList<>();
+        // neste steg er å lage permutasjoner av axiomLists
 
-        for (OWLClassExpression ce : unknownClasses) {
-            for (Node<OWLClass> classNode : reasoner.getSubClasses(ce, false)) {
-                OWLClassExpression cAdd = classNode.getRepresentativeElement();
-                if (!(cAdd.isOWLNothing() || cAdd.isOWLThing())) {
-                    allSubClasses.add(cAdd);
-                }
-            }
+        /*
+        for (OWLClass c : directSubclasses.getFlattened()) {
+            List<ArrayList<OWLClassExpression>> leafSubClasses = allLeafSubClasses(c);
+
+            //System.out.println(leafSubClasses);
+
+            //List<OWLAxiom> newAxioms = new ArrayList<>();
+
         }
-
-        return allSubClasses;
-    }
-
-    /**
-     * All class assertion axioms in the ontology. In other words, all the individuals with an asserted
-     * class?
-     *
-     * @return
-     */
-    private ArrayList<OWLClassAssertionAxiom> allClassAssertionAxioms() {
-        ArrayList<OWLClassAssertionAxiom> classAxioms = new ArrayList<>();
-
-        for (OWLClass ce : ontology.getClassesInSignature()) {
-            for (OWLClassAssertionAxiom ca : ontology.getClassAssertionAxioms(ce)) {
-                classAxioms.add(ca);
-            }
-        }
-
-        return classAxioms;
-    }
-
-    /**
-     * Compares all class assertion axioms with the class assertion axiom to see if they are equal.
-     * This is a way to make sure all the different assertion axioms that can be used are added.
-     *
-     * Make a hashmap with (k, v) : (OWLClassAssertionAxiom, List<OWLClassAssertionAxiom>)?
-     *
-     * This is not necessary when using the reasoner, because then it will find all of the equal classes,
-     * sub-classes, etc.
-     *
-     * @param classAssertionAxioms
-     * @return
-     */
-    private List<OWLClassExpression> legalClasses(OWLClassAssertionAxiom classAssertionAxiom, Set<OWLClassAssertionAxiom> classAssertionAxioms) {
-        List<OWLClassExpression> legalClasses = new ArrayList<>();
-
-        for (OWLClassAssertionAxiom ca : classAssertionAxioms) {
-            if (!classAssertionAxiom.equals(ca)) {
-                OWLClassExpression c = ca.getClassExpression();
-                legalClasses.add(c);
-            }
-        }
-
-        return legalClasses;
-    }
-
-    /**
-     * Finds top super classes of the class assertions. It is assumed to be class assertions for only one
-     * individual.
-     * @param classAssertions
-     * @return
-     * @throws Exception
-     */
-    private OWLClassExpression topSuperClass(Set<OWLClassAssertionAxiom> classAssertions) throws Exception {
-        OWLClassExpression c = factory.getOWLThing();
-        OWLClassExpression temp = c;
-        boolean changed = false;
-
-        for (OWLClassAssertionAxiom classAssertion : classAssertions) {
-            temp = topSuperClassOf(classAssertion.getClassExpression().asOWLClass());
-            if (changed && !temp.equals(c)) {
-                System.out.println(temp);
-                System.out.println(c);
-                throw new Exception("Conflicting top super classes found for " + classAssertion.getIndividual());
-            }
-            c = temp;
-            changed = true;
-        }
-
-        return c;
+        */
     }
 }
