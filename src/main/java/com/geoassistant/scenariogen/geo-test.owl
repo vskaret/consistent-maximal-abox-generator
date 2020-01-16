@@ -13,46 +13,106 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
+        <Class IRI="AfterArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="BeforeArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="CapRock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Carboniferous"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Cretaceous"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="EvenOlder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="ExtremelyGoodReservoir"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="Fault"/>
     </Declaration>
     <Declaration>
         <Class IRI="GeoUnit"/>
     </Declaration>
     <Declaration>
-        <Class IRI="InBasinPlain"/>
+        <Class IRI="GoodReservoir"/>
     </Declaration>
     <Declaration>
-        <Class IRI="InLobeFringe"/>
+        <Class IRI="InsideArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Jurassic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="ModeratelyGoodReservoir"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Neogene"/>
     </Declaration>
     <Declaration>
         <Class IRI="NonSealingFault"/>
     </Declaration>
     <Declaration>
+        <Class IRI="Old"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="OldTree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="OlderThanOlder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Paleogene"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Permian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="PoorReservoir"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Quaternary"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Recent"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="ReservoirRock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="RockAge"/>
     </Declaration>
     <Declaration>
         <Class IRI="RockLocation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="RockQuality"/>
+        <Class IRI="RockType"/>
     </Declaration>
     <Declaration>
         <Class IRI="SealingFault"/>
     </Declaration>
     <Declaration>
-        <Class IRI="SealingRock"/>
+        <Class IRI="Tree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="TreeAge"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Triassic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="VeryGoodReservoir"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="YoungTree"/>
     </Declaration>
     <Declaration>
         <Class IRI="#FaultSealingCapacity"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#InDistributaryChannel"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#InFeederChannel"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#InLobe"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Permutable"/>
@@ -81,52 +141,144 @@
     <Declaration>
         <NamedIndividual IRI="GU1"/>
     </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="GU2"/>
+    </Declaration>
     <SubClassOf>
-        <Class IRI="Fault"/>
-        <Class IRI="GeoUnit"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="InBasinPlain"/>
+        <Class IRI="AfterArea"/>
         <Class IRI="RockLocation"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="InBasinPlain"/>
+        <Class IRI="AfterArea"/>
         <ObjectAllValuesFrom>
             <ObjectProperty IRI="#isDirectlyBefore"/>
-            <Class IRI="InBasinPlain"/>
+            <Class IRI="AfterArea"/>
         </ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="InLobeFringe"/>
+        <Class IRI="BeforeArea"/>
         <Class IRI="RockLocation"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="InLobeFringe"/>
+        <Class IRI="BeforeArea"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
                 <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="InBasinPlain"/>
+                <Class IRI="BeforeArea"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
                 <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="InLobeFringe"/>
+                <Class IRI="InsideArea"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="CapRock"/>
+        <Class IRI="RockType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Carboniferous"/>
+        <Class IRI="OlderThanOlder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Cretaceous"/>
+        <Class IRI="Old"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="EvenOlder"/>
+        <Class IRI="Old"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="ExtremelyGoodReservoir"/>
+        <Class IRI="GoodReservoir"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Fault"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="GoodReservoir"/>
+        <Class IRI="ReservoirRock"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InsideArea"/>
+        <Class IRI="RockLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InsideArea"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="AfterArea"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InsideArea"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Jurassic"/>
+        <Class IRI="Old"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="ModeratelyGoodReservoir"/>
+        <Class IRI="GoodReservoir"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Neogene"/>
+        <Class IRI="Recent"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="NonSealingFault"/>
         <Class IRI="#FaultSealingCapacity"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="Old"/>
+        <Class IRI="RockAge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="OldTree"/>
+        <Class IRI="TreeAge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="OlderThanOlder"/>
+        <Class IRI="EvenOlder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Paleogene"/>
+        <Class IRI="Recent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Permian"/>
+        <Class IRI="EvenOlder"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="PoorReservoir"/>
         <Class IRI="ReservoirRock"/>
-        <Class IRI="RockQuality"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Quaternary"/>
+        <Class IRI="RockAge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Recent"/>
+        <Class IRI="RockAge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="ReservoirRock"/>
+        <Class IRI="RockType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="RockAge"/>
+        <Class IRI="#Rock"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="RockLocation"/>
         <Class IRI="#Rock"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="RockQuality"/>
+        <Class IRI="RockType"/>
         <Class IRI="#Rock"/>
     </SubClassOf>
     <SubClassOf>
@@ -134,88 +286,102 @@
         <Class IRI="#FaultSealingCapacity"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="SealingRock"/>
-        <Class IRI="RockQuality"/>
+        <Class IRI="Tree"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="TreeAge"/>
+        <Class IRI="Tree"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Triassic"/>
+        <Class IRI="Old"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="VeryGoodReservoir"/>
+        <Class IRI="GoodReservoir"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="YoungTree"/>
+        <Class IRI="TreeAge"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#FaultSealingCapacity"/>
         <Class IRI="Fault"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InDistributaryChannel"/>
-        <Class IRI="RockLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InDistributaryChannel"/>
-        <ObjectUnionOf>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="#InDistributaryChannel"/>
-            </ObjectAllValuesFrom>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="#InLobe"/>
-            </ObjectAllValuesFrom>
-        </ObjectUnionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InFeederChannel"/>
-        <Class IRI="RockLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InFeederChannel"/>
-        <ObjectUnionOf>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="#InDistributaryChannel"/>
-            </ObjectAllValuesFrom>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="#InFeederChannel"/>
-            </ObjectAllValuesFrom>
-        </ObjectUnionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InLobe"/>
-        <Class IRI="RockLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#InLobe"/>
-        <ObjectUnionOf>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="InLobeFringe"/>
-            </ObjectAllValuesFrom>
-            <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
-                <Class IRI="#InLobe"/>
-            </ObjectAllValuesFrom>
-        </ObjectUnionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Rock"/>
         <Class IRI="GeoUnit"/>
     </SubClassOf>
     <DisjointClasses>
+        <Class IRI="AfterArea"/>
+        <Class IRI="BeforeArea"/>
+        <Class IRI="InsideArea"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="CapRock"/>
+        <Class IRI="ReservoirRock"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Cretaceous"/>
+        <Class IRI="EvenOlder"/>
+        <Class IRI="Jurassic"/>
+        <Class IRI="Triassic"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="ExtremelyGoodReservoir"/>
+        <Class IRI="ModeratelyGoodReservoir"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="ExtremelyGoodReservoir"/>
+        <Class IRI="VeryGoodReservoir"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="Tree"/>
+    </DisjointClasses>
+    <DisjointClasses>
         <Class IRI="Fault"/>
         <Class IRI="#Rock"/>
     </DisjointClasses>
     <DisjointClasses>
-        <Class IRI="InBasinPlain"/>
-        <Class IRI="InLobeFringe"/>
-        <Class IRI="#InDistributaryChannel"/>
-        <Class IRI="#InFeederChannel"/>
-        <Class IRI="#InLobe"/>
+        <Class IRI="GoodReservoir"/>
+        <Class IRI="PoorReservoir"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="ModeratelyGoodReservoir"/>
+        <Class IRI="VeryGoodReservoir"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Neogene"/>
+        <Class IRI="Paleogene"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="NonSealingFault"/>
         <Class IRI="SealingFault"/>
     </DisjointClasses>
     <DisjointClasses>
-        <Class IRI="ReservoirRock"/>
-        <Class IRI="SealingRock"/>
+        <Class IRI="Old"/>
+        <Class IRI="Quaternary"/>
+        <Class IRI="Recent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="OldTree"/>
+        <Class IRI="YoungTree"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="OlderThanOlder"/>
+        <Class IRI="Permian"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Tree"/>
+        <Class IRI="#Rock"/>
     </DisjointClasses>
     <ClassAssertion>
+        <Class IRI="CapRock"/>
+        <NamedIndividual IRI="GU0"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#Permutable"/>
         <NamedIndividual IRI="GU0"/>
     </ClassAssertion>
@@ -230,10 +396,23 @@
     <ClassAssertion>
         <Class IRI="#Rock"/>
         <NamedIndividual IRI="GU1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="AfterArea"/>
+        <NamedIndividual IRI="GU2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="CapRock"/>
+        <NamedIndividual IRI="GU2"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#isDirectlyBefore"/>
         <NamedIndividual IRI="GU0"/>
+        <NamedIndividual IRI="GU1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="isDirectlyAfter"/>
+        <NamedIndividual IRI="GU2"/>
         <NamedIndividual IRI="GU1"/>
     </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
