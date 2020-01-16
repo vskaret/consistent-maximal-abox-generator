@@ -8,6 +8,7 @@ import java.util.*;
 
 public class OntologyPermuter extends Ontology {
     private final String unknownClassName = "Permutable";
+    private boolean printInconsistent = false;
 
     // variables used in the recursive call
     private List<OWLClassExpression> currentUnknownClasses;
@@ -16,6 +17,10 @@ public class OntologyPermuter extends Ontology {
     private Set<OWLClassExpression> ranges;
 
     public OntologyPermuter() {
+    }
+
+    public void setPrintInconsistent(boolean printInconsistent) {
+        this.printInconsistent = printInconsistent;
     }
 
     /**
@@ -66,7 +71,7 @@ public class OntologyPermuter extends Ontology {
 
         // stop when inconsistent
         if (!reasoner.isConsistent()) {
-            if (DEBUG) {
+            if (printInconsistent) {
                 System.out.println("inconsistent ontology");
                 printClassAssertions();
             }
@@ -80,8 +85,8 @@ public class OntologyPermuter extends Ontology {
             return;
         }
 
-        ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
         OWLClassAssertionAxiom currentUnknownClassAxiom = permutables.get(0);
+        ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
         OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
 
         // the unknown class assertion axiom no longer needed
@@ -90,8 +95,8 @@ public class OntologyPermuter extends Ontology {
         // all class assertions for the individual unknown
         Set<OWLClassAssertionAxiom> unknownClassAssertions = ontology.getClassAssertionAxioms(unknown);
         OWLClassExpression gcc = greatestCommonClass(classAssertionsToClassExpressions(unknownClassAssertions));
-        System.out.print("gcc is ");
-        System.out.println(gcc);
+        //System.out.print("gcc is ");
+        //System.out.println(gcc);
 
         ArrayList<List<OWLAxiom>> axiomLists = new ArrayList<>();
         List<ArrayList<OWLClassExpression>> listOfListOfLeaves = allLeafSubClasses(gcc);
@@ -100,9 +105,15 @@ public class OntologyPermuter extends Ontology {
             axiomLists.add(generateClassAssertionAxioms(listOfLeaves, unknown));
         }
 
-        System.out.println(axiomLists);
-
+        //System.out.println(axiomLists);
         List<List<OWLAxiom>> axiomPermutations = Utils.permuteList(axiomLists);
 
+        // permute with the current permutation of class expressions asserted to the individual
+        for (List<OWLAxiom> permutation : axiomPermutations) {
+            Set<OWLAxiom> newAxioms = removeAxiomsAlreadyInTheOntology(permutation);
+            manager.addAxioms(ontology, newAxioms);
+            permute(restOfPermutables);
+            manager.removeAxioms(ontology, newAxioms);
+        }
     }
 }

@@ -202,8 +202,8 @@ public abstract class Ontology {
 
         NodeSet<OWLClass> dirSubClasses = reasoner.getSubClasses(ce, true);
 
-        System.out.print("Starting point: ");
-        System.out.println(ce);
+        //System.out.print("Starting point: ");
+        //System.out.println(ce);
 
 
         try {
@@ -299,6 +299,18 @@ public abstract class Ontology {
         }
 
         return classExpressions;
+    }
+
+    protected Set<OWLAxiom> removeAxiomsAlreadyInTheOntology(List<OWLAxiom> axioms) {
+        Set<OWLAxiom> newAxioms = new HashSet<>();
+
+        for (OWLAxiom a : axioms) {
+            if (!ontology.containsAxiom(a)) {
+                newAxioms.add(a);
+            }
+        }
+
+        return newAxioms;
     }
 
     /**

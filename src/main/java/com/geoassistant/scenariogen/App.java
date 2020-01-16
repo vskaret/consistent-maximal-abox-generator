@@ -10,10 +10,14 @@ public class App
     {
         //System.out.println( "Hello World!" );
         boolean debugging = false;
+        boolean printInconsistent = true;
 
         OntologyPermuter op = new OntologyPermuter();
+
         op.setDEBUG(debugging);
+        op.setPrintInconsistent(printInconsistent);
         op.loadOntology("geo-test.owl");
+
         op.permute();
     }
 }

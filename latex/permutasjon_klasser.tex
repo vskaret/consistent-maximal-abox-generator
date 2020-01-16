@@ -30,12 +30,12 @@
 \State The ontology object $ontology$ has access to all classes, properties, individuals, etc. in the ontology.
 \State The list $unknowns$ is a list of individuals to be permuted.
 \State
-\State Assumptions:
-\State 1. An individual which is set to unknown is of a class type where each of the sub-classes can only have one value in the ABox.
-\State 2. All information about an individual in class-form are classes that are sub-classes of a main class.
-\State 3. Need some kind of assumption that makes it possible to do this: $superClass \leftarrow$ The super-class of u on the depth below owl:Thing/Top
-\State Gir disse antagelsene i det hele tatt mening?
-\State
+%\State Assumptions:
+%\State 1. An individual which is set to unknown is of a class type where each of the sub-classes can only have one value in the ABox.
+%\State 2. All information about an individual in class-form are classes that are sub-classes of a main class.
+%\State 3. Need some kind of assumption that makes it possible to do this: $superClass \leftarrow$ The super-class of u on the depth below owl:Thing/Top
+%\State Gir disse antagelsene i det hele tatt mening?
+%\State
 %\State Reasoner $r$ can check consistency of the ontology $ont$
 
 \Procedure {permute}{$Ontology:ontology, List:permutables$}
@@ -52,49 +52,41 @@
 		\State return
 		\State
 	\EndIf
-	
-	\State $List:restOfPermutables \leftarrow$ copy of $permutables$ without the first element
+
 	\State $Individual:u \leftarrow$ first element of $permutables$
+	\State $List:restOfPermutables \leftarrow$ copy of $permutables$ without the first element
 	\State
 	%\State $superClass \leftarrow$ the super class of u on the depth below owl:Thing/Top
-	\State // smallest as in lowest in the class hierarchy
-	\State $Class:superClass \leftarrow$ the "smallest" super class of all the class assertions of $u$
+	\State $List:classAssertions \leftarrow$ all class assertion axioms involving $u$ in the $ontology$
+	\State $Class:superClass \leftarrow$ the lowest common super class in the hierarchy of the classes in $classAssertions$
 	\State $List:directSubclasses \leftarrow$ all direct sub classes of $superClass$
-	\State $List:axiomLists \leftarrow$ instantiate new list (which is a list of lists)
+	\State $List:axiomLists \leftarrow$ new list (of lists)
 	\State
 	
 	\ForAll {$c_s \in directSubclasses$}
 		\State $List:leafSubclasses \leftarrow$ all sub classes of $c_s$ without sub classes
-		\State  add generateAxioms($leafSubclasses, u$) to $axiomLists$
+		\State $List:axioms \leftarrow$ new list
+		\State
+		\ForAll {$c_l \in leafSubclasses$}
+			\State $a \leftarrow$ assert $u$ is of class $c_l$
+			\State add $a$ to $axioms$
+		\EndFor
+		\State
+		\State add $axioms$ to $axiomLists$
 		%\State add a list of 
 	\EndFor
 
-	\State	
-	\State $List:permutations \leftarrow$ all permutations of the lists in $axiomLists$
 	\State
-	\ForAll {$permutation \in permutations$}
-		\State $List:newAxioms \leftarrow$ new list
-		\State
-		\State // make sure to not add and remove an axiom that is already in the $ontology$
-		\ForAll {$a \in permutation$}
-			\If {$a \notin ontology$}
-				\State add $a$ to $newAxioms$
-						
-			\EndIf
-		\EndFor
-		\State
-		\ForAll {$a \in newAxioms$}
-			\State add $a$ to the $ontology$
-		\EndFor
-		\State
+	\State $List:axiomPermutations \leftarrow$ all permutations of the lists in $axiomLists$
+	\State
+	\ForAll {$permutation \in axiomPermutations$}
+		\State $Set:newAxioms \leftarrow$ all axioms in $permutation$ not already in the ontology
+		\State add $newAxioms$ to the $ontology$
 		\State permute($ontology, restOfPermutables$)
-		\State
-		\ForAll {$a \in newAxioms$}
-			\State remove $a$ from the $ontology$
-		\EndFor
+		\State remove $newAxioms$ from the $ontology$
 	\EndFor
 	
-\EndProcedure
+%\EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
@@ -103,36 +95,21 @@
 %\newpage
 
 
-\begin{algorithm}
-\caption{Helper Method(s)}
-\begin{algorithmic}
-\State Generates a list of axiom lists, i.e. [[Reservoir($u$), Shale($u$)], [InFeederchannel($u$), InDistributarychannel($u$)]]
-\Procedure {generateAxioms}{$List:leafClasses, Individual:u$}
-\State $List:axioms \leftarrow$ new list
-\State
-\ForAll {$c_l \in leafClasses$}
-	\State $Axiom:a \leftarrow$ assert $u$ is of class $c_l$
-	\State add $a$ to $axioms$
-\EndFor
-\State
-\State return $axioms$
-\EndProcedure
-
-
+%\begin{algorithm}
+%\caption{Helper Method(s)}
+%\begin{algorithmic}
+%\State Generates a list of axiom lists, i.e. [[Reservoir($u$), Shale($u$)], [InFeederchannel($u$), InDistributarychannel($u$)]]
+%\Procedure {generateAxioms}{$List:leafClasses, Individual:u$}
+%\State $List:axioms \leftarrow$ new list
 %\State
-%\State
-%\Procedure {generatePermutations}{$List:axiomLists, List:currentPermutation, List:allPermutations$}
-%\If {$axiomLists$ is empty}
-%	\State add $currentPermutation$ to $allPermutations$
-%\EndIf
-%\State
-%\State $List:axioms \leftarrow$ first element of $axiomLists$
-%\State
-%\ForAll {$a \in axioms$}	
+%\ForAll {$c_l \in leafClasses$}
+	%\State $Axiom:a \leftarrow$ assert $u$ is of class $c_l$
+	%\State add $a$ to $axioms$
 %\EndFor
+%\State
+%\State return $axioms$
 %\EndProcedure
-
-\end{algorithmic}
-\end{algorithm}
+%\end{algorithmic}
+%\end{algorithm}
 
 \end{document} 
