@@ -40,6 +40,9 @@ public class OntologyPermuter extends Ontology {
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
         ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
 
+        System.out.print("permutables: ");
+        System.out.println(permutables);
+
         permute(permutables);
     }
 
@@ -95,8 +98,8 @@ public class OntologyPermuter extends Ontology {
         // all class assertions for the individual unknown
         Set<OWLClassAssertionAxiom> unknownClassAssertions = ontology.getClassAssertionAxioms(unknown);
         OWLClassExpression gcc = greatestCommonClass(classAssertionsToClassExpressions(unknownClassAssertions));
-        //System.out.print("gcc is ");
-        //System.out.println(gcc);
+        System.out.print("gcc is ");
+        System.out.println(gcc);
 
         ArrayList<List<OWLAxiom>> axiomLists = new ArrayList<>();
         List<ArrayList<OWLClassExpression>> listOfListOfLeaves = allLeafSubClasses(gcc);

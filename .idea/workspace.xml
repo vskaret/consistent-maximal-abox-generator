@@ -2,41 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_17_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_hermit_reasoner_org_semanticweb_hermit_1_3_8_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dk_brics_automaton_automaton_1_11_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jaxen_jaxen_1_1_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_trove4j_trove4j_3_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_api_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_apibinding_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_distribution_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_impl_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_oboformat_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_parsers_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_owlapi_owlapi_tools_3_5_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_felix_org_osgi_core_1_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_activation_1_1_spec_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_javamail_1_4_spec_1_7_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_stax_api_1_0_spec_1_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_james_apache_mime4j_core_0_7_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ws_commons_axiom_axiom_api_1_2_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ws_commons_axiom_axiom_c14n_1_2_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ws_commons_axiom_axiom_dom_1_2_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ws_commons_axiom_axiom_impl_1_2_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_woodstox_core_asl_4_1_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oldfiles/permutasjon_klasser.pdf" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579177529870</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add project files">
+      <created>1579180500892</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1579180500892</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -263,7 +239,8 @@
     <MESSAGE value="added generic permutation method + some fixing/documenting here and there" />
     <MESSAGE value="file did not save before last commit" />
     <MESSAGE value="seems to be working as intended" />
-    <option name="LAST_COMMIT_MESSAGE" value="seems to be working as intended" />
+    <MESSAGE value="add project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="add project files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
@@ -282,42 +259,58 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
-    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2" timestamp="1579177529255">
+    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2" timestamp="1579180500181">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579177529255" />
-    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl" timestamp="1579096903312">
+    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579180500181" />
+    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl" timestamp="1579199228675">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579096903312" />
-    <state width="1872" height="585" key="GridCell.Tab.0.bottom" timestamp="1579177345312">
+    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
+    <state width="1872" height="190" key="GridCell.Tab.0.bottom" timestamp="1579192107242">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="585" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579177345312" />
-    <state width="1872" height="585" key="GridCell.Tab.0.center" timestamp="1579177345311">
+    <state width="1872" height="190" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107242" />
+    <state width="1872" height="190" key="GridCell.Tab.0.center" timestamp="1579192107241">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="585" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579177345311" />
-    <state width="1872" height="585" key="GridCell.Tab.0.left" timestamp="1579177345311">
+    <state width="1872" height="190" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107241" />
+    <state width="1872" height="190" key="GridCell.Tab.0.left" timestamp="1579192107240">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="585" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579177345311" />
-    <state width="1872" height="585" key="GridCell.Tab.0.right" timestamp="1579177345312">
+    <state width="1872" height="190" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107240" />
+    <state width="1872" height="190" key="GridCell.Tab.0.right" timestamp="1579192107242">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="585" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579177345312" />
-    <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579173267690">
+    <state width="1872" height="190" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107242" />
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579184723435">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579173267690" />
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579177532094">
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723435" />
+    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579184723434">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579177532094" />
-    <state x="746" y="235" width="417" height="730" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579013069267">
+    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723434" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579184723433">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="746" y="235" width="417" height="730" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579013069267" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723433" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579184723434">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723434" />
+    <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579180505100">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579180505100" />
+    <state x="746" y="235" width="417" height="737" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579184135247">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="746" y="235" width="417" height="737" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579184135247" />
     <state x="612" y="171" width="696" height="852" key="find.popup" timestamp="1579020093259">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>

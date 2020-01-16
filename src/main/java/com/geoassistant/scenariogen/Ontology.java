@@ -38,7 +38,7 @@ public abstract class Ontology {
     protected OWLDataFactory factory;
     protected PrefixOWLOntologyFormat pm;
 
-    //protected String ontologyIRI;
+    protected String ontologyIRI;
 
 
     public Ontology() {
@@ -79,7 +79,6 @@ public abstract class Ontology {
 
         if (DEBUG) {
             System.out.println("Loaded template ontology: " + ontology.getOntologyID());
-            printFaultClassAxioms();
         }
 
     }
@@ -94,35 +93,7 @@ public abstract class Ontology {
      * Prints the class assertions of the ontology.
      */
     public void printClassAssertions() {
-        Set<OWLAxiom> axioms = ontology.getAxioms();
-        for (OWLAxiom axiom : axioms) {
-            if (axiom instanceof OWLClassAssertionAxiom) {
-                System.out.println(axiom);
-            }
-        }
-
-        System.out.println();
-    }
-
-    /**
-     * Debug method. Print all class axioms with fault.
-     */
-    protected void printFaultClassAxioms() {
-        // axioms
-        Set<OWLClassExpression> ces = ontology.getNestedClassExpressions();
-
-        for (OWLClassExpression ce : ces) {
-            // only work with asserted class axioms?
-            if (!ce.isAnonymous()) {
-                if (ce.asOWLClass().getIRI().getShortForm().equalsIgnoreCase("Fault")) {
-                    Set<OWLClassAssertionAxiom> classAxioms = ontology.getClassAssertionAxioms(ce);
-
-                    for(OWLClassAssertionAxiom ca : classAxioms) {
-                        System.out.println(ca);
-                    }
-                }
-            }
-        }
+        OntologyUtils.printClassAssertions(this.ontology);
     }
 
     /**
@@ -133,6 +104,9 @@ public abstract class Ontology {
      * @return a set with all class expressions involving className
      */
     public Set<OWLClassExpression> getClassExpressions(String className) {
+        //OWLClass oc = factory.getOWLClass(className, pm);
+        //return ontology.getClassE
+
         Set<OWLClassExpression> classExpressions = ontology.getNestedClassExpressions();
         Set<OWLClassExpression> result = new HashSet<>();
 
@@ -154,18 +128,9 @@ public abstract class Ontology {
      * @return A set with all class assertion axioms that is of class className
      */
     public Set<OWLClassAssertionAxiom> getClassAssertionAxioms(String className) {
-        Set<OWLClassExpression> classExpressions = getClassExpressions(className);
-        Set<OWLClassAssertionAxiom> result = new HashSet<>();
-
-        for (OWLClassExpression ce : classExpressions) {
-            Set<OWLClassAssertionAxiom> axioms = ontology.getClassAssertionAxioms(ce);
-
-            for (OWLClassAssertionAxiom a : axioms) {
-                result.add(a);
-            }
-        }
-
-        return result;
+        OWLClassExpression oce = factory.getOWLClass(className, pm);
+        System.out.println(ontology.getClassAssertionAxioms(oce));
+        return ontology.getClassAssertionAxioms(oce);
     }
 
     /**
@@ -197,7 +162,7 @@ public abstract class Ontology {
      * @throws Exception TODO
      */
     protected ArrayList<ArrayList<OWLClassExpression>> allLeafSubClasses(OWLClassExpression ce) throws Exception {
-        ArrayList<OWLClassExpression> leafSubClasses = new ArrayList<>();
+        //ArrayList<OWLClassExpression> leafSubClasses = new ArrayList<>();
         ArrayList<ArrayList<OWLClassExpression>> listOfLeafClasses = new ArrayList<>();
 
         NodeSet<OWLClass> dirSubClasses = reasoner.getSubClasses(ce, true);
@@ -224,7 +189,7 @@ public abstract class Ontology {
             throw e;
         }
 
-        System.out.println(listOfLeafClasses);
+        //System.out.println(listOfLeafClasses);
         return listOfLeafClasses;
     }
 
@@ -247,6 +212,11 @@ public abstract class Ontology {
      * @throws Exception TODO
      */
     protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses) throws Exception {
+        // if there's only one element, it is the greatest common class
+        if (commonClasses.size() == 1) {
+            return commonClasses.iterator().next();
+        }
+
         OWLClassExpression thing = factory.getOWLThing();
         NodeSet<OWLClass> topClasses = reasoner.getSubClasses(thing, true);
 
@@ -256,39 +226,45 @@ public abstract class Ontology {
     /**
      * Recursive method for commonClasses.
      *
+     * Assume that only one subtree can hold the greatest common class.
+     * Need to return Owl:Nothing when no common class was found, and check for Owl:Nothing when deciding what to return
+     *
      * @param commonClasses a list of class assertions for an individual
-     * @param classes classes at the current level in the hierarchy
+     * @param treeClasses classes at the current level in the hierarchy
      * @return
      * @throws Exception TODO
      */
-    protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses, NodeSet<OWLClass> classes) throws Exception {
-        OWLClassExpression greatest = factory.getOWLThing();
-        //System.out.print("common classes is ");
-        //System.out.println(commonClasses);
-        //System.out.print("classes is ");
-        //System.out.println(classes);
-        boolean classFound = false;
+    protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses, NodeSet<OWLClass> treeClasses) throws Exception {
+        // base case: leaf, returns Owl:Nothing
+        if (treeClasses.isBottomSingleton()) {
+            return treeClasses.getFlattened().iterator().next();
+        }
 
-        for (OWLClass treeClass : classes.getFlattened()) {
-            for (OWLClassExpression c : commonClasses) {
-                if (c.asOWLClass().equals(treeClass)) {
-                    //System.out.println(treeClass);
-                    if (classFound) {
-                        throw new Exception("Several common classes found");
-                    }
-                    greatest = c;
-                    classFound = true;
-                }
-            }
-
-            if (!classFound) {
-                return greatestCommonClass(commonClasses, reasoner.getSubClasses(treeClass, true));
+        // greatest common class at the current hierarchy level?
+        for (OWLClass tc : treeClasses.getFlattened()) {
+            if (OntologyUtils.classInSet(ontology, tc, commonClasses)) {
+                return tc;
             }
         }
 
-        //System.out.print("returning ");
-        //System.out.println(greatest);
-        return greatest;
+        OWLClassExpression gcc = factory.getOWLNothing();
+        boolean foundGcc = false;
+
+        // greatest common class in a sub tree
+        for (OWLClass tc : treeClasses.getFlattened()) {
+            OWLClassExpression cc = greatestCommonClass(commonClasses, reasoner.getSubClasses(tc, true));
+
+            if (!cc.equals(gcc)) {
+                if (foundGcc) {
+                    throw new Exception("Several common classes found");
+                }
+
+                gcc = cc;
+                foundGcc = true;
+            }
+        }
+
+        return gcc;
     }
 
     protected Set<OWLClassExpression> classAssertionsToClassExpressions(Set<OWLClassAssertionAxiom> classAssertions) {
