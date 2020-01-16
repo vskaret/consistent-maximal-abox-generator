@@ -4,8 +4,11 @@ package com.geoassistant.scenariogen;
 //import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.*;
 
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+
 
 /**
  * Class for testing purposes.
@@ -36,6 +39,8 @@ public class Test extends OntologyPermuter {
         t.testAllLeafClasses();
         System.out.println();
         //t.testTopSuperClassOf();
+        System.out.println();
+        t.testUtilPermute();
     }
 
     /**
@@ -87,5 +92,52 @@ public class Test extends OntologyPermuter {
         }
     }
      */
+
+    /**
+     * Test of the permuteList method in class Utils
+     */
+    public void testUtilPermute() {
+        ArrayList<String> a1 = new ArrayList<>();
+        ArrayList<String> a2 = new ArrayList<>();
+        ArrayList<String> a3 = new ArrayList<>();
+
+        a1.add("a");
+        a1.add("b");
+        a2.add("c");
+        a2.add("d");
+        a2.add("e");
+        a3.add("f");
+        a3.add("g");
+        a3.add("h");
+
+        ArrayList<List<String>> listOfLists = new ArrayList<>();
+        listOfLists.add(a1);
+        listOfLists.add(a2);
+        listOfLists.add(a3);
+
+        System.out.println(Utils.permuteList(listOfLists));
+
+        ArrayList<Integer> b1 = new ArrayList<>();
+        ArrayList<Integer> b2 = new ArrayList<>();
+        ArrayList<Integer> b3 = new ArrayList<>();
+
+        b1.add(1);
+        b1.add(2);
+        b1.add(3);
+        b1.add(4);
+        b2.add(1);
+        b2.add(2);
+        b2.add(3);
+        b2.add(4);
+        b3.add(5);
+        b3.add(6);
+
+        ArrayList<List<Integer>> l = new ArrayList<>();
+        l.add(b1);
+        l.add(b2);
+        l.add(b3);
+
+        System.out.println(Utils.permuteList(l));
+    }
 }
 

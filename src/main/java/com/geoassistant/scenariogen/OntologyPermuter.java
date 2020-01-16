@@ -80,7 +80,7 @@ public class OntologyPermuter extends Ontology {
             return;
         }
 
-        ArrayList<OWLClassAssertionAxiom> restOfPermutables = copyWithoutFirstElement(permutables);
+        ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
         OWLClassAssertionAxiom currentUnknownClassAxiom = permutables.get(0);
         OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
 
@@ -102,17 +102,7 @@ public class OntologyPermuter extends Ontology {
 
         System.out.println(axiomLists);
 
-        // neste steg er å lage permutasjoner av axiomLists
+        List<List<OWLAxiom>> axiomPermutations = Utils.permuteList(axiomLists);
 
-        /*
-        for (OWLClass c : directSubclasses.getFlattened()) {
-            List<ArrayList<OWLClassExpression>> leafSubClasses = allLeafSubClasses(c);
-
-            //System.out.println(leafSubClasses);
-
-            //List<OWLAxiom> newAxioms = new ArrayList<>();
-
-        }
-        */
     }
 }

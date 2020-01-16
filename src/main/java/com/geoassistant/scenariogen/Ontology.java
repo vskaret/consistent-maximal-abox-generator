@@ -3,10 +3,8 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import java.io.File;
@@ -25,7 +23,7 @@ import java.util.*;
  * - Javadoc: http://owlcs.github.io/owlapi/apidocs_4/index.html
  */
 public abstract class Ontology {
-    protected static boolean DEBUG = true;
+    protected boolean DEBUG = true;
 
     // ontology file related variables
     protected File ontologyFile;
@@ -40,7 +38,7 @@ public abstract class Ontology {
     protected OWLDataFactory factory;
     protected PrefixOWLOntologyFormat pm;
 
-    protected String ontologyIRI;
+    //protected String ontologyIRI;
 
 
     public Ontology() {
@@ -48,16 +46,16 @@ public abstract class Ontology {
     }
 
     /**
-     * Set debugging value (true for debug on).
-     * @param debug
+     * Set debugging value
+     * @param debug true/false for debugging on/off
      */
     public void setDEBUG(boolean debug) {
         this.DEBUG = debug;
     }
 
     /**
-     * Load an ontology from a file. Also instantiates a Reasoner object.
-     * @param filename
+     * Load an ontology from a file from same folder as the java source file. Also instantiates a Reasoner object.
+     * @param filename name of ontology file
      * @throws Exception
      */
     protected void loadOntology(String filename) throws Exception {
@@ -93,7 +91,7 @@ public abstract class Ontology {
     }
 
     /**
-     * Writes the ontology to a file.
+     * Prints the class assertions of the ontology.
      */
     public void printClassAssertions() {
         Set<OWLAxiom> axioms = ontology.getAxioms();
@@ -104,14 +102,6 @@ public abstract class Ontology {
         }
 
         System.out.println();
-    }
-
-    /**
-     * Turn on debugging!
-     * @param debug
-     */
-    public void setDebug(boolean debug) {
-        this.DEBUG = debug;
     }
 
     /**
@@ -137,10 +127,10 @@ public abstract class Ontology {
 
     /**
      * Get all non-anonymous class expressions in the ontology with className as name.
+     * (Used to generate the list of permutables)
      *
-     * Used to generate the list of permutables.
-     * @param className
-     * @return
+     * @param className name of class to get expressions of
+     * @return a set with all class expressions involving className
      */
     public Set<OWLClassExpression> getClassExpressions(String className) {
         Set<OWLClassExpression> classExpressions = ontology.getNestedClassExpressions();
@@ -158,10 +148,9 @@ public abstract class Ontology {
 
     /**
      * Get all class assertion axioms concerning className (all individuals instantiated to be this class).
+     * (Used to generate the list of permutables)
      *
-     * Used to generate the list of permutables.
-     *
-     * @param className
+     * @param className name of class to get assertion axioms of
      * @return A set with all class assertion axioms that is of class className
      */
     public Set<OWLClassAssertionAxiom> getClassAssertionAxioms(String className) {
@@ -180,50 +169,34 @@ public abstract class Ontology {
     }
 
     /**
-     * Generates a list of class assertion axioms that do not already exist in the ontology.
+     * Generates a list of class assertion axioms.
+     * (generateAxioms in the pseudo code)
      *
-     * Just like generateAxioms in the pseudo code.
-     * @param ce
-     * @param individual
-     * @return
-     * @throws Exception
+     * @param ce a list of class expressions
+     * @param individual the individual to assert is of the classes in ce
+     * @return a list of class assertion axioms
+     * @throws Exception TODO
      */
     protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLIndividual individual) throws Exception {
         List<OWLAxiom> classAxioms = new ArrayList<>();
 
-        //System.out.println(ce);
-
         for (OWLClassExpression c : ce) {
             OWLAxiom ax = factory.getOWLClassAssertionAxiom(c, individual);
             classAxioms.add(ax);
-            //if (!ontology.containsAxiom(ax)) {
-                //classAxioms.add(ax);
-            //}
         }
 
         return classAxioms;
     }
 
-    /**
-     * Used to get restOfPermutables.
-     * @param list
-     * @return
-     */
-    protected ArrayList<OWLClassAssertionAxiom> copyWithoutFirstElement(ArrayList<OWLClassAssertionAxiom> list) {
-        ArrayList<OWLClassAssertionAxiom> copy =
-                (ArrayList<OWLClassAssertionAxiom>) list.clone();
-        copy.remove(0);
-        return copy;
-    }
 
     /**
      * Returns all leaf sub classes of the class expression given. See isLeafClass() for definition of
      * leaf sub class.
-     * @param ce
-     * @return
+     * @param ce class expression to generate leaf classes for
+     * @return leaf sub classes of ce
+     * @throws Exception TODO
      */
-    //protected ArrayList<OWLClassExpression> allLeafSubClasses(OWLClassExpression ce) {
-    protected ArrayList<ArrayList<OWLClassExpression>> allLeafSubClasses(OWLClassExpression ce) {
+    protected ArrayList<ArrayList<OWLClassExpression>> allLeafSubClasses(OWLClassExpression ce) throws Exception {
         ArrayList<OWLClassExpression> leafSubClasses = new ArrayList<>();
         ArrayList<ArrayList<OWLClassExpression>> listOfLeafClasses = new ArrayList<>();
 
@@ -235,24 +208,18 @@ public abstract class Ontology {
 
         try {
             for (OWLClass dirSubClass : dirSubClasses.getFlattened()) {
-                //System.out.println(dirSubClass.getRepresentativeElement());
                 ArrayList<OWLClassExpression> leafClasses = new ArrayList<>();
 
                 for (OWLClass subClass : reasoner.getSubClasses(dirSubClass, false).getFlattened()) {
                     if (isLeafClass(subClass)) {
-                        //System.out.print("leaf: ");
-                        //System.out.println(subClass);
                         leafClasses.add(subClass);
-                    } else {
-                        //System.out.print("no leaf: ");
-                        //System.out.println(subClass);
                     }
                 }
 
                 listOfLeafClasses.add(leafClasses);
             }
         } catch (Exception e) {
-            System.out.println("ERRORRRR");
+            System.out.println("error in allLeafSubClasses");
             printClassAssertions();
             throw e;
         }
@@ -265,13 +232,20 @@ public abstract class Ontology {
      * Checks if a class is a leaf class. Leaf class as in it has no sub classes.
      *
      * Returns true iff the direct sub class of the class expression is only bottom/OWL:Nothing
-     * @param ce
-     * @return
+     * @param ce class expression to check
+     * @return true if leaf class, otherwise false
      */
     protected boolean isLeafClass(OWLClassExpression ce) {
         return reasoner.getSubClasses(ce, true).isBottomSingleton();
     }
 
+    /**
+     * Finds the greatest common class of a set of class expressions.
+     *
+     * @param commonClasses a list of class assertions for an individual
+     * @return the class which is at the top of the class hierarchy
+     * @throws Exception TODO
+     */
     protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses) throws Exception {
         OWLClassExpression thing = factory.getOWLThing();
         NodeSet<OWLClass> topClasses = reasoner.getSubClasses(thing, true);
@@ -280,12 +254,12 @@ public abstract class Ontology {
     }
 
     /**
-     * Finds the greatest common class of a set of class expressions.
+     * Recursive method for commonClasses.
      *
-     * @param commonClasses
-     * @param classes
+     * @param commonClasses a list of class assertions for an individual
+     * @param classes classes at the current level in the hierarchy
      * @return
-     * @throws Exception
+     * @throws Exception TODO
      */
     protected OWLClassExpression greatestCommonClass(Set<OWLClassExpression> commonClasses, NodeSet<OWLClass> classes) throws Exception {
         OWLClassExpression greatest = factory.getOWLThing();

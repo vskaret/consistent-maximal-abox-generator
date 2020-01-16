@@ -13,10 +13,10 @@ public final class Utils {
     /**
      * Takes a list of lists and creates all possible permutations
      *
-     * @param list a list of lists, i.e. [[a, b], [c, d], [f, g]]
+     * @param list a list of lists to be permuted, i.e. [[a, b], [c, d], [f, g]]
      * @return all permutations of the list given, i.e [[a, c, f], [a, c, g], ... , [b, d, g]]
      */
-    public static final <T> List<List<T>> permuteList(ArrayList<List<T>> list) {
+    public static <T> List<List<T>> permuteList(ArrayList<List<T>> list) {
         List<List<T>> permutations = new ArrayList<>();
         permuteList(list, permutations, new ArrayList<T>());
         return permutations;
@@ -25,19 +25,19 @@ public final class Utils {
     /**
      * Helper method for permuteList to create permutations. The permutations are stored in the permutations parameter.
      *
-     * @param list
-     * @param permutations
-     * @param permutation
+     * @param list rest of the list to be permuted
+     * @param permutations all the permutations
+     * @param permutation permutation of the current branch
      */
-    private static final <T> void permuteList(ArrayList<List<T>> list, List<List<T>> permutations, ArrayList<T> permutation) {
+    private static <T> void permuteList(ArrayList<List<T>> list, List<List<T>> permutations, ArrayList<T> permutation) {
         if (list.isEmpty()) {
-            permutations.add((List<T>) permutation.clone());
+            permutations.add(new ArrayList<T>(permutation));
             return;
         }
 
-        ArrayList<List<T>> l = (ArrayList<List<T>>) list.clone();
+        ArrayList<List<T>> l = new ArrayList<>(list);
         List<T> firstList = l.remove(0);
-        ArrayList<T> p = (ArrayList<T>) permutation.clone();
+        ArrayList<T> p = new ArrayList<>(permutation);
 
         for (T o : firstList) {
             p.add(o);
@@ -47,13 +47,19 @@ public final class Utils {
     }
 
     /**
-     * Used to get restOfPermutables.
-     * @param list
-     * @return
+     * (Used to get restOfPermutables)
+     *
+     * @param list list to copy
+     * @param <T> ??
+     * @return copy of list without list's first element
+     * @throws Exception TODO
      */
-    public static final <T> ArrayList<T> copyWithoutFirstElement(ArrayList<T> list) {
-        ArrayList<T> copy =
-                (ArrayList<T>) list.clone();
+    public static <T> ArrayList<T> copyWithoutFirstElement(ArrayList<T> list) throws Exception {
+        if (list.isEmpty()) {
+            throw new Exception("can't remove from empty list");
+        }
+        
+        ArrayList<T> copy = new ArrayList<>(list);
         copy.remove(0);
         return copy;
     }
