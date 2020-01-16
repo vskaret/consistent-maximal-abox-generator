@@ -61,7 +61,7 @@ public class Test extends OntologyPermuter {
     /**
      * Prints all leaf classes of the ontology.
      */
-    public void testAllLeafClasses() {
+    public void testAllLeafClasses() throws Exception {
         //ArrayList<OWLClassExpression> leafSubClasses = allLeafSubClasses(thing);
         System.out.println("All leaf classes of the ontology:");
         for (OWLClass c : ontology.getClassesInSignature()) {

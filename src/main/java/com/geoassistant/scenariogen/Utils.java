@@ -58,7 +58,7 @@ public final class Utils {
         if (list.isEmpty()) {
             throw new Exception("can't remove from empty list");
         }
-        
+
         ArrayList<T> copy = new ArrayList<>(list);
         copy.remove(0);
         return copy;
