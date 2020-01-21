@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scenario-gen.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latex/permutasjon_klasser.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/permutasjon_klasser.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="permutation-mess" />
+        <entry key="$PROJECT_DIR$" value="only-class-permutations" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +43,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -224,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579180500892</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="improved greatest common class method">
+      <created>1579200622990</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1579200622990</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -240,7 +252,8 @@
     <MESSAGE value="file did not save before last commit" />
     <MESSAGE value="seems to be working as intended" />
     <MESSAGE value="add project files" />
-    <option name="LAST_COMMIT_MESSAGE" value="add project files" />
+    <MESSAGE value="improved greatest common class method" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved greatest common class method" />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
@@ -255,62 +268,66 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="692" y="383" width="525" height="437" key="#com.intellij.ide.util.TreeClassChooserDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578647949869" />
+    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579618452866">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579618452866" />
     <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1578648285526">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
-    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2" timestamp="1579180500181">
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1579200620752">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="575" y="191" width="760" height="818" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579180500181" />
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579200620752" />
     <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl" timestamp="1579199228675">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
-    <state width="1872" height="190" key="GridCell.Tab.0.bottom" timestamp="1579192107242">
+    <state width="1872" height="193" key="GridCell.Tab.0.bottom" timestamp="1579638155517">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="190" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107242" />
-    <state width="1872" height="190" key="GridCell.Tab.0.center" timestamp="1579192107241">
+    <state width="1872" height="193" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579638155517" />
+    <state width="1872" height="193" key="GridCell.Tab.0.center" timestamp="1579638155509">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="190" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107241" />
-    <state width="1872" height="190" key="GridCell.Tab.0.left" timestamp="1579192107240">
+    <state width="1872" height="193" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579638155509" />
+    <state width="1872" height="193" key="GridCell.Tab.0.left" timestamp="1579638155508">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="190" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107240" />
-    <state width="1872" height="190" key="GridCell.Tab.0.right" timestamp="1579192107242">
+    <state width="1872" height="193" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579638155508" />
+    <state width="1872" height="193" key="GridCell.Tab.0.right" timestamp="1579638155509">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="190" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579192107242" />
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579184723435">
+    <state width="1872" height="193" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579638155509" />
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579200673146">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723435" />
-    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579184723434">
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579200673146" />
+    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579200673145">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723434" />
-    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579184723433">
+    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579200673145" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579200673145">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723433" />
-    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579184723434">
+    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579200673145" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579200673145">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579184723434" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579200673145" />
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579180505100">
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579200625496">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579180505100" />
-    <state x="746" y="235" width="417" height="737" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579184135247">
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579200625496" />
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579637457368">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="746" y="235" width="417" height="737" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579184135247" />
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579637457368" />
     <state x="612" y="171" width="696" height="852" key="find.popup" timestamp="1579020093259">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
@@ -323,9 +340,9 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="645" y="386" width="620" height="428" key="git4idea.merge.GitPullDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579107530331" />
-    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1579107427672">
+    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1579619385429">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579107427672" />
+    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579619385429" />
   </component>
 </project>

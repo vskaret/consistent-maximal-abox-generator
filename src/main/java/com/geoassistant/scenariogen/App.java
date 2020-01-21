@@ -16,7 +16,8 @@ public class App
 
         op.setDEBUG(debugging);
         op.setPrintInconsistent(printInconsistent);
-        op.loadOntology("geo-test.owl");
+        //op.loadOntology("geo-test.owl");
+        op.loadOntology("example.owl");
 
         op.permute();
     }

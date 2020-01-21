@@ -5,6 +5,7 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.owlapi.model.*;
 
 import java.lang.reflect.Array;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
@@ -29,18 +30,39 @@ public class Test extends OntologyPermuter {
         boolean debugging = false;
 
         Test t = new Test();
-        t.setDEBUG(debugging);
-        t.loadOntology("geo-test.owl");
-        t.setThing();
+        //t.setDEBUG(debugging);
+        //t.loadOntology("geo-test.owl");
+        //t.setThing();
 
         // tests
-        //t.testIsLeafClass();
+        /*
+        t.testIsLeafClass();
         System.out.println();
         t.testAllLeafClasses();
         System.out.println();
-        //t.testTopSuperClassOf();
-        System.out.println();
-        t.testUtilPermute();
+         */
+        //t.testUtilPermute();
+        //t.testNonEmptySubsetsOf();
+        t.testSubsetOf();
+    }
+
+    public void testSubsetOf() {
+        Set<String> set1 = new HashSet<>();
+        set1.add("a");
+        set1.add("b");
+        set1.add("c");
+
+        Set<Set<String>> setofsets = new HashSet<>();
+        setofsets.add(set1);
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("c");
+
+        Set<String> set3 = new HashSet<>();
+        set3.add("d");
+
+        System.out.println(Utils.subsetOf(set2, setofsets));
+        System.out.println(Utils.subsetOf(set3, setofsets));
     }
 
     /**
@@ -115,7 +137,8 @@ public class Test extends OntologyPermuter {
         listOfLists.add(a2);
         listOfLists.add(a3);
 
-        System.out.println(Utils.permuteList(listOfLists));
+        System.out.println(Utils.permuteList(a2));
+        System.out.println(Utils.permuteLists(listOfLists));
 
         ArrayList<Integer> b1 = new ArrayList<>();
         ArrayList<Integer> b2 = new ArrayList<>();
@@ -137,7 +160,19 @@ public class Test extends OntologyPermuter {
         l.add(b2);
         l.add(b3);
 
-        System.out.println(Utils.permuteList(l));
+        System.out.println(Utils.permuteLists(l));
+    }
+
+    public void testNonEmptySubsetsOf() {
+        Set<String> test = new HashSet<>();
+        test.add("A");
+        test.add("B");
+        test.add("C");
+        test.add("D");
+        //test.add("E");
+
+        System.out.println(Utils.nonEmptySubsetsOf(test));
+        System.out.println(Utils.nonEmptySubsetsOf(test).size());
     }
 }
 

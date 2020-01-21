@@ -1,9 +1,11 @@
 package com.geoassistant.scenariogen;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class OntologyPermuter extends Ontology {
@@ -15,6 +17,12 @@ public class OntologyPermuter extends Ontology {
     private List<OWLClassExpression> currentSubClasses;
     private Set<OWLClassExpression> domains;
     private Set<OWLClassExpression> ranges;
+
+    private Set<OWLClass> discovered = new HashSet<>();  // hashset has O(1) complexity for .contains()
+    private Set<Set<OWLClass>> combinations = new HashSet<>();
+    private Set<OWLClass> combination = new HashSet<>();
+    private Queue<OWLClass> queue = new LinkedList<>();
+    private OWLIndividual unknown;
 
     public OntologyPermuter() {
     }
@@ -40,10 +48,105 @@ public class OntologyPermuter extends Ontology {
         OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
         ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
 
-        System.out.print("permutables: ");
-        System.out.println(permutables);
+        ArrayList<List<String>> a = new ArrayList<>();
+        Utils.permuteList(a);
 
-        permute(permutables);
+        ArrayList<ArrayList<OWLClassAssertionAxiom>> permutablesPermutations = Utils.permuteList(permutables);
+        OWLClass thing = factory.getOWLThing();
+
+        // permute each permutation of the individual ordering
+        for (ArrayList<OWLClassAssertionAxiom> permutablePermutation : permutablesPermutations) {
+            permute(permutablePermutation, thing);
+        }
+    }
+
+    /**
+     * Intermediary permuting call. Not really necessary?
+     *
+     * @param permutables
+     * @throws Exception
+     */
+    public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
+        Queue<OWLClass> queue = new LinkedList<>();
+        Set<OWLClass> combination = new HashSet<>();
+        discovered.add(root);
+        queue.add(root);
+
+        OWLClassAssertionAxiom unknownCAA = permutables.get(0);
+        unknown = unknownCAA.getIndividual();
+        //ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
+
+        // the unknown class assertion axiom no longer needed
+        manager.removeAxiom(ontology, unknownCAA);
+
+        bfs(permutables, queue);
+
+        return false;
+    }
+
+    private void bfs(ArrayList<OWLClassAssertionAxiom> permutables, Queue<OWLClass> queue) throws Exception {
+        if (queue.isEmpty()) {
+            return;
+        }
+
+        // pop front node from queue and print it
+        OWLClass currentClass = queue.poll();
+        //System.out.println(v + " ");
+
+        Queue<OWLClass> queueCopy = new LinkedList<>(queue);
+
+
+
+        // do something with current node
+        // want to do it first with the current node so that the added combinations are maximal
+        OWLAxiom ax = factory.getOWLClassAssertionAxiom(currentClass, unknown);
+        boolean consistent = false;
+
+        if (!ontology.containsAxiom(ax) && !currentClass.isOWLNothing() && !currentClass.isOWLThing()) {
+            manager.addAxiom(ontology, ax);
+            reasoner.flush();
+
+            if (!reasoner.isConsistent()) {
+                // remove added axiom when inconsistent
+                manager.removeAxiom(ontology, ax);
+                reasoner.flush();
+            } else {
+                consistent = true;
+                combination.add(currentClass);
+            }
+
+        }
+
+        if (queue.isEmpty()) {
+            // end of one combination when there are more nodes in the queue
+            if (!Utils.subsetOf(combination, combinations)) {
+                System.out.print("end of one combination");
+                System.out.println(combination);
+                Set<OWLClass> result = new HashSet<>(combination);
+                combinations.add(result);
+            }
+        }
+
+        if (consistent) {
+            // do for every edge (v -> u) with current node
+            for (OWLClass u : reasoner.getSubClasses(currentClass, true).getFlattened()) {
+                queue.add(u);
+            }
+
+            bfs(permutables, queue);
+
+            combination.remove(currentClass);
+            manager.removeAxiom(ontology, ax);
+            reasoner.flush();
+        }
+
+        // do for every edge (v -> u) without current node
+        for (OWLClass u : reasoner.getSubClasses(currentClass, true).getFlattened()) {
+            queueCopy.add(u);
+        }
+
+        bfs(permutables, queueCopy);
+
     }
 
     /**
@@ -68,55 +171,9 @@ public class OntologyPermuter extends Ontology {
      * @throws Exception
      */
 
-    public void permute(ArrayList<OWLClassAssertionAxiom> permutables) throws Exception {
-        // update reasoner
-        reasoner.flush();
+    //public void permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass currentClass, Stack<OWLClass> treeStack) throws Exception {
+    public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLIndividual unknown, OWLClassExpression currentClass, Stack<OWLClassExpression> treeStack) throws Exception {
 
-        // stop when inconsistent
-        if (!reasoner.isConsistent()) {
-            if (printInconsistent) {
-                System.out.println("inconsistent ontology");
-                printClassAssertions();
-            }
-            return;
-        }
-
-        // no more unknown assertion axioms, consistent ontology generated!
-        if (permutables.size() == 0) {
-            System.out.println("consistent ontology generated");
-            printClassAssertions();
-            return;
-        }
-
-        OWLClassAssertionAxiom currentUnknownClassAxiom = permutables.get(0);
-        ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
-        OWLIndividual unknown = currentUnknownClassAxiom.getIndividual();
-
-        // the unknown class assertion axiom no longer needed
-        manager.removeAxiom(ontology, currentUnknownClassAxiom);
-
-        // all class assertions for the individual unknown
-        Set<OWLClassAssertionAxiom> unknownClassAssertions = ontology.getClassAssertionAxioms(unknown);
-        OWLClassExpression gcc = greatestCommonClass(classAssertionsToClassExpressions(unknownClassAssertions));
-        System.out.print("gcc is ");
-        System.out.println(gcc);
-
-        ArrayList<List<OWLAxiom>> axiomLists = new ArrayList<>();
-        List<ArrayList<OWLClassExpression>> listOfListOfLeaves = allLeafSubClasses(gcc);
-
-        for (List<OWLClassExpression> listOfLeaves : listOfListOfLeaves) {
-            axiomLists.add(generateClassAssertionAxioms(listOfLeaves, unknown));
-        }
-
-        //System.out.println(axiomLists);
-        List<List<OWLAxiom>> axiomPermutations = Utils.permuteList(axiomLists);
-
-        // permute with the current permutation of class expressions asserted to the individual
-        for (List<OWLAxiom> permutation : axiomPermutations) {
-            Set<OWLAxiom> newAxioms = removeAxiomsAlreadyInTheOntology(permutation);
-            manager.addAxioms(ontology, newAxioms);
-            permute(restOfPermutables);
-            manager.removeAxioms(ontology, newAxioms);
-        }
+        return false;
     }
 }

@@ -21,72 +21,107 @@
 
 
 \begin{algorithm}
-\caption{OWL API Object Class Permuter}
-\begin{algorithmic}[0]
-%\State This algorithm permutes with properties where the given individual can be in the domain. Permutation for properties where the individual can be in the domain works similarly.
-%\State
+  \caption{OWL API Object Class Permuter}
+  \begin{algorithmic}[0]
+    % \State This algorithm permutes with properties where the given individual can be in the domain. Permutation for properties where the individual can be in the domain works similarly.
+    % \State
 
-%\State There is implicit access to an ontology object $ont$ where all classes, properties, individuals, etc. can be found.
-\State The ontology object $ontology$ has access to all classes, properties, individuals, etc. in the ontology.
-\State The list $unknowns$ is a list of individuals to be permuted.
-\State
-%\State Assumptions:
-%\State 1. An individual which is set to unknown is of a class type where each of the sub-classes can only have one value in the ABox.
-%\State 2. All information about an individual in class-form are classes that are sub-classes of a main class.
-%\State 3. Need some kind of assumption that makes it possible to do this: $superClass \leftarrow$ The super-class of u on the depth below owl:Thing/Top
-%\State Gir disse antagelsene i det hele tatt mening?
-%\State
-%\State Reasoner $r$ can check consistency of the ontology $ont$
+    % \State There is implicit access to an ontology object $ont$ where all classes, properties, individuals, etc. can be found.
+    \State The ontology object $ontology$ has access to all classes, properties, individuals, etc. in the ontology.
+    \State The list $unknowns$ is a list of individuals to be permuted.
+    \State $currentClass$ is the class at the current level in the class hierarchy (in the first call it will be root)
+    \State $treeStack$ is a stack with reference to other parts of the class hierarchy (empty at first call)
+    \State
+    % \State Assumptions:
+    % \State 1. An individual which is set to unknown is of a class type where each of the sub-classes can only have one value in the ABox.
+    % \State 2. All information about an individual in class-form are classes that are sub-classes of a main class.
+    % \State 3. Need some kind of assumption that makes it possible to do this: $superClass \leftarrow$ The super-class of u on the depth below owl:Thing/Top
+    % \State Gir disse antagelsene i det hele tatt mening?
+    % \State
+    % \State Reasoner $r$ can check consistency of the ontology $ont$
+    
+    \Procedure {permute}{$Ontology:ontology, List:permutables, Class:currentClass, Stack:treeStack$}
+    %	\State flush reasoner
+    $treeClass \leftarrow currentClass$
 
-\Procedure {permute}{$Ontology:ontology, List:permutables$}
-%	\State flush reasoner
+    \If {$currentClass$ is a leaf class}
+    \State $treeClass \leftarrow$ pop $treeStack$
+    \State return
+    \State
+    \EndIf
 
-	\If {$ontology$ is inconsistent}
-		\State return
-		\State
-	\EndIf	
-
-	
-	\If {$permutables$ is empty}
+    
+    \If {$permutables$ is empty}
 		\State write (consistent) $ontology$ to file
 		\State return
 		\State
 	\EndIf
 
 	\State $Individual:u \leftarrow$ first element of $permutables$
-	\State $List:restOfPermutables \leftarrow$ copy of $permutables$ without the first element
-	\State
-	%\State $superClass \leftarrow$ the super class of u on the depth below owl:Thing/Top
-	\State $List:classAssertions \leftarrow$ all class assertion axioms involving $u$ in the $ontology$
-	\State $Class:superClass \leftarrow$ the lowest common super class in the hierarchy of the classes in $classAssertions$
-	\State $List:directSubclasses \leftarrow$ all direct sub classes of $superClass$
-	\State $List:axiomLists \leftarrow$ new list (of lists)
-	\State
-	
-	\ForAll {$c_s \in directSubclasses$}
-		\State $List:leafSubclasses \leftarrow$ all sub classes of $c_s$ without sub classes
-		\State $List:axioms \leftarrow$ new list
-		\State
-		\ForAll {$c_l \in leafSubclasses$}
-			\State $a \leftarrow$ assert $u$ is of class $c_l$
-			\State add $a$ to $axioms$
-		\EndFor
-		\State
-		\State add $axioms$ to $axiomLists$
-		%\State add a list of 
-	\EndFor
+    \State $Axiom:a \leftarrow$ assert $u$ is of $currentClass$
 
-	\State
-	\State $List:axiomPermutations \leftarrow$ all permutations of the lists in $axiomLists$
-	\State
-	\ForAll {$permutation \in axiomPermutations$}
-		\State $Set:newAxioms \leftarrow$ all axioms in $permutation$ not already in the ontology
-		\State add $newAxioms$ to the $ontology$
-		\State permute($ontology, restOfPermutables$)
-		\State remove $newAxioms$ from the $ontology$
-	\EndFor
+    \If {$ontology is inconsistent$}
+    \State return
+    \State
+    \EndIf
+
+
+
+    \State $List:restOfPermutables \leftarrow$ copy of $permutables$ without the first element
+    %\State $superClass \leftarrow$ the super class of u on the depth below owl:Thing/Top
+	%\State $List:classAssertions \leftarrow$ all class assertion axioms involving $u$ in the $ontology$
+
+    %\State $Class:superClass \leftarrow$ root class in the ontology
+	%\State $Class:superClass \leftarrow$ the lowest common super class in the hierarchy of the classes in $classAssertions$
+	\State $List:directSubclasses \leftarrow$ all direct sub classes of $superClass$
+	%\State $List:axiomLists \leftarrow$ new list (of lists)
+	\State $Set:axiomSets \leftarrow$ all possible combinations of asserting $u$ is of class $c_d$, where $c_d \in directSubclasses$
+    \State
+
+    \ForAll {$axiomSet \in axiomSets$}
+        \State $Set:newAxioms$
+        \State
+        \ForAll {$a \in axiomSet$}
+            \If {$a \notin ontology$}
+                \State add $a$ to $newAxioms$
+            \EndIf
+        \EndFor
+        \State
+
+        \ForAll {$c_d \in directSubclasses$}
+            \State add all axioms in $newAxioms$ to $ontology$
+            \State permute($ontology, restOfPermutables, c_d$)
+            \State remove all axioms in $newAxioms$ from $ontology$
+        \EndFor
+    \EndFor
+
+
+
+
+	%\ForAll {$c_s \in directSubclasses$}
+  % \State $List:leafSubclasses \leftarrow$ all sub classes of $c_s$ without sub classes
+
+		%\State
+		%\ForAll {$c_l \in leafSubclasses$}
+			%\State $a \leftarrow$ assert $u$ is of class $c_l$
+			%\State add $a$ to $axioms$
+		%\EndFor
+		%\State
+		%\State add $axioms$ to $axiomLists$
+		%\State add a list of 
+	%\EndFor
+
+	%\State
+	%\State $List:axiomPermutations \leftarrow$ all permutations of the lists in $axiomLists$
+	%\State
+	%\ForAll {$permutation \in axiomPermutations$}
+		%\State $Set:newAxioms \leftarrow$ all axioms in $permutation$ not already in the ontology
+		%\State add $newAxioms$ to the $ontology$
+		%\State permute($ontology, restOfPermutables$)
+		%\State remove $newAxioms$ from the $ontology$
+	%\EndFor
 	
-%\EndProcedure
+\EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
