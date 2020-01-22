@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[]{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\begin{document}
+
+  \begin{algorithm}
+\caption{OWL Ontology Class Permuter}
+\begin{algorithmic}[0]
+\State The \emph{ontology} object ontology has access to all classes, properties, individuals, etc.
+in the ontology. The list \epmh{permutables} is a list of individuals to be permuted.
+The queue \emph{queue }is a queue keeping track of what the next node in the
+breadth-first traversal is. The set \emph{combinations} is a set of class assertions
+used in the current permutation. The set \emph{combinations} is a set of sets of class
+assertions used in  previous legal and complete permutations. \emph{Unknown} is an
+OWLIndividual to be permuted.
+\State
+%\Procedure {permute}{Ontology:ontology, List:permutables, Queue:queue,
+%  Set:combination, Set:combinations, OWLIndividual unknown}
+\Procedure {permute}{Queue:queue}
+\State
+  \If {queue is empty}
+    \If {combination is not a subset of any of the sets in combinations}
+      \State Add combination to combinations
+    \EndIf
+    \State return
+  \EndIf
+  \State
+  \State currentClass = head of queue
+  \State remove the head of the queue
+  \State queueCopy = copy of queue
+  \State axiom = assert unknown is of class currentClass
+  \State
+  \If {ontology does not contain axiom}
+    \State add axiom to the ontology
+    \State synchronize reasoner
+    \State
+    \If {ontology is consistent}
+      \State add axiom to combination
+      \State
+      \ForAll {subclass of currentClass}
+        \If {subclass is not owl:Nothing}
+          \State add subclass to queue
+        \EndIf
+      \EndFor
+      \State
+      \State permute(queue)
+      \State remove axiom from combinations
+    \EndIf
+  \State remove axiom from ontology
+  \State synchronize reasoner
+  \EndIf
+
+  \State permute(queueCopy)
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}

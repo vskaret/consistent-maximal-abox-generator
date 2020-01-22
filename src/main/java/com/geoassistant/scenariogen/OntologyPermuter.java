@@ -19,8 +19,10 @@ public class OntologyPermuter extends Ontology {
     private Set<OWLClassExpression> ranges;
 
     private Set<OWLClass> discovered = new HashSet<>();  // hashset has O(1) complexity for .contains()
-    private Set<Set<OWLClass>> combinations = new HashSet<>();
-    private Set<OWLClass> combination = new HashSet<>();
+    private Set<Set<OWLClassAssertionAxiom>> combinations = new HashSet<>();
+    private Set<Set<OWLClass>> classCombinations = new HashSet<>();
+    private Set<OWLClassAssertionAxiom> combination = new HashSet<>();
+    private Set<OWLClass> classCombination = new HashSet<>();
     private Queue<OWLClass> queue = new LinkedList<>();
     private OWLIndividual unknown;
 
@@ -62,6 +64,8 @@ public class OntologyPermuter extends Ontology {
 
     /**
      * Intermediary permuting call. Not really necessary?
+     * Needed to add children of owl:Thing! Otherwise must check for owl:Thing in recursive call (not allowed to
+     * add class assertion axiom with owl:Thing to ontology during run).
      *
      * @param permutables
      * @throws Exception
@@ -70,7 +74,7 @@ public class OntologyPermuter extends Ontology {
         Queue<OWLClass> queue = new LinkedList<>();
         Set<OWLClass> combination = new HashSet<>();
         discovered.add(root);
-        queue.add(root);
+        //queue.add(root);
 
         OWLClassAssertionAxiom unknownCAA = permutables.get(0);
         unknown = unknownCAA.getIndividual();
@@ -79,19 +83,41 @@ public class OntologyPermuter extends Ontology {
         // the unknown class assertion axiom no longer needed
         manager.removeAxiom(ontology, unknownCAA);
 
-        bfs(permutables, queue);
+        // need to handle owl:Thing (root) here, because it cannot be added to the ontology without getitng an
+        // exceptoin. the alternative is to check in every recursive call below if the node is owl:Thing
+
+        for (OWLClass c : reasoner.getSubClasses(root, true).getFlattened()) {
+            queue.add(c);
+        }
+
+        bfs(queue);
 
         return false;
     }
 
-    private void bfs(ArrayList<OWLClassAssertionAxiom> permutables, Queue<OWLClass> queue) throws Exception {
+    /**
+     *
+     *
+     * The traversal code is inspired by https://www.techiedelight.com/breadth-first-search/
+     * @param queue
+     * @throws Exception
+     */
+    private void bfs(Queue<OWLClass> queue) throws Exception {
+        // when the breadth-first traversal is finished - also checked for consistency
         if (queue.isEmpty()) {
+            // end of one combination when there are more nodes in the queue
+            if (!Utils.subsetOf(combination, combinations)) {
+                System.out.print("end of one combination");
+                System.out.println(classCombination);
+                Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
+                combinations.add(result);
+            }
             return;
         }
 
         // pop front node from queue and print it
         OWLClass currentClass = queue.poll();
-        //System.out.println(v + " ");
+        //System.out.println(currentClass + " ");
 
         Queue<OWLClass> queueCopy = new LinkedList<>(queue);
 
@@ -99,53 +125,43 @@ public class OntologyPermuter extends Ontology {
 
         // do something with current node
         // want to do it first with the current node so that the added combinations are maximal
-        OWLAxiom ax = factory.getOWLClassAssertionAxiom(currentClass, unknown);
-        boolean consistent = false;
+        OWLClassAssertionAxiom ax = factory.getOWLClassAssertionAxiom(currentClass, unknown);
 
-        if (!ontology.containsAxiom(ax) && !currentClass.isOWLNothing() && !currentClass.isOWLThing()) {
+        //if (!ontology.containsAxiom(ax) && !currentClass.isOWLThing()) {
+        if (!ontology.containsAxiom(ax)) {
             manager.addAxiom(ontology, ax);
             reasoner.flush();
 
-            if (!reasoner.isConsistent()) {
-                // remove added axiom when inconsistent
-                manager.removeAxiom(ontology, ax);
-                reasoner.flush();
-            } else {
-                consistent = true;
-                combination.add(currentClass);
+            if (reasoner.isConsistent()) {
+                // add current node to current combination
+                combination.add(ax);
+                classCombination.add(ax.getClassExpression().asOWLClass());
+
+                // add children of current node
+                for (OWLClass c : reasoner.getSubClasses(currentClass, true).getFlattened()) {
+                    // skip adding owl:Nothing - don't care about leaf nodes
+                    if (!c.isOWLNothing()) {
+                        queue.add(c);
+                    }
+                }
+
+                // continue traversal WITH the current node in the combination
+                bfs(queue);
+
+                // remove the current node from the current combination (for traversal without the node)
+                combination.remove(ax);
+                classCombination.remove(ax.getClassExpression().asOWLClass());
             }
 
-        }
-
-        if (queue.isEmpty()) {
-            // end of one combination when there are more nodes in the queue
-            if (!Utils.subsetOf(combination, combinations)) {
-                System.out.print("end of one combination");
-                System.out.println(combination);
-                Set<OWLClass> result = new HashSet<>(combination);
-                combinations.add(result);
-            }
-        }
-
-        if (consistent) {
-            // do for every edge (v -> u) with current node
-            for (OWLClass u : reasoner.getSubClasses(currentClass, true).getFlattened()) {
-                queue.add(u);
-            }
-
-            bfs(permutables, queue);
-
-            combination.remove(currentClass);
+            // also remove the current node/axiom from the ontology - this is done both if the ontology is
+            // consistent with the current node and if not, because the traversal with the current node
+            // is done inside of the if above
             manager.removeAxiom(ontology, ax);
             reasoner.flush();
         }
 
-        // do for every edge (v -> u) without current node
-        for (OWLClass u : reasoner.getSubClasses(currentClass, true).getFlattened()) {
-            queueCopy.add(u);
-        }
-
-        bfs(permutables, queueCopy);
+        // continue traversal WITHOUT the current node in the combination
+        bfs(queueCopy);
 
     }
 

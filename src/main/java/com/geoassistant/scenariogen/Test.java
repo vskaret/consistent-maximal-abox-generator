@@ -46,6 +46,9 @@ public class Test extends OntologyPermuter {
         t.testSubsetOf();
     }
 
+    /**
+     * Tests Util.subSetOf()
+     */
     public void testSubsetOf() {
         Set<String> set1 = new HashSet<>();
         set1.add("a");

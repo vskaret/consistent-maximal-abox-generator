@@ -27,6 +27,7 @@
         <owl:disjointWith rdf:resource="http://m.o#D"/>
         <owl:disjointWith rdf:resource="http://m.o#J"/>
         <owl:disjointWith rdf:resource="http://m.o#K"/>
+        <owl:disjointWith rdf:resource="http://m.o#Permutable"/>
     </owl:Class>
     
 
@@ -50,7 +51,9 @@
 
     <!-- http://m.o#D -->
 
-    <owl:Class rdf:about="http://m.o#D"/>
+    <owl:Class rdf:about="http://m.o#D">
+        <owl:disjointWith rdf:resource="http://m.o#Permutable"/>
+    </owl:Class>
     
 
 
@@ -72,7 +75,9 @@
 
     <!-- http://m.o#G -->
 
-    <owl:Class rdf:about="http://m.o#G"/>
+    <owl:Class rdf:about="http://m.o#G">
+        <owl:disjointWith rdf:resource="http://m.o#Permutable"/>
+    </owl:Class>
     
 
 
@@ -133,15 +138,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://m.o#A"/>
-            <rdf:Description rdf:about="http://m.o#D"/>
-            <rdf:Description rdf:about="http://m.o#G"/>
-            <rdf:Description rdf:about="http://m.o#Permutable"/>
-        </owl:members>
-    </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">

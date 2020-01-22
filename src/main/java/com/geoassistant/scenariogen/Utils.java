@@ -12,6 +12,17 @@ public final class Utils {
     private Utils() {
     }
 
+    /**
+     * Checks if a set is a sub of a set of sets.
+     *
+     * Any better way of doing this? mainSet.contains(s) will not work because it will check if it
+     * contains the whole specific set. Not if the set is a subset of any of the sets in mainSet.
+     *
+     * @param set
+     * @param mainSet
+     * @param <T>
+     * @return
+     */
     public static <T> boolean subsetOf(Set<T> set, Set<Set<T>> mainSet) {
         if (mainSet.isEmpty()) {
             return false;
