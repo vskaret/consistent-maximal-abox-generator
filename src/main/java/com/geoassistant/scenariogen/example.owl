@@ -122,9 +122,9 @@
     
 
 
-    <!-- http://m.o#i -->
+    <!-- http://m.o#i1 -->
 
-    <owl:NamedIndividual rdf:about="http://m.o#i">
+    <owl:NamedIndividual rdf:about="http://m.o#i1">
         <rdf:type rdf:resource="http://m.o#Permutable"/>
     </owl:NamedIndividual>
     

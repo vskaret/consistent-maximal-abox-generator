@@ -25,6 +25,8 @@ public class OntologyPermuter extends Ontology {
     private Set<OWLClass> classCombination = new HashSet<>();
     private Queue<OWLClass> queue = new LinkedList<>();
     private OWLIndividual unknown;
+    private Set<Set<String>> stringCombinations = new HashSet<>();
+    private Set<String> stringCombination = new HashSet<>();
 
     public OntologyPermuter() {
     }
@@ -56,6 +58,8 @@ public class OntologyPermuter extends Ontology {
         ArrayList<ArrayList<OWLClassAssertionAxiom>> permutablesPermutations = Utils.permuteList(permutables);
         OWLClass thing = factory.getOWLThing();
 
+        System.out.println(permutablesPermutations);
+        System.out.println();
         // permute each permutation of the individual ordering
         for (ArrayList<OWLClassAssertionAxiom> permutablePermutation : permutablesPermutations) {
             permute(permutablePermutation, thing);
@@ -73,10 +77,11 @@ public class OntologyPermuter extends Ontology {
     public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
         Queue<OWLClass> queue = new LinkedList<>();
         Set<OWLClass> combination = new HashSet<>();
-        discovered.add(root);
+        //discovered.add(root);
         //queue.add(root);
 
         OWLClassAssertionAxiom unknownCAA = permutables.get(0);
+        permutables = Utils.copyWithoutFirstElement(permutables);
         unknown = unknownCAA.getIndividual();
         //ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
 
@@ -90,7 +95,7 @@ public class OntologyPermuter extends Ontology {
             queue.add(c);
         }
 
-        bfs(queue);
+        bfs(permutables, queue);
 
         return false;
     }
@@ -102,16 +107,19 @@ public class OntologyPermuter extends Ontology {
      * @param queue
      * @throws Exception
      */
-    private void bfs(Queue<OWLClass> queue) throws Exception {
+    private void bfs(ArrayList<OWLClassAssertionAxiom> permutables, Queue<OWLClass> queue) throws Exception {
         // when the breadth-first traversal is finished - also checked for consistency
-        if (queue.isEmpty()) {
+        if (queue.isEmpty() && permutables.isEmpty()) {
             // end of one combination when there are more nodes in the queue
             if (!Utils.subsetOf(combination, combinations)) {
                 System.out.print("end of one combination");
-                System.out.println(classCombination);
+                System.out.println(combination);
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
             }
+            return;
+        } else if (queue.isEmpty() && !permutables.isEmpty()) {
+            permute(permutables, factory.getOWLThing());
             return;
         }
 
@@ -126,42 +134,48 @@ public class OntologyPermuter extends Ontology {
         // do something with current node
         // want to do it first with the current node so that the added combinations are maximal
         OWLClassAssertionAxiom ax = factory.getOWLClassAssertionAxiom(currentClass, unknown);
+        boolean containedAxiom = true;
+
 
         //if (!ontology.containsAxiom(ax) && !currentClass.isOWLThing()) {
         if (!ontology.containsAxiom(ax)) {
             manager.addAxiom(ontology, ax);
             reasoner.flush();
+            containedAxiom = false;
+        }
 
-            if (reasoner.isConsistent()) {
-                // add current node to current combination
-                combination.add(ax);
-                classCombination.add(ax.getClassExpression().asOWLClass());
+        if (reasoner.isConsistent()) {
+            // add current node to current combination
+            combination.add(ax);
+            classCombination.add(ax.getClassExpression().asOWLClass());
 
-                // add children of current node
-                for (OWLClass c : reasoner.getSubClasses(currentClass, true).getFlattened()) {
-                    // skip adding owl:Nothing - don't care about leaf nodes
-                    if (!c.isOWLNothing()) {
-                        queue.add(c);
-                    }
+            // add children of current node
+            for (OWLClass c : reasoner.getSubClasses(currentClass, true).getFlattened()) {
+                // skip adding owl:Nothing - don't care about leaf nodes
+                if (!c.isOWLNothing()) {
+                    queue.add(c);
                 }
-
-                // continue traversal WITH the current node in the combination
-                bfs(queue);
-
-                // remove the current node from the current combination (for traversal without the node)
-                combination.remove(ax);
-                classCombination.remove(ax.getClassExpression().asOWLClass());
             }
+
+            // continue traversal WITH the current node in the combination
+            bfs(permutables, queue);
+
+            // remove the current node from the current combination (for traversal without the node)
+            combination.remove(ax);
+            classCombination.remove(ax.getClassExpression().asOWLClass());
 
             // also remove the current node/axiom from the ontology - this is done both if the ontology is
             // consistent with the current node and if not, because the traversal with the current node
             // is done inside of the if above
+        }
+
+        if (!containedAxiom) {
             manager.removeAxiom(ontology, ax);
             reasoner.flush();
         }
 
         // continue traversal WITHOUT the current node in the combination
-        bfs(queueCopy);
+        bfs(permutables, queueCopy);
 
     }
 

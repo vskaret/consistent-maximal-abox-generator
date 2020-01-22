@@ -4,25 +4,47 @@
 
 \begin{document}
 
-  \begin{algorithm}
+\begin{algorithm}
 \caption{OWL Ontology Class Permuter}
+\State The inputs/global objects for the pseudocode are the following:
+\emph{ontology} object which has access to everything
+in the OWL ontology, \epmh{permutables} contains the unknown individuals to be permuted,
+\emph{queue} keeps track of the traversal ordering,
+\emph{combination} contains all the class assertions
+used in the current permutation, \emph{combinations} is a set of sets of
+combinations, and finally \emph{owl:Thing} is the root of any OWL class hierarchy.
 \begin{algorithmic}[0]
-\State The \emph{ontology} object ontology has access to all classes, properties, individuals, etc.
-in the ontology. The list \epmh{permutables} is a list of individuals to be permuted.
-The queue \emph{queue }is a queue keeping track of what the next node in the
-breadth-first traversal is. The set \emph{combinations} is a set of class assertions
-used in the current permutation. The set \emph{combinations} is a set of sets of class
-assertions used in  previous legal and complete permutations. \emph{Unknown} is an
-OWLIndividual to be permuted.
-\State
-%\Procedure {permute}{Ontology:ontology, List:permutables, Queue:queue,
-%  Set:combination, Set:combinations, OWLIndividual unknown}
-\Procedure {permute}{Queue:queue}
-\State
-  \If {queue is empty}
+  \State
+  \Procedure{init}{List:permutables}
+  \State permutationsOfPermutables = all permutations of permutables
+  \ForAll {listOfPermutables in permutationsOfPermutables}
+    \State permute(listOfPermutables, owl:Thing)
+  \EndFor
+  \State
+\EndProcedure
+
+\Procedure {permute}{List:permutables, Node:root}
+  \State queue = initialize a queue
+  \State unknown = first element of permutables
+  \State remove the first element of permutables
+  \ForAll {child in root's children}
+    \State add child to queue
+  \EndFor
+  \State breadth-first(permutables, queue)
+  \State
+\EndProcedure
+
+  %\Procedure {permute}{Ontology:ontology, List:permutables, Queue:queue,
+  %  Set:combination, Set:combinations, OWLIndividual unknown}
+\Procedure {breadth-first}{List:permutables, Queue:queue}
+  \If {queue is empty and permutables is empty}
     \If {combination is not a subset of any of the sets in combinations}
       \State Add combination to combinations
+      \Comment{found a permutation}
     \EndIf
+    \State return
+  \ElsIf {queue is empty and permutables is not empty}
+    \State permute(permutables, owl:Thing)
     \State return
   \EndIf
   \State
@@ -30,28 +52,33 @@ OWLIndividual to be permuted.
   \State remove the head of the queue
   \State queueCopy = copy of queue
   \State axiom = assert unknown is of class currentClass
+  \State ontologyContainedAxiom = true
   \State
   \If {ontology does not contain axiom}
     \State add axiom to the ontology
     \State synchronize reasoner
+    \State ontologyContainedAxiom = false
     \State
     \If {ontology is consistent}
       \State add axiom to combination
       \State
-      \ForAll {subclass of currentClass}
+      \ForAll {subclass in currentClass' subclasses}
         \If {subclass is not owl:Nothing}
           \State add subclass to queue
         \EndIf
       \EndFor
       \State
-      \State permute(queue)
+      \State breadth-first(permutables, queue)
       \State remove axiom from combinations
     \EndIf
-  \State remove axiom from ontology
-  \State synchronize reasoner
+  \State
+  \If {ontologyContainedAxiom is false}
+    \State remove axiom from ontology
+    \State synchronize reasoner
   \EndIf
+  %\EndIf
 
-  \State permute(queueCopy)
+  \State breadth-first(permutables, queueCopy)
 
 \EndProcedure
 \end{algorithmic}

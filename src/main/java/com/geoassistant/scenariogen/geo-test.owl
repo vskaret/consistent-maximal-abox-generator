@@ -106,10 +106,10 @@
         <ObjectProperty IRI="#isDirectlyBefore"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="Fault"/>
+        <NamedIndividual IRI="fault1"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="GU1"/>
+        <NamedIndividual IRI="fault2"/>
     </Declaration>
     <SubClassOf>
         <Class IRI="AfterArea"/>
@@ -291,23 +291,19 @@
     </DisjointClasses>
     <ClassAssertion>
         <Class IRI="Fault"/>
-        <NamedIndividual IRI="Fault"/>
+        <NamedIndividual IRI="fault1"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="Permutable"/>
-        <NamedIndividual IRI="Fault"/>
+        <NamedIndividual IRI="fault1"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="ModeratelyGoodReservoir"/>
-        <NamedIndividual IRI="GU1"/>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="fault2"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="Permutable"/>
-        <NamedIndividual IRI="GU1"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Rock"/>
-        <NamedIndividual IRI="GU1"/>
+        <NamedIndividual IRI="fault2"/>
     </ClassAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="isAbove"/>
