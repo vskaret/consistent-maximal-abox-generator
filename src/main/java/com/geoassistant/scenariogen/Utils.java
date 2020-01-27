@@ -12,6 +12,19 @@ public final class Utils {
     private Utils() {
     }
 
+    public static void prettyprint(Set<OWLClassAssertionAxiom> set) {
+        for (OWLClassAssertionAxiom ax : set) {
+            String className = ax.getClassExpression().asOWLClass().getIRI().getShortForm();
+            String individual = ax.getIndividual().asOWLNamedIndividual().getIRI().getShortForm();
+
+            //if (!className.equals("Permutable") && individual.equals("b")) {
+            if (!className.equals("Permutable")) {
+                System.out.print(className + "(" + individual + "), ");
+            }
+        }
+        System.out.println();
+    }
+
     /**
      * Checks if a set is a sub of a set of sets.
      *

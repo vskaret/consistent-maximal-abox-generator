@@ -24,7 +24,7 @@ public class OntologyPermuter extends Ontology {
     private Set<OWLClassAssertionAxiom> combination = new HashSet<>();
     private Set<OWLClass> classCombination = new HashSet<>();
     private Queue<OWLClass> queue = new LinkedList<>();
-    private OWLIndividual unknown;
+    //private OWLIndividual unknown;
     private Set<Set<String>> stringCombinations = new HashSet<>();
     private Set<String> stringCombination = new HashSet<>();
 
@@ -53,16 +53,11 @@ public class OntologyPermuter extends Ontology {
         ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
 
         ArrayList<List<String>> a = new ArrayList<>();
-        Utils.permuteList(a);
 
-        ArrayList<ArrayList<OWLClassAssertionAxiom>> permutablesPermutations = Utils.permuteList(permutables);
         OWLClass thing = factory.getOWLThing();
 
-        System.out.println(permutablesPermutations);
-        System.out.println();
-        // permute each permutation of the individual ordering
-        for (ArrayList<OWLClassAssertionAxiom> permutablePermutation : permutablesPermutations) {
-            permute(permutablePermutation, thing);
+        if (!permutables.isEmpty()) {
+            permute(permutables, thing);
         }
     }
 
@@ -74,16 +69,14 @@ public class OntologyPermuter extends Ontology {
      * @param permutables
      * @throws Exception
      */
-    public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
+    public void permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
+    //public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
         Queue<OWLClass> queue = new LinkedList<>();
         Set<OWLClass> combination = new HashSet<>();
-        //discovered.add(root);
-        //queue.add(root);
 
         OWLClassAssertionAxiom unknownCAA = permutables.get(0);
         permutables = Utils.copyWithoutFirstElement(permutables);
-        unknown = unknownCAA.getIndividual();
-        //ArrayList<OWLClassAssertionAxiom> restOfPermutables = Utils.copyWithoutFirstElement(permutables);
+        OWLIndividual unknown = unknownCAA.getIndividual();
 
         // the unknown class assertion axiom no longer needed
         manager.removeAxiom(ontology, unknownCAA);
@@ -95,9 +88,11 @@ public class OntologyPermuter extends Ontology {
             queue.add(c);
         }
 
-        bfs(permutables, queue);
+        //System.out.println(queue + " <> " + unknown.asOWLNamedIndividual().getIRI().getShortForm());
+        //System.out.println();
 
-        return false;
+        //return bfs(permutables, queue, unknown);
+        bfs(permutables, queue, unknown);
     }
 
     /**
@@ -107,42 +102,47 @@ public class OntologyPermuter extends Ontology {
      * @param queue
      * @throws Exception
      */
-    private void bfs(ArrayList<OWLClassAssertionAxiom> permutables, Queue<OWLClass> queue) throws Exception {
+    private void bfs(ArrayList<OWLClassAssertionAxiom> permutables, Queue<OWLClass> queue, OWLIndividual unknown) throws Exception {
         // when the breadth-first traversal is finished - also checked for consistency
         if (queue.isEmpty() && permutables.isEmpty()) {
             // end of one combination when there are more nodes in the queue
             if (!Utils.subsetOf(combination, combinations)) {
-                System.out.print("end of one combination");
-                System.out.println(combination);
+                //System.out.print("end of one combination");
+                //System.out.println(combination);
+                Utils.prettyprint(combination);
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
             }
+            //return true;
             return;
         } else if (queue.isEmpty() && !permutables.isEmpty()) {
             permute(permutables, factory.getOWLThing());
             return;
+            //return permute(permutables, factory.getOWLThing());
         }
 
         // pop front node from queue and print it
         OWLClass currentClass = queue.poll();
-        //System.out.println(currentClass + " ");
 
         Queue<OWLClass> queueCopy = new LinkedList<>(queue);
+
+        //System.out.println(queue + " | " + unknown.asOWLNamedIndividual().getIRI().getShortForm() + " | " + permutables);
+        //System.out.println(queueCopy + " | " + unknown.asOWLNamedIndividual().getIRI().getShortForm() + " | " + permutables);
 
 
 
         // do something with current node
         // want to do it first with the current node so that the added combinations are maximal
         OWLClassAssertionAxiom ax = factory.getOWLClassAssertionAxiom(currentClass, unknown);
-        boolean containedAxiom = true;
+        boolean containedAxiom = ontology.containsAxiom(ax);
 
 
         //if (!ontology.containsAxiom(ax) && !currentClass.isOWLThing()) {
-        if (!ontology.containsAxiom(ax)) {
+        if (!containedAxiom) {
             manager.addAxiom(ontology, ax);
             reasoner.flush();
-            containedAxiom = false;
         }
+
 
         if (reasoner.isConsistent()) {
             // add current node to current combination
@@ -157,8 +157,14 @@ public class OntologyPermuter extends Ontology {
                 }
             }
 
+            bfs(permutables, queue, unknown);
+
             // continue traversal WITH the current node in the combination
-            bfs(permutables, queue);
+            /*if (!bfs(permutables, queue, unknown)) {
+                return false;
+            } else {
+            }*/
+
 
             // remove the current node from the current combination (for traversal without the node)
             combination.remove(ax);
@@ -174,8 +180,14 @@ public class OntologyPermuter extends Ontology {
             reasoner.flush();
         }
 
+        //System.out.println(queue + " || " + unknown.asOWLNamedIndividual().getIRI().getShortForm() + " || " + permutables);
+        //System.out.println(queueCopy + " || " + unknown.asOWLNamedIndividual().getIRI().getShortForm() + " || " + permutables);
+
+        // the first element never arrives here - it returns inside the for loop probably
         // continue traversal WITHOUT the current node in the combination
-        bfs(permutables, queueCopy);
+
+        //return bfs(permutables, queueCopy, unknown);
+        bfs(permutables, queueCopy, unknown);
 
     }
 

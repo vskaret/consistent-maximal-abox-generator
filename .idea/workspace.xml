@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latex/pseudokode_ny.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/pseudokode_ny.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +51,7 @@
       <recent name="$PROJECT_DIR$/oldfiles" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="LaTeX.pseudokode_ny">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -259,7 +263,21 @@
       <option name="project" value="LOCAL" />
       <updated>1579638374291</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Works?">
+      <created>1579698743638</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1579698743638</updated>
+    </task>
+    <task id="LOCAL-00018" summary="does not work with more than one individual">
+      <created>1579722129496</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1579722129496</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -277,7 +295,9 @@
     <MESSAGE value="add project files" />
     <MESSAGE value="improved greatest common class method" />
     <MESSAGE value="Starting to look like the implementation is on the right track, and that I am attempting to implement the correct process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Starting to look like the implementation is on the right track, and that I am attempting to implement the correct process" />
+    <MESSAGE value="Works?" />
+    <MESSAGE value="does not work with more than one individual" />
+    <option name="LAST_COMMIT_MESSAGE" value="does not work with more than one individual" />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
@@ -300,10 +320,10 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
-    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1579698706749">
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1579722127778">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579698706749" />
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722127778" />
     <state x="100" y="128" width="1720" height="938" key="DiffContextDialog" timestamp="1579695817409">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
@@ -312,50 +332,50 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
-    <state width="1872" height="212" key="GridCell.Tab.0.bottom" timestamp="1579698629072">
+    <state width="1872" height="171" key="GridCell.Tab.0.bottom" timestamp="1580125081859">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="212" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579698629072" />
-    <state width="1872" height="212" key="GridCell.Tab.0.center" timestamp="1579698629072">
+    <state width="1872" height="171" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.center" timestamp="1580125081859">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="212" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579698629072" />
-    <state width="1872" height="212" key="GridCell.Tab.0.left" timestamp="1579698629071">
+    <state width="1872" height="171" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.left" timestamp="1580125081859">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="212" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579698629071" />
-    <state width="1872" height="212" key="GridCell.Tab.0.right" timestamp="1579698629072">
+    <state width="1872" height="171" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.right" timestamp="1580125081859">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="212" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579698629072" />
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579698505792">
+    <state width="1872" height="171" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579891291108">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579698505792" />
-    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579698505792">
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291108" />
+    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579891291107">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579698505792" />
-    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579698505792">
+    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579891291107">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579698505792" />
-    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579698505792">
+    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579891291107">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579698505792" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579638377020">
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579722132590">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579638377020" />
-    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579683999621">
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722132590" />
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579796715916">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579683999621" />
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579796715916" />
     <state x="738" y="516" width="443" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579698719097">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
@@ -382,23 +402,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>114</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>148</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>130</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>163</line>
-          <option name="timeStamp" value="12" />
+          <line>93</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -16,9 +16,6 @@
         <Class IRI="AfterArea"/>
     </Declaration>
     <Declaration>
-        <Class IRI="BadFault"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="BeforeArea"/>
     </Declaration>
     <Declaration>
@@ -31,13 +28,7 @@
         <Class IRI="Fault"/>
     </Declaration>
     <Declaration>
-        <Class IRI="FaultQuality"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="GeoUnit"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="GoodFault"/>
     </Declaration>
     <Declaration>
         <Class IRI="GoodReservoir"/>
@@ -123,10 +114,6 @@
         </ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="BadFault"/>
-        <Class IRI="FaultQuality"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="BeforeArea"/>
         <Class IRI="RockLocation"/>
     </SubClassOf>
@@ -154,14 +141,6 @@
     <SubClassOf>
         <Class IRI="Fault"/>
         <Class IRI="GeoUnit"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="FaultQuality"/>
-        <Class IRI="Fault"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="GoodFault"/>
-        <Class IRI="FaultQuality"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="GoodReservoir"/>
@@ -244,10 +223,6 @@
         <Class IRI="AfterArea"/>
         <Class IRI="BeforeArea"/>
         <Class IRI="InsideArea"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="BadFault"/>
-        <Class IRI="GoodFault"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="CapRock"/>

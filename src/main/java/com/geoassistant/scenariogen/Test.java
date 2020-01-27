@@ -5,10 +5,7 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.owlapi.model.*;
 
 import java.lang.reflect.Array;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.*;
 
 
 /**
@@ -43,7 +40,22 @@ public class Test extends OntologyPermuter {
          */
         //t.testUtilPermute();
         //t.testNonEmptySubsetsOf();
-        t.testSubsetOf();
+        //t.testSubsetOf();
+        t.testLinkedListCopy();
+    }
+
+    public void testLinkedListCopy() {
+        LinkedList<String> l1 = new LinkedList<>();
+        l1.add("a");
+        l1.add("b");
+        l1.add("c");
+
+        LinkedList<String> l2 = new LinkedList<>(l1);
+
+        l1.remove(0);
+
+        System.out.println(l1);
+        System.out.println(l2);
     }
 
     /**
