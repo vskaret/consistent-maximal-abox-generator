@@ -28,6 +28,7 @@ public abstract class Ontology {
     // ontology file related variables
     protected File ontologyFile;
     protected final String cwd = System.getProperty("user.dir") + "/src/main/java/com/geoassistant/scenariogen";
+    protected String datadir;
 
     // the OWL ontology manager
     protected OWLOntologyManager manager;
@@ -43,6 +44,7 @@ public abstract class Ontology {
 
     public Ontology() {
         manager = OWLManager.createOWLOntologyManager();
+        datadir = cwd + "/../" + "owlfiles/";
     }
 
     /**
@@ -129,7 +131,7 @@ public abstract class Ontology {
      */
     public Set<OWLClassAssertionAxiom> getClassAssertionAxioms(String className) {
         OWLClassExpression oce = factory.getOWLClass(className, pm);
-        System.out.println(ontology.getClassAssertionAxioms(oce));
+        //System.out.println(ontology.getClassAssertionAxioms(oce));
         return ontology.getClassAssertionAxioms(oce);
     }
 
