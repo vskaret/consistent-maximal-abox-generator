@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latex/pseudokode_ny.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/pseudokode_ny.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="only-class-permutations" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1WCJppIMI8hPTuIiTkNFKV2s6Ni" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/oldfiles" />
+    </key>
+  </component>
+  <component name="RunManager" selected="LaTeX.pseudokode_ny">
+    <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.geoassistant.scenariogen.App" />
+      <module name="scenario-gen" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.geoassistant.scenariogen.Test" />
+      <module name="scenario-gen" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.geoassistant.scenariogen.App" />
+      <module name="scenario-gen" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="permutasjon_klasser" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <sumatra-path />
+        <viewer-command />
+        <compiler-arguments />
+        <main-file>$PROJECT_DIR$/latex/permutasjon_klasser.tex</main-file>
+        <aux-dir>false</aux-dir>
+        <out-dir>true</out-dir>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <has-been-run>true</has-been-run>
+        <bib-run-config />
+        <makeindex-run-config />
+      </texify>
+      <method v="2" />
+    </configuration>
+    <configuration name="pseudokode_ny" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" temporary="true">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <sumatra-path />
+        <viewer-command />
+        <compiler-arguments />
+        <main-file>$PROJECT_DIR$/latex/pseudokode_ny.tex</main-file>
+        <aux-dir>false</aux-dir>
+        <out-dir>true</out-dir>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <has-been-run>true</has-been-run>
+        <bib-run-config />
+        <makeindex-run-config />
+      </texify>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Application.Test" />
+      <item itemvalue="LaTeX.permutasjon_klasser" />
+      <item itemvalue="LaTeX.pseudokode_ny" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="LaTeX.pseudokode_ny" />
+        <item itemvalue="LaTeX.permutasjon_klasser" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="" />
+      <created>1578647828946</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1578647828946</updated>
+    </task>
+    <task id="LOCAL-00001" summary="cleanup">
+      <created>1578648376434</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578648376434</updated>
+    </task>
+    <task id="LOCAL-00002" summary="cleanup">
+      <created>1578648561700</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1578648561700</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add permutation with subclasses">
+      <created>1578755904112</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1578755904112</updated>
+    </task>
+    <task id="LOCAL-00004" summary="permutation is a mess">
+      <created>1578900595796</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1578900595796</updated>
+    </task>
+    <task id="LOCAL-00005" summary="now only working with classes">
+      <created>1578989602547</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1578989602547</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add ontology file">
+      <created>1578995953606</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1578995953606</updated>
+    </task>
+    <task id="LOCAL-00007" summary="some testing">
+      <created>1579015637830</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1579015637830</updated>
+    </task>
+    <task id="LOCAL-00008" summary="closer to working, problem with only adding one axiom for each permute class">
+      <created>1579015760220</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1579015760220</updated>
+    </task>
+    <task id="LOCAL-00009" summary="closer to working, problem with only adding one axiom for each permute class">
+      <created>1579107516264</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1579107516265</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Utils class for generic methods">
+      <created>1579170659067</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1579170659067</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added generic permutation method + some fixing/documenting here and there">
+      <created>1579171304276</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1579171304276</updated>
+    </task>
+    <task id="LOCAL-00012" summary="file did not save before last commit">
+      <created>1579171422529</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1579171422529</updated>
+    </task>
+    <task id="LOCAL-00013" summary="seems to be working as intended">
+      <created>1579177529870</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1579177529870</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add project files">
+      <created>1579180500892</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1579180500892</updated>
+    </task>
+    <task id="LOCAL-00015" summary="improved greatest common class method">
+      <created>1579200622990</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1579200622990</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Starting to look like the implementation is on the right track, and that I am attempting to implement the correct process">
+      <created>1579638374291</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1579638374291</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Works?">
+      <created>1579698743638</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1579698743638</updated>
+    </task>
+    <task id="LOCAL-00018" summary="does not work with more than one individual">
+      <created>1579722129496</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1579722129496</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="add permutation with subclasses" />
+    <MESSAGE value="permutation is a mess" />
+    <MESSAGE value="now only working with classes" />
+    <MESSAGE value="add ontology file" />
+    <MESSAGE value="some testing" />
+    <MESSAGE value="closer to working, problem with only adding one axiom for each permute class" />
+    <MESSAGE value="Utils class for generic methods" />
+    <MESSAGE value="added generic permutation method + some fixing/documenting here and there" />
+    <MESSAGE value="file did not save before last commit" />
+    <MESSAGE value="seems to be working as intended" />
+    <MESSAGE value="add project files" />
+    <MESSAGE value="improved greatest common class method" />
+    <MESSAGE value="Starting to look like the implementation is on the right track, and that I am attempting to implement the correct process" />
+    <MESSAGE value="Works?" />
+    <MESSAGE value="does not work with more than one individual" />
+    <option name="LAST_COMMIT_MESSAGE" value="does not work with more than one individual" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="555" y="243" width="800" height="684" key="#Notifications/0.28.1920.1138@0.28.1920.1138" timestamp="1579094927635" />
+    <state x="418" y="255" width="1084" height="687" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579173396079">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="418" y="255" width="1084" height="687" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579173396079" />
+    <state x="692" y="383" width="525" height="437" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1578647949869">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="692" y="383" width="525" height="437" key="#com.intellij.ide.util.TreeClassChooserDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578647949869" />
+    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579618452866">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579618452866" />
+    <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1578648285526">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1579722127778">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722127778" />
+    <state x="100" y="128" width="1720" height="938" key="DiffContextDialog" timestamp="1579695817409">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="100" y="128" width="1720" height="938" key="DiffContextDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579695817409" />
+    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl" timestamp="1579199228675">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
+    <state width="1872" height="171" key="GridCell.Tab.0.bottom" timestamp="1580125081859">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="171" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.center" timestamp="1580125081859">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="171" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.left" timestamp="1580125081859">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="171" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="171" key="GridCell.Tab.0.right" timestamp="1580125081859">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="171" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579891291108">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291108" />
+    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579891291107">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579891291107">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579891291107">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579722132590">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722132590" />
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579796715916">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579796715916" />
+    <state x="738" y="516" width="443" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579698719097">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="738" y="516" width="443" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579698719097" />
+    <state x="612" y="171" width="696" height="852" key="find.popup" timestamp="1579020093259">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="612" y="171" width="696" height="852" key="find.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579020093259" />
+    <state x="657" y="386" width="596" height="428" key="git4idea.merge.GitMergeDialog" timestamp="1578648453901">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="657" y="386" width="596" height="428" key="git4idea.merge.GitMergeDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648453901" />
+    <state x="645" y="386" width="620" height="428" key="git4idea.merge.GitPullDialog" timestamp="1579107530331">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="645" y="386" width="620" height="428" key="git4idea.merge.GitPullDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579107530331" />
+    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1579619385429">
+      <screen x="0" y="28" width="1920" height="1138" />
+    </state>
+    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579619385429" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

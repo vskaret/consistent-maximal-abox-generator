@@ -1,7 +1,5 @@
 package com.geoassistant.scenariogen;
 
-import java.util.ArrayList;
-
 /**
  * Hello world!
  *
@@ -10,10 +8,21 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
-        System.out.println( "Hello World!" );
+        //System.out.println( "Hello World!" );
+        boolean debugging = false;
+        boolean printInconsistent = true;
 
-        OntologyPermutator op = new OntologyPermutator();
+        OntologyPermuter op = new OntologyPermuter();
+
+        op.setDEBUG(debugging);
+        op.setPrintInconsistent(printInconsistent);
         op.loadOntology("geo-test.owl");
-        op.permutate();
+        //op.loadOntology("example.owl");
+        //op.loadOntology("example2.owl");
+        //op.loadOntology("example3.owl");
+
+        op.permute();
+
+
     }
 }

@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage[]{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\begin{document}
+
+  \begin{algorithm}
+    \caption{OWL Ontology Class Permuter}
+    The global objects for the pseudocode are the following:
+    \emph{ontology} which has access to the OWL Ontology,
+    \emph{combination} that contains all the class assertions
+    used in the current permutation, and finally \emph{combinations} with every unique \emph{combination} found.
+    The inputs to the procedure are
+    \emph{unknown}, the current individual being permuted,
+    a list \emph{permutables} that contains the unknown individuals to be permuted, and
+    \emph{queue} which keeps track of the traversal ordering
+    \begin{algorithmic}[0]
+      \State
+
+      \Procedure {permute}{$permutables$}
+      \State $queue \leftarrow$ initialize a $queue$
+      \State $unknown \leftarrow permutables$.remove(0)
+      \ForAll {($subclass \sqsubseteq \bot$, where $subclass$ is a direct subclass of $\bot$}
+      \State add $subclass$ to $queue$
+      \EndFor
+      \State \textsc{breadth-first}($permutables$, $queue$, $unknown$)
+      \State
+      \EndProcedure
+      \Procedure {breadth-first}{$permtables$, $queue$, $unknown$}
+      \If {$queue$.empty() }
+      \If {$\neg permutables$.empty()}
+      \State \textsc{permute}($permutables$)
+      \Comment{continue with next individual}
+      \ElsIf {$\neg$($combination \subseteq c$), where $c \in combinations$}
+      \State $combinations$.add($combination$)
+      \Comment{permutation found}
+      \EndIf
+      \State return
+      \EndIf
+
+      \State
+      \State $currentClass \leftarrow$ pop $queue$
+      \State $queueCopy \leftarrow$ copy of $queue$
+      \State $axiom \leftarrow$ assert $currentClass(unknown)$
+      \State $ontologyContainedAxiom \leftarrow$ ontology.contains(axiom)
+      \State
+      \If {$\neg ontologyContainedAxiom$}
+      \State $ontology$.add($axiom$)
+      \State synchronize $reasoner$
+      \State
+      \EndIf
+      \If {$ontology$.consistent()}
+      \State $combination$.add($axiom$)
+      \ForAll {$subclass \sqsubseteq currentClass$}
+      \If {$\neg (subclass$ is $\bot)$}
+      \State $queue$.add($subclass$)
+      \EndIf
+      \EndFor
+      \State
+      \State \textsc{breadth-first}($permutables$, $queue$, $unknown$)
+      \State $combination$.remove($axiom$)
+      \EndIf
+      \State
+      \If {$\neg ontologyContainedAxiom$}
+      \State $ontology$.remove($axiom$)
+      \State synchronize $reasoner$
+      \EndIf
+
+      \State \textsc{breadth-first}($permutables$, $queueCopy$, $unknown$)
+
+      \EndProcedure
+
+    \end{algorithmic}
+  \end{algorithm}
+
+\end{document}
