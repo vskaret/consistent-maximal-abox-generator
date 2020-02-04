@@ -25,6 +25,10 @@ public final class Utils {
         System.out.println();
     }
 
+    public static void leafprint(Set<OWLClassAssertionAxiom> set, Ontology ont) {
+        prettyprint(ont.getLeafClasses(set));
+    }
+
     /**
      * Checks if a set is a sub of a set of sets.
      *

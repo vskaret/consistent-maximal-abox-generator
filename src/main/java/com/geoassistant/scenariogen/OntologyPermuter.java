@@ -19,6 +19,7 @@ public class OntologyPermuter extends Ontology {
     private Set<OWLClassExpression> ranges;
 
     private Set<OWLClass> discovered = new HashSet<>();  // hashset has O(1) complexity for .contains()
+    private int combinationCounter = 0;
     private Set<Set<OWLClassAssertionAxiom>> combinations = new HashSet<>();
     private Set<Set<OWLClass>> classCombinations = new HashSet<>();
     private Set<OWLClassAssertionAxiom> combination = new HashSet<>();
@@ -85,7 +86,9 @@ public class OntologyPermuter extends Ontology {
         // exceptoin. the alternative is to check in every recursive call below if the node is owl:Thing
 
         for (OWLClass c : reasoner.getSubClasses(root, true).getFlattened()) {
-            queue.add(c);
+            if (!c.getIRI().getShortForm().equals(unknownClassName)) {
+                queue.add(c);
+            }
         }
 
         //System.out.println(queue + " <> " + unknown.asOWLNamedIndividual().getIRI().getShortForm());
@@ -109,7 +112,9 @@ public class OntologyPermuter extends Ontology {
             if (!Utils.subsetOf(combination, combinations)) {
                 //System.out.print("end of one combination");
                 //System.out.println(combination);
-                Utils.prettyprint(combination);
+                System.out.print(++combinationCounter + ". ");
+                //Utils.prettyprint(combination);
+                Utils.leafprint(combination, this);
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
             }

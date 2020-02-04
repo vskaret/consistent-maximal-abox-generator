@@ -41,7 +41,17 @@ public class Test extends OntologyPermuter {
         //t.testUtilPermute();
         //t.testNonEmptySubsetsOf();
         //t.testSubsetOf();
-        t.testLinkedListCopy();
+        //t.testLinkedListCopy();
+
+        t.testOntologySubsetOf();
+    }
+
+    public void testOntologySubsetOf() throws Exception {
+        OntologyPermuter op = new OntologyPermuter();
+        op.loadOntology("subset-example.owl");
+
+        op.subsetTest();
+
     }
 
     public void testLinkedListCopy() {

@@ -202,6 +202,7 @@ public abstract class Ontology {
      * @param ce class expression to check
      * @return true if leaf class, otherwise false
      */
+    //protected boolean isLeafClass(OWLClassExpression ce) {
     protected boolean isLeafClass(OWLClassExpression ce) {
         return reasoner.getSubClasses(ce, true).isBottomSingleton();
     }
@@ -459,4 +460,38 @@ public abstract class Ontology {
         return false;
     }
      */
+
+    public void subsetTest() {
+        Set<OWLClass> classes = ontology.getClassesInSignature();
+        OWLClass c1 = classes.iterator().next();
+
+        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
+        OWLNamedIndividual i1 = individuals.iterator().next();
+
+        OWLClassAssertionAxiom ax1 = factory.getOWLClassAssertionAxiom(c1, i1);
+        OWLClassAssertionAxiom ax2 = factory.getOWLClassAssertionAxiom(c1, i1);
+
+        Set<OWLClassAssertionAxiom> set1 = new HashSet<>();
+        set1.add(ax1);
+
+        Set<OWLClassAssertionAxiom> set2 = new HashSet<>();
+        set2.add(ax2);
+
+        Set<Set<OWLClassAssertionAxiom>> mainSet = new HashSet<>();
+        mainSet.add(set2);
+
+        System.out.println(Utils.subsetOf(set1, mainSet));
+    }
+
+    public Set<OWLClassAssertionAxiom> getLeafClasses(Set<OWLClassAssertionAxiom> set) {
+        Set<OWLClassAssertionAxiom> result = new HashSet<>();
+
+        for (OWLClassAssertionAxiom ax : set) {
+            if (isLeafClass(ax.getClassExpression())) {
+                result.add(ax);
+            }
+        }
+
+        return result;
+    }
 }
