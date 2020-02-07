@@ -114,7 +114,9 @@ public class OntologyPermuter extends Ontology {
                 //System.out.println(combination);
                 System.out.print(++combinationCounter + ". ");
                 //Utils.prettyprint(combination);
-                Utils.leafprint(combination, this);
+                //Utils.leafprint(combination, this);
+                MaudeSerializer.serializeAboxLeaves(ontology, reasoner);
+                System.out.println();
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
             }
