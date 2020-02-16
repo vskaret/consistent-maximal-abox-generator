@@ -292,6 +292,16 @@ public abstract class Ontology {
         return newAxioms;
     }
 
+    protected void serializeTbox() {
+        MaudeSerializer.serializeClassHierarchy(ontology, reasoner, factory.getOWLThing());
+        System.out.println();
+        MaudeSerializer.serializeObjectProperties(ontology, reasoner);
+    }
+
+    protected void serializeAbox() {
+        MaudeSerializer.serializeAbox(ontology);
+    }
+
     /**
      * Returns the top super class of a class. If none are found (meaning the class is a top super class
      * itself), the class given as a parameter is returned back.

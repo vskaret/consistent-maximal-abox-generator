@@ -16,12 +16,19 @@ public class App
 
         op.setDEBUG(debugging);
         op.setPrintInconsistent(printInconsistent);
-        op.loadOntology("geo-test.owl");
-        //op.loadOntology("example.owl");
+        //op.loadOntology("geo-test.owl");
+        //op.loadOntology("geo3.owl");
+        op.loadOntology("example.owl");
         //op.loadOntology("example2.owl");
         //op.loadOntology("example3.owl");
 
+        System.out.println("*********************");
+        op.serializeTbox();
+        System.out.println("*********************");
+
         op.permute();
+        //System.out.println();
+        //op.serializeAbox();
 
 
     }

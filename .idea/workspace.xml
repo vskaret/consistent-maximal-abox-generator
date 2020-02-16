@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/MaudeSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latex/pseudokode_ny.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/pseudokode_ny.tex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/example.owl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/geo-test.owl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +48,7 @@
       <recent name="$PROJECT_DIR$/oldfiles" />
     </key>
   </component>
-  <component name="RunManager" selected="LaTeX.pseudokode_ny">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -277,7 +274,28 @@
       <option name="project" value="LOCAL" />
       <updated>1579722129496</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fixed bug where unknown (current individual) was overwritten in recursive calls">
+      <created>1580127309082</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1580127309082</updated>
+    </task>
+    <task id="LOCAL-00020" summary="noen eksempler">
+      <created>1580719647495</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1580719647495</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed bug where some permutations were added by mistake.&#10;&#10;the problem was that the reserved class name (&quot;Permutable&quot;) was added to the breadth-first queue and thus some axioms were instantiated with it.&#10;this opened for more permutations than there should be.">
+      <created>1580818442129</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1580818442130</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -297,7 +315,10 @@
     <MESSAGE value="Starting to look like the implementation is on the right track, and that I am attempting to implement the correct process" />
     <MESSAGE value="Works?" />
     <MESSAGE value="does not work with more than one individual" />
-    <option name="LAST_COMMIT_MESSAGE" value="does not work with more than one individual" />
+    <MESSAGE value="fixed bug where unknown (current individual) was overwritten in recursive calls" />
+    <MESSAGE value="noen eksempler" />
+    <MESSAGE value="fixed bug where some permutations were added by mistake.&#10;&#10;the problem was that the reserved class name (&quot;Permutable&quot;) was added to the breadth-first queue and thus some axioms were instantiated with it.&#10;this opened for more permutations than there should be." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bug where some permutations were added by mistake.&#10;&#10;the problem was that the reserved class name (&quot;Permutable&quot;) was added to the breadth-first queue and thus some axioms were instantiated with it.&#10;this opened for more permutations than there should be." />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
@@ -320,10 +341,10 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
-    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1579722127778">
+    <state x="245" y="111" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1580818439210">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="268" y="191" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722127778" />
+    <state x="245" y="111" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1580818439210" />
     <state x="100" y="128" width="1720" height="938" key="DiffContextDialog" timestamp="1579695817409">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
@@ -332,46 +353,46 @@
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
-    <state width="1872" height="171" key="GridCell.Tab.0.bottom" timestamp="1580125081859">
+    <state width="1872" height="175" key="GridCell.Tab.0.bottom" timestamp="1581103139266">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="171" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
-    <state width="1872" height="171" key="GridCell.Tab.0.center" timestamp="1580125081859">
+    <state width="1872" height="175" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
+    <state width="1872" height="175" key="GridCell.Tab.0.center" timestamp="1581103139266">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="171" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
-    <state width="1872" height="171" key="GridCell.Tab.0.left" timestamp="1580125081859">
+    <state width="1872" height="175" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
+    <state width="1872" height="175" key="GridCell.Tab.0.left" timestamp="1581103139266">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="171" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
-    <state width="1872" height="171" key="GridCell.Tab.0.right" timestamp="1580125081859">
+    <state width="1872" height="175" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
+    <state width="1872" height="175" key="GridCell.Tab.0.right" timestamp="1581103139266">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="171" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1580125081859" />
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1579891291108">
+    <state width="1872" height="175" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1580846207815">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291108" />
-    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1579891291107">
+    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207815" />
+    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1580846207814">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
-    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1579891291107">
+    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
+    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1580846207814">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
-    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1579891291107">
+    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1580846207814">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1579891291107" />
+    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
     <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1579722132590">
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1580818445680">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579722132590" />
+    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1580818445680" />
     <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579796715916">
       <screen x="0" y="28" width="1920" height="1138" />
     </state>
@@ -402,10 +423,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>93</line>
+          <line>96</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="this" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

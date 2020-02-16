@@ -1,0 +1,145 @@
+mod OWL-SORTS is
+    protecting CONFIGURATION .
+    protecting NAT .
+    protecting STRING .
+
+    --- Standard
+    op Permutable : Oid -> Msg . 
+
+    --- Fault
+    op Fault : Oid -> Msg . 
+    op FaultType : Oid -> Msg . 
+    op ReverseFault : Oid -> Msg . 
+    op NormalFault : Oid -> Msg . 
+    op FaultSealingCapacity : Oid -> Msg . 
+    op SealingFault : Oid -> Msg . 
+    op NonSealingFault : Oid -> Msg . 
+
+    --- GeoUnit
+    op GeoUnit : Oid -> Msg . 
+    op Reservoir : Oid -> Msg .
+    op Shale : Oid -> Msg .
+    op Permeable : Oid -> Msg .
+    op NonPermeable : Oid -> Msg .
+    op Porous : Oid -> Msg .
+    op NonPorous : Oid -> Msg .
+    op FeederChannel : Oid -> Msg .
+    op DistributaryChannel : Oid -> Msg .
+    op InterChannel : Oid -> Msg .
+    op Lobe : Oid -> Msg .
+    op BasinPlain : Oid -> Msg .
+
+
+    --- From Crystal
+    subsort Nat < Oid .
+    op null : -> Oid .
+
+    --- Fault definition
+    --- Fault types related to external stress
+    sort Ftype .
+    op normalfault : -> Ftype [ctor] .
+    op reversefault : -> Ftype [ctor]  .
+    ---op unknown : -> Ftype [ctor]  .
+
+    --- Fault filling
+    sort Ffilling .      
+    op sealing : -> Ffilling .
+    op non-sealing : -> Ffilling .
+    ---op unknown : -> Ffilling .
+    
+    --- Geo Rocks definition
+    sort Rtype .
+    op sandstone : -> Rtype .
+    op shale : -> Rtype .
+
+    --- Submarine Fan
+    sort SubmarinefanCA .
+    op feederChannel : -> SubmarinefanCA .
+    op distributaryChannel : -> SubmarinefanCA .
+    op interChannel : -> SubmarinefanCA .
+    op lobe : -> SubmarinefanCA .
+    op lobeFringe : -> SubmarinefanCA .
+    op basinPlain : -> SubmarinefanCA .
+    
+    --- Permeability
+    sort PermeabilityType .
+    op permeable : -> PermeabilityType . 
+    op non-permeable : -> PermeabilityType .
+    op unknown : -> PermeabilityType . 
+    
+    --- Porosity
+    sort PorosityType .
+    op porous : -> PorosityType . 
+    op non-porous : -> PorosityType .
+    op unknown : -> PorosityType . 
+    
+    --- End From Crystal
+
+    vars C : Configuration .
+    vars O : Oid .
+
+    --- Fault object
+    op <_: Fault | FType:_, SealingCapacity:_ > :
+	      Oid Ftype Ffilling -> Object [ctor] .
+
+    --- GeoUnit object
+    op <_: GeoUnit | GeoUnit:_, Type:_, Permeability:_, Porosity:_, SubmarineFan:_, KerogenType:_, Hydrocarbon:_> :
+	      Oid Oid Rtype PermeabilityType PorosityType SubmarinefanCA String Oid -> Object [ctor] .
+
+    --- KerogenType always none in the initial configuration --> do not need to model in owl?
+    --- Hydrocarbon always "null" in the beginning --> same?
+    
+    op unknownReverseSealing : -> Configuration .
+    eq unknownReverseSealing = FaultType(1) SealingFault(1) Fault(1) ReverseFault(1) FaultSealingCapacity(1) .
+    
+    op unknownReverseNonSealing : -> Configuration .
+    eq unknownReverseNonSealing = FaultType(2) NonSealingFault(2) Fault(2) ReverseFault(2) FaultSealingCapacity(2) .
+
+    op unknownNormalSealing : -> Configuration .
+    eq unknownNormalSealing = FaultType(1) SealingFault(1) Fault(1) ReverseFault(1) FaultSealingCapacity(1) .
+    
+    op unknownNormalNonSealing : -> Configuration .
+    eq unknownNormalNonSealing = FaultType(2) NonSealingFault(2) Fault(2) ReverseFault(2) FaultSealingCapacity(2) .
+
+    --- operator to construct maude objects from an OWL message
+    op construct : Configuration -> Object .
+
+    eq construct(none) = none .
+    
+    --- Sealing Reversefault
+    eq construct(Fault(O) FaultType(O) ReverseFault(O) FaultSealingCapacity(O) SealingFault(O) C)
+      =
+        < O : Fault | FType: reversefault, SealingCapacity: sealing >
+        construct(C) .
+
+    --- Non-sealing Reversefault
+    eq construct(Fault(O) FaultType(O) ReverseFault(O) FaultSealingCapacity(O) NonSealingFault(O) C)
+      =
+        < O : Fault | FType: reversefault, SealingCapacity: non-sealing >
+        construct(C) .
+    
+    --- Sealing Normalfault
+    eq construct(Fault(O) FaultType(O) NormalFault(O) FaultSealingCapacity(O) SealingFault(O) C)
+      =
+        < O : Fault | FType: reversefault, SealingCapacity: sealing >
+        construct(C) .
+
+    --- Non-sealing Normalfault
+    eq construct(Fault(O) FaultType(O) NormalFault(O) FaultSealingCapacity(O) NonSealingFault(O) C)
+      =
+        < O : Fault | FType: reversefault, SealingCapacity: non-sealing >
+        construct(C) .
+
+
+    op test : -> Configuration .
+    eq test = GeoUnit(3) Shale(3) Permeable(3) Porous(3) FeederChannel(3) .
+
+    --- GeoUnit stuff
+
+    --- to define all these will be very tedious... how to do it automatically?
+    eq construct(GeoUnit(O) Shale(O) Permeable(O) Porous(O) FeederChannel(O) C)
+      =
+        < O : GeoUnit | GeoUnit: O, Type: shale, Permeability: permeable, Porosity: porous, SubmarineFan: feederChannel, KerogenType: "none", Hydrocarbon: null >
+        construct(C) .
+
+endm
