@@ -1,0 +1,517 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://my.ont/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://my.ont/">
+    <Prefix name="" IRI="http://my.ont/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="BasinPlain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="DistributaryChannel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Fault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="FeederChannel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="GeoUnit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="InterChannel1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="InterChannel2"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Lobe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="LobeFringe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonPermeable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonPermutable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonPorous"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonSealingFault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Permeability"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Permeable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Permutable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Porosity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Porous"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="SealingFault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Unknown"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FaultSealingCapacity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="cuts"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="isAbove"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="isDirectlyAfter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="4"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="5"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="6"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="7"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="8"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="mapsTo"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="BasinPlain"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="BasinPlain"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isDirectlyBefore"/>
+            <Class IRI="BasinPlain"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="DistributaryChannel"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="DistributaryChannel"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InterChannel2"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Fault"/>
+        <Class IRI="Permutable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="FeederChannel"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="FeederChannel"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="FeederChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InterChannel1"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="GeoUnit"/>
+        <Class IRI="Permutable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel1"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel1"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InterChannel1"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel2"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel2"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InterChannel2"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Lobe"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Lobe"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="LobeFringe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="LobeFringe"/>
+        <Class IRI="Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="LobeFringe"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="BasinPlain"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="LobeFringe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Location"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="NonPermeable"/>
+        <Class IRI="Permeability"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="NonPorous"/>
+        <Class IRI="Porosity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="NonSealingFault"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Permeability"/>
+        <Class IRI="NonPermutable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Permeable"/>
+        <Class IRI="Permeability"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Porosity"/>
+        <Class IRI="NonPermutable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Porous"/>
+        <Class IRI="Porosity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="SealingFault"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FaultSealingCapacity"/>
+        <Class IRI="Fault"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="BasinPlain"/>
+        <Class IRI="DistributaryChannel"/>
+        <Class IRI="FeederChannel"/>
+        <Class IRI="InterChannel1"/>
+        <Class IRI="InterChannel2"/>
+        <Class IRI="Lobe"/>
+        <Class IRI="LobeFringe"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="GeoUnit"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="NonPermeable"/>
+        <Class IRI="Permeable"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="NonPorous"/>
+        <Class IRI="Porous"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="NonSealingFault"/>
+        <Class IRI="SealingFault"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="4"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="4"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="7"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="7"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="8"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="8"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <NamedIndividual IRI="1"/>
+        <NamedIndividual IRI="2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <NamedIndividual IRI="2"/>
+        <NamedIndividual IRI="3"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <NamedIndividual IRI="3"/>
+        <NamedIndividual IRI="4"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="isAbove"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="isDirectlyAfter"/>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </InverseFunctionalObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="isAbove"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="cuts"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </ObjectPropertyDomain>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>BasinPlain</IRI>
+        <IRI>NonPermeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>BasinPlain</IRI>
+        <IRI>NonPorous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>DistributaryChannel</IRI>
+        <IRI>Permeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>DistributaryChannel</IRI>
+        <IRI>Porous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>FeederChannel</IRI>
+        <IRI>Permeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>FeederChannel</IRI>
+        <IRI>Porous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>InterChannel1</IRI>
+        <IRI>NonPermeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>InterChannel1</IRI>
+        <IRI>NonPorous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>InterChannel2</IRI>
+        <IRI>NonPermeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>InterChannel2</IRI>
+        <IRI>NonPorous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>Lobe</IRI>
+        <IRI>Permeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>Lobe</IRI>
+        <IRI>Porous</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>LobeFringe</IRI>
+        <IRI>NonPermeable</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="mapsTo"/>
+        <IRI>LobeFringe</IRI>
+        <IRI>Porous</IRI>
+    </AnnotationAssertion>
+    <SubAnnotationPropertyOf>
+        <AnnotationProperty IRI="mapsTo"/>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+    </SubAnnotationPropertyOf>
+    <AnnotationPropertyRange>
+        <AnnotationProperty IRI="mapsTo"/>
+        <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
+    </AnnotationPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

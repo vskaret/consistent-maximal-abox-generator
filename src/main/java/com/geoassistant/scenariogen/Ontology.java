@@ -135,6 +135,18 @@ public abstract class Ontology {
         return ontology.getClassAssertionAxioms(oce);
     }
 
+    public Set<OWLClassAssertionAxiom> getAllClassAssertionAxioms() {
+        Set<OWLClassAssertionAxiom> result = new HashSet<>();
+        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
+
+        for (OWLNamedIndividual i : individuals) {
+            Set<OWLClassAssertionAxiom> axioms = ontology.getClassAssertionAxioms(i);
+            result.addAll(axioms);
+        }
+
+        return result;
+    }
+
     /**
      * Generates a list of class assertion axioms.
      * (generateAxioms in the pseudo code)
@@ -503,5 +515,27 @@ public abstract class Ontology {
         }
 
         return result;
+    }
+
+    // mapping from one class to another
+    protected Set<OWLClassAssertionAxiom> allMappings() {
+        OWLAnnotationProperty ap = factory.getOWLAnnotationProperty("mapsTo", pm);
+        Set<OWLClassAssertionAxiom> axioms = new HashSet<>();
+
+        for (OWLClassAssertionAxiom caax : getAllClassAssertionAxioms()) {
+            Set<OWLAnnotation> anns = caax.getClassExpression().asOWLClass().getAnnotations(ontology, ap);
+            OWLIndividual i = caax.getIndividual();
+            //System.out.println(anns);
+
+
+            for (OWLAnnotation ann : anns) {
+                OWLClass c = factory.getOWLClass((IRI) ann.getValue());
+                //System.out.println(ann.getValue());
+                OWLClassAssertionAxiom ax = factory.getOWLClassAssertionAxiom(c, i);
+                axioms.add(ax);
+            }
+        }
+
+        return axioms;
     }
 }

@@ -19,7 +19,7 @@ public final class Utils {
 
             //if (!className.equals("Permutable") && individual.equals("b")) {
             if (!className.equals("Permutable")) {
-                System.out.print(className + "(" + individual + "), ");
+                System.out.print(className + "(" + individual + ") ");
             }
         }
         System.out.println();

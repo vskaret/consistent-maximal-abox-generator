@@ -15,8 +15,15 @@ import java.util.*;
 public class Test extends OntologyPermuter {
 
     OWLClass thing;
+    //String permutationsDir;
 
-    public Test() {
+    //public Test(String dir) {
+        //this.permutationsDir = dir;
+    //}
+
+    public Test(String dir) {
+        super(dir);
+        //this.permutationsDir = dir;
     }
 
     public void setThing() {
@@ -26,7 +33,7 @@ public class Test extends OntologyPermuter {
     public static void main(String args[]) throws Exception {
         boolean debugging = false;
 
-        Test t = new Test();
+        Test t = new Test("test-permutations");
         //t.setDEBUG(debugging);
         //t.loadOntology("geo-test.owl");
         //t.setThing();
@@ -47,7 +54,7 @@ public class Test extends OntologyPermuter {
     }
 
     public void testOntologySubsetOf() throws Exception {
-        OntologyPermuter op = new OntologyPermuter();
+        OntologyPermuter op = new OntologyPermuter("test-permutations");
         op.loadOntology("subset-example.owl");
 
         op.subsetTest();

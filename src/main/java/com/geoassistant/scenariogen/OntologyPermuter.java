@@ -9,7 +9,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class OntologyPermuter extends Ontology {
-    private final String unknownClassName = "Permutable";
+    private String unknownClassName = "Unknown";
+    private String nonPermutable = "NonPermutable";
+    private String permutationDirectory;
     private boolean printInconsistent = false;
 
     // variables used in the recursive call
@@ -29,11 +31,21 @@ public class OntologyPermuter extends Ontology {
     private Set<Set<String>> stringCombinations = new HashSet<>();
     private Set<String> stringCombination = new HashSet<>();
 
-    public OntologyPermuter() {
+    public OntologyPermuter(String permutationDirectory) {
+        this.permutationDirectory = permutationDirectory;
+    }
+
+    public OntologyPermuter(String permutationDirectory, String reservedClassName) {
+        this.permutationDirectory = permutationDirectory;
+        setReservedClassName(reservedClassName);
     }
 
     public void setPrintInconsistent(boolean printInconsistent) {
         this.printInconsistent = printInconsistent;
+    }
+
+    public void setReservedClassName(String reservedName) {
+        this.unknownClassName = reservedName;
     }
 
     /**
@@ -86,7 +98,7 @@ public class OntologyPermuter extends Ontology {
         // exceptoin. the alternative is to check in every recursive call below if the node is owl:Thing
 
         for (OWLClass c : reasoner.getSubClasses(root, true).getFlattened()) {
-            if (!c.getIRI().getShortForm().equals(unknownClassName)) {
+            if (!c.getIRI().getShortForm().equals(unknownClassName) && !c.getIRI().getShortForm().equals(nonPermutable)) {
                 queue.add(c);
             }
         }
@@ -110,15 +122,30 @@ public class OntologyPermuter extends Ontology {
         if (queue.isEmpty() && permutables.isEmpty()) {
             // end of one combination when there are more nodes in the queue
             if (!Utils.subsetOf(combination, combinations)) {
+
+                Set<OWLClassAssertionAxiom> mappingAxioms = allMappings();
+                combination.addAll(mappingAxioms);
+
+
                 //System.out.print("end of one combination");
                 //System.out.println(combination);
-                System.out.print(++combinationCounter + ". ");
+                //System.out.print(++combinationCounter + ".\n");
+                System.out.print(++combinationCounter + " ");
                 //Utils.prettyprint(combination);
-                //Utils.leafprint(combination, this);
-                MaudeSerializer.serializeAboxLeaves(ontology, reasoner);
-                System.out.println();
+                Utils.leafprint(combination, this);
+                //MaudeSerializer.serializeAboxLeaves(ontology, reasoner);
+
+                //MaudeSerializer.serializeAbox(ontology);
+
+                String filename = this.permutationDirectory + "/permutation" + combinationCounter + ".maude";
+
+                //MaudeSerializer.writeAboxToFile(ontology, reasoner, filename);
+                //System.out.println("\n");
+
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
+
+                combination.removeAll(mappingAxioms);
             }
             //return true;
             return;
@@ -180,7 +207,7 @@ public class OntologyPermuter extends Ontology {
             // also remove the current node/axiom from the ontology - this is done both if the ontology is
             // consistent with the current node and if not, because the traversal with the current node
             // is done inside of the if above
-        }
+        } //else
 
         if (!containedAxiom) {
             manager.removeAxiom(ontology, ax);
