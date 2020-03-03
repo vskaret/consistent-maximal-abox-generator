@@ -25,6 +25,9 @@
         <Class IRI="FeederChannel"/>
     </Declaration>
     <Declaration>
+        <Class IRI="GeoLocation"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="GeoUnit"/>
     </Declaration>
     <Declaration>
@@ -38,9 +41,6 @@
     </Declaration>
     <Declaration>
         <Class IRI="LobeFringe"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="Location"/>
     </Declaration>
     <Declaration>
         <Class IRI="NonPermeable"/>
@@ -82,72 +82,54 @@
         <ObjectProperty IRI="cuts"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="directlyAfter"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="isAbove"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="isDirectlyAfter"/>
+        <ObjectProperty IRI="#directlyBefore"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasSealingProperty"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="1"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="2"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="3"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="4"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="5"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="6"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="7"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="8"/>
     </Declaration>
     <Declaration>
         <AnnotationProperty IRI="mapsTo"/>
     </Declaration>
     <SubClassOf>
         <Class IRI="BasinPlain"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="BasinPlain"/>
         <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#isDirectlyBefore"/>
+            <ObjectProperty IRI="#directlyBefore"/>
             <Class IRI="BasinPlain"/>
         </ObjectAllValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="DistributaryChannel"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="DistributaryChannel"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="DistributaryChannel"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="InterChannel2"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="Lobe"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
@@ -158,24 +140,28 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="FeederChannel"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="FeederChannel"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="DistributaryChannel"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="FeederChannel"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="InterChannel1"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="GeoLocation"/>
+        <Class IRI="GeoUnit"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="GeoUnit"/>
@@ -183,75 +169,71 @@
     </SubClassOf>
     <SubClassOf>
         <Class IRI="InterChannel1"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="InterChannel1"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="DistributaryChannel"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="InterChannel1"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="InterChannel2"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="InterChannel2"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="InterChannel2"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="Lobe"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="Lobe"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="Lobe"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="Lobe"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="LobeFringe"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="LobeFringe"/>
-        <Class IRI="Location"/>
+        <Class IRI="GeoLocation"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="LobeFringe"/>
         <ObjectUnionOf>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="BasinPlain"/>
             </ObjectAllValuesFrom>
             <ObjectAllValuesFrom>
-                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <ObjectProperty IRI="#directlyBefore"/>
                 <Class IRI="LobeFringe"/>
             </ObjectAllValuesFrom>
         </ObjectUnionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="Location"/>
-        <Class IRI="GeoUnit"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="NonPermeable"/>
@@ -330,98 +312,40 @@
         <Class IRI="Unknown"/>
         <NamedIndividual IRI="2"/>
     </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="GeoUnit"/>
-        <NamedIndividual IRI="3"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="3"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="GeoUnit"/>
-        <NamedIndividual IRI="4"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="4"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Fault"/>
-        <NamedIndividual IRI="5"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="5"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Fault"/>
-        <NamedIndividual IRI="6"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="6"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Fault"/>
-        <NamedIndividual IRI="7"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="7"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Fault"/>
-        <NamedIndividual IRI="8"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="Unknown"/>
-        <NamedIndividual IRI="8"/>
-    </ClassAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="#directlyBefore"/>
         <NamedIndividual IRI="1"/>
         <NamedIndividual IRI="2"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
-        <NamedIndividual IRI="2"/>
-        <NamedIndividual IRI="3"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
-        <NamedIndividual IRI="3"/>
-        <NamedIndividual IRI="4"/>
     </ObjectPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="isAbove"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="#directlyBefore"/>
         <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
     </SubObjectPropertyOf>
     <InverseObjectProperties>
-        <ObjectProperty IRI="isDirectlyAfter"/>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="directlyAfter"/>
+        <ObjectProperty IRI="#directlyBefore"/>
     </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#directlyBefore"/>
+    </FunctionalObjectProperty>
     <FunctionalObjectProperty>
         <ObjectProperty IRI="#hasSealingProperty"/>
     </FunctionalObjectProperty>
-    <FunctionalObjectProperty>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
-    </FunctionalObjectProperty>
     <InverseFunctionalObjectProperty>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="#directlyBefore"/>
     </InverseFunctionalObjectProperty>
     <AsymmetricObjectProperty>
         <ObjectProperty IRI="isAbove"/>
     </AsymmetricObjectProperty>
     <AsymmetricObjectProperty>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="#directlyBefore"/>
     </AsymmetricObjectProperty>
     <IrreflexiveObjectProperty>
-        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty IRI="#directlyBefore"/>
     </IrreflexiveObjectProperty>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="cuts"/>

@@ -18,9 +18,9 @@ public final class Utils {
             String individual = ax.getIndividual().asOWLNamedIndividual().getIRI().getShortForm();
 
             //if (!className.equals("Permutable") && individual.equals("b")) {
-            if (!className.equals("Permutable")) {
-                System.out.print(className + "(" + individual + ") ");
-            }
+            //if (!className.equals("Permutable")) {
+            System.out.print(className + "(" + individual + ") ");
+            //}
         }
         System.out.println();
     }

@@ -1,73 +1,62 @@
-mod OWL-SORTS is
+mod OWL-CONVERTER is
     protecting CONFIGURATION .
     protecting NAT .
     protecting STRING .
 
-    sorts LeafClass ObjectProperty .
-    subsort Msg < LeafClass .
-
-    --- Standard
-    op Permutable : Oid -> Msg . 
+    sorts LeafClass ObjectAttribute .
+    subsort LeafClass < Msg .
+    subsort ObjectAttribute < Nat .
 
     --- Fault
     sorts FaultType FaultCapacity .
-    subsorts LeafClass < FaultType FaultCapacity .
+    subsorts FaultType FaultCapacity < LeafClass .
 
-    op Fault : Oid -> Msg . 
-    op FaultType : Oid -> Msg . 
-    op ReverseFault : Oid -> FaultType . 
-    op NormalFault : Oid -> FaultType . 
-    op FaultSealingCapacity : Oid -> Msg . 
-    op SealingFault : Oid -> FaultCapacity . 
-    op NonSealingFault : Oid -> FaultCapacity . 
+    op ReverseFault : -> FaultType . 
+    op NormalFault : -> FaultType . 
+    op SealingFault : -> FaultCapacity . 
+    op NonSealingFault : -> FaultCapacity . 
 
     --- GeoUnit
-    sorts RockType Permeability Porosity Location .
-    subsorts LeafClass < RockType Permeability Porosity Location .
+    sorts RockType Permeability Porosity Location Kerogen Hydrocarbon .
+    subsorts RockType Permeability Porosity Location Kerogen Hydrocarbon < LeafClass .
 
-    op GeoUnit : Oid -> Msg . 
-    op Reservoir : Oid -> Msg .
-    op Sandstone : Oid -> RockType .
-    op Shale : Oid -> RockType .
-    op Permeable : Oid -> Permeability .
-    op NonPermeable : Oid -> Permeability .
-    op Porous : Oid -> Porosity .
-    op NonPorous : Oid -> Porosity .
-    op FeederChannel : Oid -> Location .
-    op DistributaryChannel : Oid -> Location .
-    op InterChannel : Oid -> Location .
-    op Lobe : Oid -> Location .
-    op BasinPlain : Oid -> Location .
+    op Sandstone : -> RockType .
+    op Shale : -> RockType .
+    op Permeable : -> Permeability .
+    op NonPermeable : -> Permeability .
+    op Porous : -> Porosity .
+    op NonPorous : -> Porosity .
+    op FeederChannel : -> Location .
+    op DistributaryChannel : -> Location .
+    op InterChannel1 : -> Location .
+    op InterChannel2 : -> Location .
+    op Lobe : -> Location .
+    op BasinPlain : -> Location .
 
+    op NoKerogen : -> Kerogen .
+    op NoHydrocarbons : -> Hydrocarbon .
 
-    --- From Crystal
+    --- From Crystal (with subsorts of ObjectAttribute added)
     subsort Nat < Oid .
     op null : -> Oid .
 
     --- Fault definition
+    sorts Ftype Ffilling .
+
     --- Fault types related to external stress
-    sort Ftype .
-    subsort ObjectProperty < Ftype .
     op normalfault : -> Ftype [ctor] .
-    op reversefault : -> Ftype [ctor]  .
-    ---op unknown : -> Ftype [ctor]  .
+    op reversefault : -> Ftype [ctor] .
 
     --- Fault filling
-    sort Ffilling .      
-    subsort ObjectProperty < Ffilling .
     op sealing : -> Ffilling .
     op non-sealing : -> Ffilling .
-    ---op unknown : -> Ffilling .
     
     --- Geo Rocks definition
-    sort Rtype .
-    subsort ObjectProperty < Rtype .
+    sorts Rtype SubmarinefanCA PermeabilityType PorosityType .
     op sandstone : -> Rtype .
     op shale : -> Rtype .
 
     --- Submarine Fan
-    sort SubmarinefanCA .
-    subsort ObjectProperty < SubmarinefanCA .
     op feederChannel : -> SubmarinefanCA .
     op distributaryChannel : -> SubmarinefanCA .
     op interChannel : -> SubmarinefanCA .
@@ -76,56 +65,26 @@ mod OWL-SORTS is
     op basinPlain : -> SubmarinefanCA .
     
     --- Permeability
-    sort PermeabilityType .
-    subsort ObjectProperty < PermeabilityType .
     op permeable : -> PermeabilityType . 
     op non-permeable : -> PermeabilityType .
-    --- op unknown : -> PermeabilityType . 
     
     --- Porosity
-    sort PorosityType .
-    subsort ObjectProperty < PorosityType .
     op porous : -> PorosityType . 
     op non-porous : -> PorosityType .
-    --- op unknown : -> PorosityType . 
-    
+
+    subsorts Ftype Ffilling Rtype SubmarinefanCA PermeabilityType PorosityType < ObjectAttribute .
     --- End From Crystal
-
-
-    --- objects
 
     --- Fault object
     op <_: Fault | FType:_, SealingCapacity:_ > :
 	      Oid Ftype Ffilling -> Object [ctor] .
 
     --- GeoUnit object
-    op <_: GeoUnit | GeoUnit:_, Type:_, Permeability:_, Porosity:_, SubmarineFan:_, KerogenType:_, Hydrocarbon:_> :
-	      Oid Oid Rtype PermeabilityType PorosityType SubmarinefanCA String Oid -> Object [ctor] .
+    ---op <_: GeoUnit | GeoUnit:_, Type:_, Permeability:_, Porosity:_, SubmarineFan:_, KerogenType:_, Hydrocarbon:_> :
+	      ---Oid Oid Rtype PermeabilityType PorosityType SubmarinefanCA Nat Oid -> Object [ctor] .
 
-    --- KerogenType always none in the initial configuration --> do not need to model in owl?
-    --- Hydrocarbon always "null" in the beginning --> same?
-    
-    --- operator to represent a permutation from OWL and to translate it into a Maude object (see further down)
-    op OWLObject : Msg -> Object .
-
-    --- constants
-    op unknown1 : -> Configuration .
-    eq unknown1 = OWLObject(FaultType(1) SealingFault(1) Fault(1) ReverseFault(1) FaultSealingCapacity(1)) .
-    
-    op unknown2 : -> Configuration .
-    eq unknown2 = OWLObject(FaultType(2) NonSealingFault(2) Fault(2) ReverseFault(2) FaultSealingCapacity(2)) .
-
-    op unknown3 : -> Configuration .
-    eq unknown3 = OWLObject(FaultType(3) SealingFault(3) Fault(3) NormalFault(3) FaultSealingCapacity(3)) .
-    
-    op unknown4 : -> Configuration .
-    eq unknown4 = OWLObject(FaultType(4) NonSealingFault(4) Fault(4) NormalFault(4) FaultSealingCapacity(4)) .
-
-    op unknown5 : -> Configuration .
-    eq unknown5 = OWLObject(GeoUnit(5) Shale(5) Permeable(5) Porous(5) FeederChannel(5)) .
-
-    op unknown6 : -> Configuration .
-    eq unknown6 = OWLObject(GeoUnit(6) Sandstone(6) Permeable(6) Porous(6) FeederChannel(6)) .
+    op <_: GeoUnit | Permeability:_, Porosity:_, SubmarineFan:_> :
+        Oid PermeabilityType PorosityType SubmarinefanCA -> Object [ctor] .
 
     --- variables
     vars C : Configuration .
@@ -137,63 +96,87 @@ mod OWL-SORTS is
     vars PB : Permeability .
     vars PR : Porosity .
     vars L : Location .
+    var KT : Kerogen .
+    var HC : Hydrocarbon .
 
-    --- translate maps OWL leaf classes to object/class propertes in Maude
-    op translate : LeafClass -> ObjectProperty .
+    --- convert maps OWL leaf classes to object/class propertes in Maude
+    op convert : LeafClass -> ObjectAttribute .
 
     --- Fault SealingCapacity
-    eq translate(SealingFault(O)) = sealing .
-    eq translate(NonSealingFault(O)) = non-sealing .
+    eq convert(SealingFault) = sealing .
+    eq convert(NonSealingFault) = non-sealing .
 
     --- Fault Type
-    eq translate(NormalFault(O)) = normalfault .
-    eq translate(ReverseFault(O)) = reversefault .
+    eq convert(NormalFault) = normalfault .
+    eq convert(ReverseFault) = reversefault .
 
     --- GeoUnit Type
-    eq translate(Sandstone(O)) = sandstone .
-    eq translate(Shale(O)) = shale .
+    eq convert(Sandstone) = sandstone .
+    eq convert(Shale) = shale .
 
     --- GeoUnit Permeability
-    eq translate(Permeable(O)) = permeable .
-    eq translate(NonPermeable(O)) = non-permeable .
+    eq convert(Permeable) = permeable .
+    eq convert(NonPermeable) = non-permeable .
 
     --- GeoUnit Porosity
-    eq translate(Porous(O)) = porous .
-    eq translate(NonPorous(O)) = non-porous .
+    eq convert(Porous) = porous .
+    eq convert(NonPorous) = non-porous .
 
     --- GeoUnit SubmarineFan
-    eq translate(FeederChannel(O)) = feederChannel .
-    eq translate(DistributaryChannel(O)) = distributaryChannel .
-    eq translate(InterChannel(O)) = interChannel .
-    eq translate(Lobe(O)) = lobe .
-    eq translate(BasinPlain(O)) = basinPlain .
+    eq convert(FeederChannel) = feederChannel .
+    eq convert(DistributaryChannel) = distributaryChannel .
+    eq convert(InterChannel1) = interChannel .
+    eq convert(InterChannel2) = interChannel .
+    eq convert(Lobe) = lobe .
+    eq convert(BasinPlain) = basinPlain .
 
+    --- Kerogen
+    eq convert(NoKerogen) = 0 .
 
+    --- Hydrocarbon
+    eq convert(NoHydrocarbons) = null .
 
     --- operator to construct maude objects from an OWL message
+    op type : LeafClass Oid -> Msg .
 
     --- construct Fault
-    eq OWLObject(Fault(O) FT FaultType(O) FC FaultSealingCapacity(O))
+    eq type(FT, O) type(FC, O)
       =
-        < O : Fault | FType: translate(FT), SealingCapacity: translate(FC) >
-        .
-    
-    --- construct GeoUnit
-    eq OWLObject(GeoUnit(O) RT PB PR L)
-      =
-        < O : GeoUnit | GeoUnit: O, Type: translate(RT), Permeability: translate(PB),
-                        Porosity: translate(PR), SubmarineFan: translate(L),
-                        KerogenType: "none", Hydrocarbon: null >
-        .
+        < O : Fault | FType: convert(FT), SealingCapacity: convert(FC) > .
 
+    ---eq type(RT, O) type(PB, O) type(PR, O) type(L, O) type(KT, O) type(HC, O)
+      ---=
+        ---< O : GeoUnit | GeoUnit: O, Type: convert(RT), Permeability: convert(PB),
+                        ---Porosity: convert(PR), SubmarineFan: convert(L),
+                        ---KerogenType: convert(KT), Hydrocarbon: convert(HC) > .
+    
+    eq type(PB, O) type(PR, O) type(L, O)
+      =
+        < O : GeoUnit | Permeability: convert(PB), Porosity: convert(PR), SubmarineFan: convert(L) > .
+    
     --- to define all these will be very tedious... how to do it automatically?
     ---eq construct(GeoUnit(O) Shale(O) Permeable(O) Porous(O) FeederChannel(O) C)
       ---=
         ---< O : GeoUnit | GeoUnit: O, Type: shale, Permeability: permeable, Porosity: porous, SubmarineFan: feederChannel, KerogenType: "none", Hydrocarbon: null >
         ---construct(C) .
 
+    --- constants
+    op unknown1 : -> Configuration .
+    eq unknown1 = type(SealingFault, 1) type(ReverseFault, 1) .
+    
+    op unknown2 : -> Configuration .
+    eq unknown2 = type(NonSealingFault, 2) type(ReverseFault, 2) .
+
+    op unknown3 : -> Configuration .
+    eq unknown3 = type(SealingFault, 3) type(NormalFault, 3) .
+    
+    op unknown4 : -> Configuration .
+    eq unknown4 = type(NonSealingFault, 4) type(NormalFault, 4) .
+
+    op unknown5 : -> Configuration .
+    eq unknown5 = type(Shale, 5) type(Permeable, 5) type(Porous, 5) type(FeederChannel, 5) type(NoKerogen, 5) type(NoHydrocarbons, 5) .
+
+    op unknown6 : -> Configuration .
+    eq unknown6 = type(Sandstone, 6) type(Permeable, 6) type(Porous, 6) type(FeederChannel, 6) type(NoKerogen, 6) type(NoHydrocarbons, 6) .
+
 endm
-
-
---- example:
---- rew unknown1 unknown2 .

@@ -4,6 +4,7 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import java.io.IOException;
+import java.io.*;
 import java.util.Set;
 import java.io.PrintWriter;
 
@@ -11,7 +12,7 @@ public class MaudeSerializer {
 
     static final String prefix = "mod OWL-PERMUTATION is\n" +
             //"  PROTECTING OWL-SORTS .\n";
-            "  PROTECTING OWL-CONVERTER .\n";
+            "  protecting OWL-CONVERTER .\n";
 
     static final String postfix = "\nendm";
 
@@ -20,7 +21,7 @@ public class MaudeSerializer {
 
    public static void writeAboxToFile(OWLOntology ontology, OWLReasoner reasoner, String filename) {
        //String abox = serializeAbox(ontology);
-       String abox = serializeAboxLeaves(ontology, reasoner);
+       String abox = serializeAbox(ontology, reasoner);
        System.out.print(abox);
 
        try (PrintWriter writer = new PrintWriter(filename)) {
@@ -41,6 +42,7 @@ public class MaudeSerializer {
         */
    }
 
+   /*
     public static String serializeAbox(OWLOntology ontology) {
         Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
         //String result = prefix;
@@ -69,13 +71,14 @@ public class MaudeSerializer {
 
         return result.toString();
     }
+    */
 
     //public static void serializeAboxLeaves(OWLOntology ontology, OWLReasoner reasoner) {
-    public static String serializeAboxLeaves(OWLOntology ontology, OWLReasoner reasoner) {
+    public static String serializeAbox(OWLOntology ontology, OWLReasoner reasoner) {
         Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
         StringBuffer result = new StringBuffer(prefix);
-        result.append("op unknowns : -> Configuration .\n");
-        result.append("eq unknowns() = ");
+        result.append("  op unknowns : -> Configuration .\n");
+        result.append("  eq unknowns = ");
 
         for (OWLNamedIndividual i : individuals) {
             String oid = i.getIRI().getShortForm();
@@ -88,6 +91,20 @@ public class MaudeSerializer {
                     result.append("type(" + sort + ", " + oid + ") ");
                 }
             }
+
+            //System.out.println(ontology.getObjectPropertyAssertionAxioms(i));
+
+            // object properties
+            /*
+            Set<OWLObjectPropertyAssertionAxiom> axioms = ontology.getObjectPropertyAssertionAxioms(i);
+            for (OWLObjectPropertyAssertionAxiom ax : axioms) {
+                String prop = ax.getProperty().asOWLObjectProperty().getIRI().getShortForm();
+                String subject = ax.getSubject().asOWLNamedIndividual().getIRI().getShortForm();
+                String object = ax.getObject().asOWLNamedIndividual().getIRI().getShortForm();
+
+                result.append(prop + "(" + subject + ", " + object + ") ");
+            }
+             */
         }
 
         result.append(".");
@@ -185,5 +202,13 @@ public class MaudeSerializer {
                 }
             }
         }
+    }
+
+    public static void writeFile(OWLOntology ontology, OWLReasoner reasoner, String filename) throws IOException {
+        String output = serializeAbox(ontology, reasoner);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        writer.write(output);
+        writer.close();
     }
 }

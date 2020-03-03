@@ -58,6 +58,8 @@ public class OntologyPermuter extends Ontology {
     public void permute() throws Exception {
         System.out.println("initial ontology");
         printClassAssertions();
+        OntologyUtils.printAnonymous(this.ontology);
+        System.out.println("***");
         //this.currentUnknownClasses = new ArrayList<OWLClassExpression>();
 
         Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
@@ -124,7 +126,18 @@ public class OntologyPermuter extends Ontology {
             if (!Utils.subsetOf(combination, combinations)) {
 
                 Set<OWLClassAssertionAxiom> mappingAxioms = allMappings();
+
+                // find already existing axioms:
+                for (OWLClassAssertionAxiom ax : mappingAxioms) {
+                    if (ontology.containsAxiom(ax)) {
+                        mappingAxioms.remove(ax);
+                    }
+                }
+
+                // add axioms
                 combination.addAll(mappingAxioms);
+                manager.addAxioms(ontology, mappingAxioms);
+
 
 
                 //System.out.print("end of one combination");
@@ -133,7 +146,8 @@ public class OntologyPermuter extends Ontology {
                 System.out.print(++combinationCounter + " ");
                 //Utils.prettyprint(combination);
                 Utils.leafprint(combination, this);
-                //MaudeSerializer.serializeAboxLeaves(ontology, reasoner);
+                //System.out.println(MaudeSerializer.serializeAbox(ontology, reasoner));
+                MaudeSerializer.writeFile(ontology, reasoner, "src/maude/combinations/combination" + combinationCounter + ".maude");
 
                 //MaudeSerializer.serializeAbox(ontology);
 
@@ -146,6 +160,7 @@ public class OntologyPermuter extends Ontology {
                 combinations.add(result);
 
                 combination.removeAll(mappingAxioms);
+                manager.removeAxioms(ontology, mappingAxioms);
             }
             //return true;
             return;

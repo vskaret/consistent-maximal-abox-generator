@@ -28,6 +28,17 @@ public final class OntologyUtils {
         System.out.println();
     }
 
+    public static void printAnonymous(OWLOntology ontology) {
+        Set<OWLAnonymousIndividual> anons = ontology.getAnonymousIndividuals();
+
+        for (OWLAnonymousIndividual anon : anons) {
+            System.out.println(anon);
+            Set<OWLIndividualAxiom> axioms = ontology.getAxioms(anon);
+            System.out.println(axioms);
+            System.out.println();
+        }
+    }
+
     public static void printClassAxioms(OWLOntology ontology, OWLClassExpression oce) {
         printSet(ontology.getClassAssertionAxioms(oce));
 

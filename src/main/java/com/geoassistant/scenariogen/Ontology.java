@@ -310,9 +310,9 @@ public abstract class Ontology {
         MaudeSerializer.serializeObjectProperties(ontology, reasoner);
     }
 
-    protected void serializeAbox() {
-        MaudeSerializer.serializeAbox(ontology);
-    }
+    //protected void serializeAbox() {
+        //MaudeSerializer.serializeAbox(ontology);
+    //}
 
     /**
      * Returns the top super class of a class. If none are found (meaning the class is a top super class
