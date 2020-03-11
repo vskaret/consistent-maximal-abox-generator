@@ -12,22 +12,6 @@ public final class Utils {
     private Utils() {
     }
 
-    public static void prettyprint(Set<OWLClassAssertionAxiom> set) {
-        for (OWLClassAssertionAxiom ax : set) {
-            String className = ax.getClassExpression().asOWLClass().getIRI().getShortForm();
-            String individual = ax.getIndividual().asOWLNamedIndividual().getIRI().getShortForm();
-
-            //if (!className.equals("Permutable") && individual.equals("b")) {
-            //if (!className.equals("Permutable")) {
-            System.out.print(className + "(" + individual + ") ");
-            //}
-        }
-        System.out.println();
-    }
-
-    public static void leafprint(Set<OWLClassAssertionAxiom> set, Ontology ont) {
-        prettyprint(ont.getLeafClasses(set));
-    }
 
     /**
      * Checks if a set is a sub of a set of sets.
@@ -52,6 +36,24 @@ public final class Utils {
         }
 
         return false;
+    }
+
+    /**
+     * (Used to get restOfPermutables)
+     *
+     * @param list list to copy
+     * @param <T> ??
+     * @return copy of list without list's first element
+     * @throws Exception TODO
+     */
+    public static <T> ArrayList<T> copyWithoutFirstElement(ArrayList<T> list) throws Exception {
+        if (list.isEmpty()) {
+            throw new Exception("can't remove from empty list");
+        }
+
+        ArrayList<T> copy = new ArrayList<>(list);
+        copy.remove(0);
+        return copy;
     }
 
     /**
@@ -123,23 +125,6 @@ public final class Utils {
         }
     }
 
-    /**
-     * (Used to get restOfPermutables)
-     *
-     * @param list list to copy
-     * @param <T> ??
-     * @return copy of list without list's first element
-     * @throws Exception TODO
-     */
-    public static <T> ArrayList<T> copyWithoutFirstElement(ArrayList<T> list) throws Exception {
-        if (list.isEmpty()) {
-            throw new Exception("can't remove from empty list");
-        }
-
-        ArrayList<T> copy = new ArrayList<>(list);
-        copy.remove(0);
-        return copy;
-    }
 
 
     /**

@@ -113,27 +113,6 @@ public class Test extends OntologyPermuter {
     }
 
     /**
-     * Prints all leaf classes of the ontology.
-     */
-    public void testAllLeafClasses() throws Exception {
-        //ArrayList<OWLClassExpression> leafSubClasses = allLeafSubClasses(thing);
-        System.out.println("All leaf classes of the ontology:");
-        for (OWLClass c : ontology.getClassesInSignature()) {
-            ArrayList<ArrayList<OWLClassExpression>> leafLists = allLeafSubClasses(c);
-
-            System.out.println("Leaf classes of " + c);
-            for (ArrayList<OWLClassExpression> leafClasses : leafLists) {
-                System.out.println(leafClasses);
-                //for (OWLClassExpression c : leafSubClasses) {
-                //System.out.println(c);
-                //}
-            }
-            System.out.println("End of " + c + " leaf classes");
-        }
-        System.out.println("End of ontology's leaf classes");
-    }
-
-    /**
      * For each leaf class in the ontology, print its top super class.
      * @throws Exception
      */

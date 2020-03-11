@@ -9,7 +9,6 @@ import java.util.Set;
 import java.io.PrintWriter;
 
 public class MaudeSerializer {
-
     static final String prefix = "mod OWL-PERMUTATION is\n" +
             //"  PROTECTING OWL-SORTS .\n";
             "  protecting OWL-CONVERTER .\n";
@@ -42,38 +41,6 @@ public class MaudeSerializer {
         */
    }
 
-   /*
-    public static String serializeAbox(OWLOntology ontology) {
-        Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
-        //String result = prefix;
-        StringBuffer result = new StringBuffer(prefix);
-        result.append("  op unknowns : -> Configuration .\n");
-        result.append("  eq unknowns() = ");
-        //System.out.println("op unknowns : -> Configuration .");
-        //System.out.print("eq unknowns() = ");
-
-        for (OWLNamedIndividual i : individuals) {
-            String oid = i.getIRI().getShortForm();
-            Set<OWLClassAssertionAxiom> instantiations = ontology.getClassAssertionAxioms(i);
-
-            for (OWLClassAssertionAxiom cax : instantiations) {
-                String sort = cax.getClassExpression().asOWLClass().getIRI().getShortForm();
-                result.append(sort + "(" + oid + ") ");
-                //result += sort + "(" + oid + ") ";
-                //System.out.print(sort + "(" + oid + ") ");
-            }
-        }
-
-        //System.out.println(".");
-        //System.out.println(postfix);
-        //result += "." + postfix;
-        result.append("." + postfix);
-
-        return result.toString();
-    }
-    */
-
-    //public static void serializeAboxLeaves(OWLOntology ontology, OWLReasoner reasoner) {
     public static String serializeAbox(OWLOntology ontology, OWLReasoner reasoner) {
         Set<OWLNamedIndividual> individuals = ontology.getIndividualsInSignature();
         StringBuffer result = new StringBuffer(prefix);
@@ -95,7 +62,6 @@ public class MaudeSerializer {
             //System.out.println(ontology.getObjectPropertyAssertionAxioms(i));
 
             // object properties
-            /*
             Set<OWLObjectPropertyAssertionAxiom> axioms = ontology.getObjectPropertyAssertionAxioms(i);
             for (OWLObjectPropertyAssertionAxiom ax : axioms) {
                 String prop = ax.getProperty().asOWLObjectProperty().getIRI().getShortForm();
@@ -104,7 +70,6 @@ public class MaudeSerializer {
 
                 result.append(prop + "(" + subject + ", " + object + ") ");
             }
-             */
         }
 
         result.append(".");
@@ -113,7 +78,13 @@ public class MaudeSerializer {
         return result.toString();
     }
 
-    public static void serializeTbox() {
+    public static void serializeTbox(OWLOntology ontology, OWLReasoner reasoner, OWLClass root) {
+        System.out.println("mod OWL-CLASSES is");
+        System.out.println("sort " + "OWL" + root.getIRI().getShortForm() + " .");
+
+        recSerializeClassHierarchy(ontology, reasoner, root);
+        System.out.println("endm");
+
 
     }
 
@@ -138,7 +109,7 @@ public class MaudeSerializer {
     private static void recSerializeClassHierarchy(OWLOntology ontology, OWLReasoner reasoner, OWLClass root) {
         for (OWLClass c : reasoner.getSubClasses(root, true).getFlattened()) {
             if (!c.isOWLNothing()) {
-                System.out.println("subsort " + "OWL" + root.getIRI().getShortForm() + " > " + "OWL" + c.getIRI().getShortForm() + " .");
+                System.out.println("subsort " + "OWL" + c.getIRI().getShortForm() + " < " + "OWL" + root.getIRI().getShortForm() + " .");
 
                 //if (reasoner.getSubClasses(c, true).isBottomSingleton()) {
                     //System.out.print("op ");

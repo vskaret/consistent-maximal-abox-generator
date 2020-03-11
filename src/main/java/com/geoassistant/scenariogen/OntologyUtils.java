@@ -19,6 +19,7 @@ public final class OntologyUtils {
 
     public static void printClassAssertions(OWLOntology ontology) {
         Set<OWLAxiom> axioms = ontology.getAxioms();
+        System.out.println(axioms);
         for (OWLAxiom axiom : axioms) {
             if (axiom instanceof OWLClassAssertionAxiom) {
                 System.out.println(axiom);
@@ -30,6 +31,7 @@ public final class OntologyUtils {
 
     public static void printAnonymous(OWLOntology ontology) {
         Set<OWLAnonymousIndividual> anons = ontology.getAnonymousIndividuals();
+        System.out.println(anons);
 
         for (OWLAnonymousIndividual anon : anons) {
             System.out.println(anon);
@@ -55,5 +57,34 @@ public final class OntologyUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Prettyprint a set of class assertions
+     */
+    public static void prettyprint(Set<OWLClassAssertionAxiom> set) {
+        for (OWLClassAssertionAxiom ax : set) {
+            String className = ax.getClassExpression().asOWLClass().getIRI().getShortForm();
+            String individual = ax.getIndividual().asOWLNamedIndividual().getIRI().getShortForm();
+
+            //if (!className.equals("Permutable") && individual.equals("b")) {
+            //if (!className.equals("Permutable")) {
+            System.out.print(className + "(" + individual + ") ");
+            //}
+        }
+        System.out.println();
+    }
+
+    /**
+     * Print all leaf class assertions in the set.
+     *
+     * Did not work on forcetwoattributes.owl ontology. Somehow Porous and NonPorous were not printed.
+     * They were not considered leaf classes?
+     *
+     * @param set
+     * @param ont
+     */
+    public static void leafprint(Set<OWLClassAssertionAxiom> set, Ontology ont) {
+        prettyprint(ont.getLeafClasses(set));
     }
 }

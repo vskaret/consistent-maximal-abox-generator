@@ -12,11 +12,12 @@ public class App
         boolean debugging = false;
         boolean printInconsistent = true;
 
-        OntologyPermuter op = new OntologyPermuter("permutations");
+        OntologyPermuter op = new OntologyPermuter();
 
         op.setDEBUG(debugging);
         op.setPrintInconsistent(printInconsistent);
-        op.loadOntology("geo-maude3.owl");
+        //op.loadOntology("geo-maude3.owl");
+        op.loadOntology("splittest.owl");
 
         //System.out.println("*********************");
         //op.serializeTbox();
