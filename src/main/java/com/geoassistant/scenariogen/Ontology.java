@@ -27,8 +27,12 @@ public abstract class Ontology {
 
     // ontology file related variables
     protected File ontologyFile;
-    protected final String cwd = System.getProperty("user.dir") + "/src/main/java/com/geoassistant/scenariogen";
-    protected String datadir;
+    protected final String srcPath = System.getProperty("user.dir") + "/src/";
+    protected final String cwd = srcPath + "main/java/com/geoassistant/scenariogen/";
+    protected final String owldir = srcPath + "owl/";
+
+    //protected final String cwd = System.getProperty("user.dir") + "/src/main/java/com/geoassistant/scenariogen";
+    //protected String datadir;
 
     // the OWL ontology manager
     protected OWLOntologyManager manager;
@@ -44,7 +48,6 @@ public abstract class Ontology {
 
     public Ontology() {
         manager = OWLManager.createOWLOntologyManager();
-        datadir = cwd + "/../" + "owlfiles/";
     }
 
     /**
@@ -66,7 +69,7 @@ public abstract class Ontology {
             throw new Exception("Already loaded an ontology.");
         }
 
-        this.ontologyFile = new File(cwd + "/" + filename);
+        this.ontologyFile = new File(owldir + filename);
 
         ontology = manager.loadOntologyFromOntologyDocument(ontologyFile);
         reasoner = new Reasoner.ReasonerFactory().createReasoner(ontology);
@@ -150,7 +153,7 @@ public abstract class Ontology {
      * @return a list of class assertion axioms
      * @throws Exception TODO
      */
-    protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLIndividual individual) throws Exception {
+    protected List<OWLAxiom> generateClassAssertionAxioms(List<OWLClassExpression> ce, OWLIndividual individual) {
         List<OWLAxiom> classAxioms = new ArrayList<>();
 
         for (OWLClassExpression c : ce) {

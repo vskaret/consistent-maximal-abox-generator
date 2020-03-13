@@ -16,8 +16,8 @@ public class App
 
         op.setDEBUG(debugging);
         op.setPrintInconsistent(printInconsistent);
-        //op.loadOntology("geo-maude3.owl");
-        op.loadOntology("splittest.owl");
+        op.loadOntology("geo-maude3.owl");
+        //op.loadOntology("splittest.owl");
 
         //System.out.println("*********************");
         //op.serializeTbox();

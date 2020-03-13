@@ -1,0 +1,390 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#"
+     xml:base="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21"
+     xmlns:my="http://my.ont#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:sweb="http://sweb.org#"
+     xmlns:untitled-ontology-21="http://www.semanticweb.org/kb/ontologies/2019/9/untitled-ontology-21#">
+    <owl:Ontology rdf:about="http://my.ont"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://my.ont#hasSealingProperty -->
+
+    <owl:ObjectProperty rdf:about="http://my.ont#hasSealingProperty">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://my.ont#Fault"/>
+        <rdfs:range rdf:resource="http://my.ont#SealingProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://my.ont#isDirectlyInFrontOf -->
+
+    <owl:ObjectProperty rdf:about="http://my.ont#isDirectlyInFrontOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://my.ont#Rock"/>
+        <rdfs:range rdf:resource="http://my.ont#Rock"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://my.ont#isLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="http://my.ont#isLocatedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://my.ont#Rock"/>
+        <rdfs:range rdf:resource="http://my.ont#Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://my.ont#DistributaryChannel -->
+
+    <owl:Class rdf:about="http://my.ont#DistributaryChannel">
+        <rdfs:subClassOf rdf:resource="http://my.ont#Location"/>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#Fault -->
+
+    <owl:Class rdf:about="http://my.ont#Fault">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#hasSealingProperty"/>
+                <owl:someValuesFrom rdf:resource="http://my.ont#SealingProperty"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#FeederChannel -->
+
+    <owl:Class rdf:about="http://my.ont#FeederChannel">
+        <rdfs:subClassOf rdf:resource="http://my.ont#Location"/>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#InDistributaryChannel -->
+
+    <owl:Class rdf:about="http://my.ont#InDistributaryChannel">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:oneOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://my.ont#dc"/>
+                        </owl:oneOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://my.ont#Rock"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isDirectlyInFrontOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:oneOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://my.ont#dc"/>
+                                    <rdf:Description rdf:about="http://my.ont#l"/>
+                                </owl:oneOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#InFeederChannel -->
+
+    <owl:Class rdf:about="http://my.ont#InFeederChannel">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:oneOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://my.ont#fc"/>
+                        </owl:oneOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://my.ont#Rock"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isDirectlyInFrontOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:oneOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://my.ont#dc"/>
+                                    <rdf:Description rdf:about="http://my.ont#fc"/>
+                                </owl:oneOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#InLobe -->
+
+    <owl:Class rdf:about="http://my.ont#InLobe">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:oneOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://my.ont#l"/>
+                        </owl:oneOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://my.ont#Rock"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://my.ont#isDirectlyInFrontOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://my.ont#isLocatedIn"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:oneOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://my.ont#l"/>
+                                </owl:oneOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#Lobe -->
+
+    <owl:Class rdf:about="http://my.ont#Lobe">
+        <rdfs:subClassOf rdf:resource="http://my.ont#Location"/>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#Location -->
+
+    <owl:Class rdf:about="http://my.ont#Location"/>
+    
+
+
+    <!-- http://my.ont#Rock -->
+
+    <owl:Class rdf:about="http://my.ont#Rock"/>
+    
+
+
+    <!-- http://my.ont#SealingProperty -->
+
+    <owl:Class rdf:about="http://my.ont#SealingProperty">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://my.ont#non-sealing"/>
+                    <rdf:Description rdf:about="http://my.ont#sealing"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://my.ont#Unknown -->
+
+    <owl:Class rdf:about="http://my.ont#Unknown"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://my.ont#A -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#A">
+        <rdf:type rdf:resource="http://my.ont#InFeederChannel"/>
+        <my:isDirectlyInFrontOf rdf:resource="http://my.ont#B"/>
+        <my:isLocatedIn rdf:resource="http://my.ont#fc"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#B -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#B">
+        <rdf:type rdf:resource="http://my.ont#Rock"/>
+        <rdf:type rdf:resource="http://my.ont#Unknown"/>
+        <my:isDirectlyInFrontOf rdf:resource="http://my.ont#C"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#C -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#C">
+        <rdf:type rdf:resource="http://my.ont#InLobe"/>
+        <my:isDirectlyInFrontOf rdf:resource="http://my.ont#D"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#D -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#D">
+        <rdf:type rdf:resource="http://my.ont#Rock"/>
+        <rdf:type rdf:resource="http://my.ont#Unknown"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#dc -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#dc">
+        <rdf:type rdf:resource="http://my.ont#Location"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#fc -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#fc">
+        <rdf:type rdf:resource="http://my.ont#Location"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#l -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#l">
+        <rdf:type rdf:resource="http://my.ont#Location"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#non-sealing -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#non-sealing">
+        <rdf:type rdf:resource="http://my.ont#SealingProperty"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://my.ont#sealing -->
+
+    <owl:NamedIndividual rdf:about="http://my.ont#sealing">
+        <rdf:type rdf:resource="http://my.ont#SealingProperty"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://my.ont#InDistributaryChannel"/>
+            <rdf:Description rdf:about="http://my.ont#InFeederChannel"/>
+            <rdf:Description rdf:about="http://my.ont#InLobe"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://my.ont#A"/>
+            <rdf:Description rdf:about="http://my.ont#B"/>
+            <rdf:Description rdf:about="http://my.ont#C"/>
+            <rdf:Description rdf:about="http://my.ont#D"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://my.ont#dc"/>
+            <rdf:Description rdf:about="http://my.ont#fc"/>
+            <rdf:Description rdf:about="http://my.ont#l"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://my.ont#non-sealing"/>
+            <rdf:Description rdf:about="http://my.ont#sealing"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
