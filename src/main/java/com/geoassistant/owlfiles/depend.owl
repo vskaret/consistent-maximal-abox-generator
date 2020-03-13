@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.an.ont/"
+     xml:base="http://www.an.ont/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://www.an.ont/"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.an.ont/"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.an.ont/after -->
+
+    <owl:ObjectProperty rdf:about="http://www.an.ont/after">
+        <owl:inverseOf rdf:resource="http://www.an.ont/frontOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.an.ont/frontOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.an.ont/frontOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.an.ont/hasLocation -->
+
+    <owl:ObjectProperty rdf:about="http://www.an.ont/hasLocation">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.an.ont/BasinPlain -->
+
+    <owl:Class rdf:about="http://www.an.ont/BasinPlain">
+        <rdfs:subClassOf rdf:resource="http://www.an.ont/Location"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.an.ont/after"/>
+                <owl:allValuesFrom rdf:resource="http://www.an.ont/NonPorous"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.an.ont/frontOf"/>
+                <owl:allValuesFrom rdf:resource="http://www.an.ont/BasinPlain"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.an.ont/Porous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.an.ont/GeoUnit -->
+
+    <owl:Class rdf:about="http://www.an.ont/GeoUnit"/>
+    
+
+
+    <!-- http://www.an.ont/Lobe -->
+
+    <owl:Class rdf:about="http://www.an.ont/Lobe">
+        <rdfs:subClassOf rdf:resource="http://www.an.ont/Location"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.an.ont/frontOf"/>
+                        <owl:allValuesFrom rdf:resource="http://www.an.ont/Lobe"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.an.ont/frontOf"/>
+                        <owl:allValuesFrom rdf:resource="http://www.an.ont/LobeFringe"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.an.ont/NonPorous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.an.ont/LobeFringe -->
+
+    <owl:Class rdf:about="http://www.an.ont/LobeFringe">
+        <rdfs:subClassOf rdf:resource="http://www.an.ont/Location"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.an.ont/frontOf"/>
+                        <owl:allValuesFrom rdf:resource="http://www.an.ont/BasinPlain"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.an.ont/frontOf"/>
+                        <owl:allValuesFrom rdf:resource="http://www.an.ont/LobeFringe"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.an.ont/Porous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.an.ont/Location -->
+
+    <owl:Class rdf:about="http://www.an.ont/Location"/>
+    
+
+
+    <!-- http://www.an.ont/NonPorous -->
+
+    <owl:Class rdf:about="http://www.an.ont/NonPorous">
+        <rdfs:subClassOf rdf:resource="http://www.an.ont/Porosity"/>
+        <owl:disjointWith rdf:resource="http://www.an.ont/Porous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.an.ont/Porosity -->
+
+    <owl:Class rdf:about="http://www.an.ont/Porosity"/>
+    
+
+
+    <!-- http://www.an.ont/Porous -->
+
+    <owl:Class rdf:about="http://www.an.ont/Porous">
+        <rdfs:subClassOf rdf:resource="http://www.an.ont/Porosity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.an.ont/Unknown -->
+
+    <owl:Class rdf:about="http://www.an.ont/Unknown"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.an.ont/2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.an.ont/2">
+        <rdf:type rdf:resource="http://www.an.ont/BasinPlain"/>
+        <rdf:type rdf:resource="http://www.an.ont/GeoUnit"/>
+        <rdf:type rdf:resource="http://www.an.ont/NonPorous"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.nice.ont/1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.nice.ont/1">
+        <rdf:type rdf:resource="http://www.an.ont/Unknown"/>
+        <frontOf rdf:resource="http://www.an.ont/2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.an.ont/BasinPlain"/>
+            <rdf:Description rdf:about="http://www.an.ont/Lobe"/>
+            <rdf:Description rdf:about="http://www.an.ont/LobeFringe"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

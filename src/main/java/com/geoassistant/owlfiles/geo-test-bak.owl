@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://my.ont/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://my.ont/">
+    <Prefix name="" IRI="http://my.ont/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="AfterArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="BeforeArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="CapRock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Fault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="GeoUnit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="GoodReservoir"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="InsideArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonSealingFault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="OldTree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="PoorReservoir"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="ReservoirRock"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="RockLocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="RockType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="SealingFault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Tree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="YoungTree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FaultSealingCapacity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Permutable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Rock"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="cuts"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="isAbove"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="isDirectlyAfter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="GU0"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="GU1"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="AfterArea"/>
+        <Class IRI="RockLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="AfterArea"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isDirectlyBefore"/>
+            <Class IRI="AfterArea"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="BeforeArea"/>
+        <Class IRI="RockLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="BeforeArea"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="BeforeArea"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InsideArea"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="CapRock"/>
+        <Class IRI="RockType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Fault"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="GoodReservoir"/>
+        <Class IRI="ReservoirRock"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InsideArea"/>
+        <Class IRI="RockLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InsideArea"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="AfterArea"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isDirectlyBefore"/>
+                <Class IRI="InsideArea"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="NonSealingFault"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="OldTree"/>
+        <Class IRI="Tree"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="PoorReservoir"/>
+        <Class IRI="ReservoirRock"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="ReservoirRock"/>
+        <Class IRI="RockType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="RockLocation"/>
+        <Class IRI="#Rock"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="RockType"/>
+        <Class IRI="#Rock"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="SealingFault"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Tree"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="YoungTree"/>
+        <Class IRI="Tree"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FaultSealingCapacity"/>
+        <Class IRI="Fault"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Rock"/>
+        <Class IRI="GeoUnit"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="AfterArea"/>
+        <Class IRI="BeforeArea"/>
+        <Class IRI="InsideArea"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="CapRock"/>
+        <Class IRI="ReservoirRock"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="Tree"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="#Rock"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="GoodReservoir"/>
+        <Class IRI="PoorReservoir"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="NonSealingFault"/>
+        <Class IRI="SealingFault"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Tree"/>
+        <Class IRI="#Rock"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Permutable"/>
+        <NamedIndividual IRI="GU0"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Rock"/>
+        <NamedIndividual IRI="GU0"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Permutable"/>
+        <NamedIndividual IRI="GU1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Rock"/>
+        <NamedIndividual IRI="GU1"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <NamedIndividual IRI="GU0"/>
+        <NamedIndividual IRI="GU1"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="isAbove"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="isDirectlyAfter"/>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </InverseFunctionalObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="isAbove"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="cuts"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="isAbove"/>
+        <Class IRI="#Rock"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSealingProperty"/>
+        <Class IRI="#FaultSealingCapacity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <Class IRI="#Rock"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="cuts"/>
+        <Class IRI="#Rock"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="isAbove"/>
+        <Class IRI="#Rock"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDirectlyBefore"/>
+        <Class IRI="#Rock"/>
+    </ObjectPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

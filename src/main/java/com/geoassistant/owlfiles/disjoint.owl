@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http:/m.o/"
+     xml:base="http:/m.o/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http:/m.o/"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http:/m.o/Alive -->
+
+    <owl:Class rdf:about="http:/m.o/Alive">
+        <rdfs:subClassOf rdf:resource="http:/m.o/LifeStatus"/>
+        <owl:disjointWith rdf:resource="http:/m.o/Dead"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/ArmStatus -->
+
+    <owl:Class rdf:about="http:/m.o/ArmStatus">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Health"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Basketball -->
+
+    <owl:Class rdf:about="http:/m.o/Basketball">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Hobby"/>
+        <owl:disjointWith rdf:resource="http:/m.o/LostArm"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Dead -->
+
+    <owl:Class rdf:about="http:/m.o/Dead">
+        <rdfs:subClassOf rdf:resource="http:/m.o/LifeStatus"/>
+        <owl:disjointWith rdf:resource="http:/m.o/Occupation"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/DiseaseFree -->
+
+    <owl:Class rdf:about="http:/m.o/DiseaseFree">
+        <rdfs:subClassOf rdf:resource="http:/m.o/DiseaseStatus"/>
+        <owl:disjointWith rdf:resource="http:/m.o/HasDisease"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/DiseaseStatus -->
+
+    <owl:Class rdf:about="http:/m.o/DiseaseStatus">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Health"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Dog -->
+
+    <owl:Class rdf:about="http:/m.o/Dog">
+        <owl:disjointWith rdf:resource="http:/m.o/HasHumanDisease"/>
+        <owl:disjointWith rdf:resource="http:/m.o/Human"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Football -->
+
+    <owl:Class rdf:about="http:/m.o/Football">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Hobby"/>
+        <owl:disjointWith rdf:resource="http:/m.o/LostLeg"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/HasDisease -->
+
+    <owl:Class rdf:about="http:/m.o/HasDisease">
+        <rdfs:subClassOf rdf:resource="http:/m.o/DiseaseStatus"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/HasDogDisease -->
+
+    <owl:Class rdf:about="http:/m.o/HasDogDisease">
+        <rdfs:subClassOf rdf:resource="http:/m.o/HasDisease"/>
+        <owl:disjointWith rdf:resource="http:/m.o/HasHumanDisease"/>
+        <owl:disjointWith rdf:resource="http:/m.o/Human"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/HasHumanDisease -->
+
+    <owl:Class rdf:about="http:/m.o/HasHumanDisease">
+        <rdfs:subClassOf rdf:resource="http:/m.o/HasDisease"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Health -->
+
+    <owl:Class rdf:about="http:/m.o/Health"/>
+    
+
+
+    <!-- http:/m.o/Hobby -->
+
+    <owl:Class rdf:about="http:/m.o/Hobby">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Occupation"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Human -->
+
+    <owl:Class rdf:about="http:/m.o/Human"/>
+    
+
+
+    <!-- http:/m.o/LegStatus -->
+
+    <owl:Class rdf:about="http:/m.o/LegStatus">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Health"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/LifeStatus -->
+
+    <owl:Class rdf:about="http:/m.o/LifeStatus">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Health"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/LostArm -->
+
+    <owl:Class rdf:about="http:/m.o/LostArm">
+        <rdfs:subClassOf rdf:resource="http:/m.o/ArmStatus"/>
+        <owl:disjointWith rdf:resource="http:/m.o/TwoArms"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/LostLeg -->
+
+    <owl:Class rdf:about="http:/m.o/LostLeg">
+        <rdfs:subClassOf rdf:resource="http:/m.o/LegStatus"/>
+        <owl:disjointWith rdf:resource="http:/m.o/TwoLegs"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Occupation -->
+
+    <owl:Class rdf:about="http:/m.o/Occupation"/>
+    
+
+
+    <!-- http:/m.o/Profession -->
+
+    <owl:Class rdf:about="http:/m.o/Profession">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Occupation"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Student -->
+
+    <owl:Class rdf:about="http:/m.o/Student">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Profession"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/Teacher -->
+
+    <owl:Class rdf:about="http:/m.o/Teacher">
+        <rdfs:subClassOf rdf:resource="http:/m.o/Profession"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/TwoArms -->
+
+    <owl:Class rdf:about="http:/m.o/TwoArms">
+        <rdfs:subClassOf rdf:resource="http:/m.o/ArmStatus"/>
+    </owl:Class>
+    
+
+
+    <!-- http:/m.o/TwoLegs -->
+
+    <owl:Class rdf:about="http:/m.o/TwoLegs">
+        <rdfs:subClassOf rdf:resource="http:/m.o/LegStatus"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http:/m.o/ArmStatus"/>
+            <rdf:Description rdf:about="http:/m.o/LegStatus"/>
+            <rdf:Description rdf:about="http:/m.o/LifeStatus"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
