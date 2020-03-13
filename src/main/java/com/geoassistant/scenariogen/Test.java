@@ -15,8 +15,15 @@ import java.util.*;
 public class Test extends OntologyPermuter {
 
     OWLClass thing;
+    //String permutationsDir;
 
-    public Test() {
+    //public Test(String dir) {
+        //this.permutationsDir = dir;
+    //}
+
+    public Test(String dir) {
+        super(dir);
+        //this.permutationsDir = dir;
     }
 
     public void setThing() {
@@ -26,7 +33,7 @@ public class Test extends OntologyPermuter {
     public static void main(String args[]) throws Exception {
         boolean debugging = false;
 
-        Test t = new Test();
+        Test t = new Test("test-permutations");
         //t.setDEBUG(debugging);
         //t.loadOntology("geo-test.owl");
         //t.setThing();
@@ -47,7 +54,7 @@ public class Test extends OntologyPermuter {
     }
 
     public void testOntologySubsetOf() throws Exception {
-        OntologyPermuter op = new OntologyPermuter();
+        OntologyPermuter op = new OntologyPermuter("test-permutations");
         op.loadOntology("subset-example.owl");
 
         op.subsetTest();
@@ -103,27 +110,6 @@ public class Test extends OntologyPermuter {
             System.out.println(c + " : " + isLeafClass(c));
         }
         System.out.println("End leaf class test");
-    }
-
-    /**
-     * Prints all leaf classes of the ontology.
-     */
-    public void testAllLeafClasses() throws Exception {
-        //ArrayList<OWLClassExpression> leafSubClasses = allLeafSubClasses(thing);
-        System.out.println("All leaf classes of the ontology:");
-        for (OWLClass c : ontology.getClassesInSignature()) {
-            ArrayList<ArrayList<OWLClassExpression>> leafLists = allLeafSubClasses(c);
-
-            System.out.println("Leaf classes of " + c);
-            for (ArrayList<OWLClassExpression> leafClasses : leafLists) {
-                System.out.println(leafClasses);
-                //for (OWLClassExpression c : leafSubClasses) {
-                //System.out.println(c);
-                //}
-            }
-            System.out.println("End of " + c + " leaf classes");
-        }
-        System.out.println("End of ontology's leaf classes");
     }
 
     /**
