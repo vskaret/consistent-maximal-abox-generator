@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://my.ont/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://my.ont/">
+    <Prefix name="" IRI="http://my.ont/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="BasinPlain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="DistributaryChannel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Fault"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="FeederChannel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="GeoUnit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="InterChannel1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="InterChannel2"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Lobe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="LobeFringe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="NonSealing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Sealing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="SealingCapacity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Unknown"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="frontOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="f1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="f2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="f3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="gu11"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="gu14"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="gu5"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="gu8"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="mapsTo"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="SealingCapacity"/>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="GeoUnit"/>
+        <Class IRI="Location"/>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="BasinPlain"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="frontOf"/>
+            <Class IRI="BasinPlain"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="DistributaryChannel"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="InterChannel2"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="FeederChannel"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="FeederChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="InterChannel1"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel1"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="DistributaryChannel"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="InterChannel1"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="InterChannel2"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="InterChannel2"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Lobe"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="Lobe"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="LobeFringe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="LobeFringe"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="BasinPlain"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="frontOf"/>
+                <Class IRI="LobeFringe"/>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="BasinPlain"/>
+        <Class IRI="DistributaryChannel"/>
+        <Class IRI="FeederChannel"/>
+        <Class IRI="InterChannel1"/>
+        <Class IRI="InterChannel2"/>
+        <Class IRI="Lobe"/>
+        <Class IRI="LobeFringe"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="Fault"/>
+        <Class IRI="Location"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="GeoUnit"/>
+        <Class IRI="SealingCapacity"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="NonSealing"/>
+        <Class IRI="Sealing"/>
+    </DisjointClasses>
+    <DisjointUnion>
+        <Class IRI="Location"/>
+        <Class IRI="BasinPlain"/>
+        <Class IRI="DistributaryChannel"/>
+        <Class IRI="FeederChannel"/>
+        <Class IRI="InterChannel1"/>
+        <Class IRI="InterChannel2"/>
+        <Class IRI="Lobe"/>
+        <Class IRI="LobeFringe"/>
+    </DisjointUnion>
+    <DisjointUnion>
+        <Class IRI="SealingCapacity"/>
+        <Class IRI="NonSealing"/>
+        <Class IRI="Sealing"/>
+    </DisjointUnion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="f1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="f1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="f2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="f2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Fault"/>
+        <NamedIndividual IRI="f3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="f3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="gu11"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="gu11"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="gu14"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="gu14"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="gu5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="gu5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="GeoUnit"/>
+        <NamedIndividual IRI="gu8"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Unknown"/>
+        <NamedIndividual IRI="gu8"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="frontOf"/>
+        <NamedIndividual IRI="gu11"/>
+        <NamedIndividual IRI="gu14"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="frontOf"/>
+        <NamedIndividual IRI="gu5"/>
+        <NamedIndividual IRI="gu8"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="frontOf"/>
+        <NamedIndividual IRI="gu8"/>
+        <NamedIndividual IRI="gu11"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="frontOf"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="frontOf"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="frontOf"/>
+    </InverseFunctionalObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="frontOf"/>
+    </AsymmetricObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="frontOf"/>
+    </IrreflexiveObjectProperty>
+    <SubAnnotationPropertyOf>
+        <AnnotationProperty IRI="mapsTo"/>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+    </SubAnnotationPropertyOf>
+    <AnnotationPropertyRange>
+        <AnnotationProperty IRI="mapsTo"/>
+        <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
+    </AnnotationPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
