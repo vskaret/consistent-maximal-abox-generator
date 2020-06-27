@@ -3,16 +3,12 @@ mod OWL-CONVERTER is
     protecting NAT .
     protecting STRING .
 
-    ---sorts LeafClass ObjectAttribute .
     sorts OWLClass Value ValueSet ObjectName .
-    --- subsort LeafClass < Msg .
-    --- subsort ObjectAttribute < Nat .
     subsort ObjectAttribute < String .
     subsorts Value ValueSet ObjectName < OWLClass .
 
     --- Fault
     sorts OWLFaultType OWLFaultCapacity .
-    ---subsorts FaultType FaultCapacity < LeafClass .
     subsorts OWLFaultType OWLFaultCapacity < Value .
 
     op ReverseFault : -> OWLFaultType . 
@@ -21,9 +17,8 @@ mod OWL-CONVERTER is
     op NonSealingFault : -> OWLFaultCapacity . 
 
     --- GeoUnit
-    sorts OWLRockType OWLPermeability OWLPorosity OWLLocation Kerogen Hydrocarbon .
-    ---subsorts RockType Permeability Porosity Location Kerogen Hydrocarbon < LeafClass .
-    subsorts OWLRockType OWLPermeability OWLPorosity OWLLocation Kerogen Hydrocarbon < Value .
+    sorts OWLRockType OWLPermeability OWLPorosity OWLLocation .
+    subsorts OWLRockType OWLPermeability OWLPorosity OWLLocation < Value .
 
     --- values
     op Sandstone : -> OWLRockType .
@@ -39,9 +34,6 @@ mod OWL-CONVERTER is
     op Lobe : -> OWLLocation .
     op BasinPlain : -> OWLLocation .
 
-    op NoKerogen : -> Kerogen .
-    op NoHydrocarbons : -> Hydrocarbon .
-
     --- object names and value sets
     op GeoUnit : -> ObjectName .
     op Fault : -> ObjectName .
@@ -51,8 +43,7 @@ mod OWL-CONVERTER is
     op RockType : -> ValueSet .
     op SealingCapacity : -> ValueSet .
 
-    --- From Crystal (with subsorts of ObjectAttribute added)
-    --- subsort Nat < Oid .
+    --- From Geo Assistant (with subsorts of ObjectAttribute added)
     sort ObjectAttribute .
     subsort String < Oid .
     op null : -> Oid .
@@ -73,14 +64,6 @@ mod OWL-CONVERTER is
     op sandstone : -> Rtype .
     op shale : -> Rtype .
 
-    --- Submarine Fan
-    ---op feederChannel : -> SubmarinefanCA .
-    ---op distributaryChannel : -> SubmarinefanCA .
-    ---op interChannel : -> SubmarinefanCA .
-    ---op lobe : -> SubmarinefanCA .
-    ---op lobeFringe : -> SubmarinefanCA .
-    ---op basinPlain : -> SubmarinefanCA .
-    
     op feederChannel : -> Location .
     op distributaryChannel : -> Location .
     op interChannel : -> Location .
@@ -97,22 +80,17 @@ mod OWL-CONVERTER is
     op non-porous : -> PorosityType .
 
     subsorts Ftype Ffilling Rtype Location PermeabilityType PorosityType < ObjectAttribute .
-    --- End From Crystal
+    --- End From Geo Assistant
 
     --- Fault object
     op <_: Fault | FType:_, SealingCapacity:_ > :
 	      Oid Ftype Ffilling -> Object [ctor] .
-
-    --- GeoUnit object
-    ---op <_: GeoUnit | GeoUnit:_, Type:_, Permeability:_, Porosity:_, SubmarineFan:_, KerogenType:_, Hydrocarbon:_> :
-	      ---Oid Oid Rtype PermeabilityType PorosityType SubmarinefanCA Nat Oid -> Object [ctor] .
 
     op <_: GeoUnit | RockType:_, Permeability:_, Porosity:_, Location:_> :
         Oid Rtype PermeabilityType PorosityType Location -> Object [ctor] .
 
 
     --- convert maps OWL leaf classes to object/class propertes in Maude
-    ---op convert : LeafClass -> ObjectAttribute .
     op convert : Value -> ObjectAttribute .
 
     --- Fault SealingCapacity
@@ -143,12 +121,6 @@ mod OWL-CONVERTER is
     eq convert(Lobe) = lobe .
     eq convert(BasinPlain) = basinPlain .
 
-    --- Kerogen
-    ---eq convert(NoKerogen) = 0 .
-
-    --- Hydrocarbon
-    ---eq convert(NoHydrocarbons) = null .
-
     --- operator to construct maude objects from an OWL message
     op type : OWLClass Oid -> Msg .
 
@@ -162,31 +134,17 @@ mod OWL-CONVERTER is
     vars PB : OWLPermeability .
     vars PR : OWLPorosity .
     vars L : OWLLocation .
-    var KT : Kerogen .
-    var HC : Hydrocarbon .
-    ---var F : Fault .
 
     --- construct Fault
     eq type(FT, O) type(FC, O) type(Fault, O)
       =
         < O : Fault | FType: convert(FT), SealingCapacity: convert(FC) > .
 
-    ---eq type(RT, O) type(PB, O) type(PR, O) type(L, O) type(KT, O) type(HC, O)
-      ---=
-        ---< O : GeoUnit | GeoUnit: O, Type: convert(RT), Permeability: convert(PB),
-                        ---Porosity: convert(PR), SubmarineFan: convert(L),
-                        ---KerogenType: convert(KT), Hydrocarbon: convert(HC) > .
     
     eq type(RT, O) type(PB, O) type(PR, O) type(L, O) type(GeoUnit, O) type(Location, O) type(Porosity, O) type(Permeability, O) type(RockType, O)
       =
         < O : GeoUnit | RockType: convert(RT), Permeability: convert(PB), Porosity: convert(PR), Location: convert(L) > .
     
-    --- to define all these will be very tedious... how to do it automatically?
-    ---eq construct(GeoUnit(O) Shale(O) Permeable(O) Porous(O) FeederChannel(O) C)
-      ---=
-        ---< O : GeoUnit | GeoUnit: O, Type: shale, Permeability: permeable, Porosity: porous, SubmarineFan: feederChannel, KerogenType: "none", Hydrocarbon: null >
-        ---construct(C) .
-
     --- constants
     op unknown1 : -> Configuration .
     eq unknown1 = type(SealingFault, "gu1") type(ReverseFault, "gu1") type(Fault, "gu1") .
@@ -201,9 +159,7 @@ mod OWL-CONVERTER is
     eq unknown4 = type(NonSealingFault, "4") type(NormalFault, "4") .
 
     op unknown5 : -> Configuration .
-    ---eq unknown5 = type(Shale, 5) type(Permeable, 5) type(Porous, 5) type(FeederChannel, 5) type(NoKerogen, 5) type(NoHydrocarbons, 5) .
 
     op unknown6 : -> Configuration .
-    ---eq unknown6 = type(Sandstone, 6) type(Permeable, 6) type(Porous, 6) type(FeederChannel, 6) type(NoKerogen, 6) type(NoHydrocarbons, 6) .
 
 endm

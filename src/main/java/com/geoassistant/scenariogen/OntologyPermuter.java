@@ -1,12 +1,7 @@
 package com.geoassistant.scenariogen;
 
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.profiles.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Queue;
+import java.util.*;
 
 public class OntologyPermuter extends Ontology {
     // reserved TBox class names
@@ -15,36 +10,13 @@ public class OntologyPermuter extends Ontology {
 
     // path for maude outputs
     private String maudePath = "src/maude/";
-    private String aboxPath = maudePath + "combinations/proto-scenario";
-    private String converterPath = maudePath + "converter.maude";
-    private boolean printInconsistent = false;
-
+    private String combinationOutputPath = maudePath + "combinations/proto-scenario";
 
     private int combinationCounter = 0;
     private Set<Set<OWLClassAssertionAxiom>> combinations = new HashSet<>();
     private Set<OWLClassAssertionAxiom> combination = new HashSet<>();
-    private Set<OWLClass> classCombination = new HashSet<>();
 
-    private boolean Tbox = true;
-
-    public OntologyPermuter() {
-    }
-
-    public OntologyPermuter(String reservedClassName) {
-        setReservedClassName(reservedClassName);
-    }
-
-    public void setPrintInconsistent(boolean printInconsistent) {
-        this.printInconsistent = printInconsistent;
-    }
-
-    public void setReservedClassName(String reservedName) {
-        this.unknownClassName = reservedName;
-    }
-
-    public void setAboxPath(String path) {
-        aboxPath = path;
-    }
+    public OntologyPermuter() {}
 
     /**
      * Initial call to start the permutation process. This process generates new ontologies based on the
@@ -54,13 +26,14 @@ public class OntologyPermuter extends Ontology {
      * @throws Exception
      */
     public void permute() throws Exception {
-        OWL2DLProfile profile = new OWL2DLProfile();
-        OWLProfileReport report = profile.checkOntology(ontology);
-        for(OWLProfileViolation v:report.getViolations()) {
-            System.out.println(v);}
+        OWLClass thing = factory.getOWLThing();
+        Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
+        OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
+        ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
 
-        System.out.println(report.getProfile());
-        return;
+        if (!permutables.isEmpty()) {
+            permute(permutables, thing);
+        }
     }
 
     /**
@@ -81,15 +54,11 @@ public class OntologyPermuter extends Ontology {
         // the unknown class assertion axiom no longer needed
         manager.removeAxiom(ontology, unknownCAA);
 
-        // need to handle owl:Thing (root) here, because it cannot be added to the ABox without getitng an
-        // exceptoin. the alternative is to check in every recursive call below if the node is owl:Thing
-
         for (OWLClass c : reasoner.getSubClasses(root, true).getFlattened()) {
             if (!c.getIRI().getShortForm().equals(unknownClassName) && !c.getIRI().getShortForm().equals(nonPermutable)) {
                 queue.add(c);
             }
         }
-
         bfs(permutables, queue, unknown);
     }
 
@@ -108,7 +77,7 @@ public class OntologyPermuter extends Ontology {
                 // serialize ABox
                 System.out.print(++combinationCounter + " ");
                 OntologyUtils.prettyprint(combination);
-                MaudeSerializer.writeFile(ontology, reasoner, aboxPath + combinationCounter + ".maude");
+                MaudeSerializer.writeFile(ontology, reasoner, combinationOutputPath + combinationCounter + ".maude");
 
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
@@ -118,7 +87,6 @@ public class OntologyPermuter extends Ontology {
             permute(permutables, factory.getOWLThing());
             return;
         }
-
 
         // pop front node from queue and print it
         OWLClass currentClass = queue.poll();
@@ -140,7 +108,6 @@ public class OntologyPermuter extends Ontology {
         if (reasoner.isConsistent()) {
             // add current node to current combination
             combination.add(ax);
-            classCombination.add(ax.getClassExpression().asOWLClass());
 
             // add children of current node
             for (OWLClass c : reasoner.getSubClasses(currentClass, true).getFlattened()) {
@@ -154,7 +121,6 @@ public class OntologyPermuter extends Ontology {
 
             // remove the current node from the current combination (for traversal without the node)
             combination.remove(ax);
-            classCombination.remove(ax.getClassExpression().asOWLClass());
         }
 
         if (!containedAxiom) {
