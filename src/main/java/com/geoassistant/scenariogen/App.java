@@ -12,7 +12,7 @@ public class App
         OntologyPermuter op = new OntologyPermuter();
 
         op.setDEBUG(debugging);
-        op.loadOntology("geo-maude3.owl");
+        op.loadOntology("Small.owl");
         op.permute();
     }
 }

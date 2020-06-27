@@ -34,7 +34,7 @@ public class MaudeSerializer {
                 String subject = ax.getSubject().asOWLNamedIndividual().getIRI().getShortForm();
                 String object = ax.getObject().asOWLNamedIndividual().getIRI().getShortForm();
 
-                result.append(prop + "(" + subject + ", " + object + ") ");
+                result.append(prop + "(\"" + subject + "\", \"" + object + "\") ");
             }
         }
 

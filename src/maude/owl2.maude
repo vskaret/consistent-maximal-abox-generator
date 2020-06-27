@@ -3,30 +3,24 @@ mod OWL-CONVERTER is
     protecting NAT .
     protecting STRING .
 
-    sorts OWLClass Value ValueSet ObjectName .
+    sorts OWLClass Value ValueSet ObjectName ObjectProperty .
     subsort ObjectAttribute < String .
     subsorts Value ValueSet ObjectName < OWLClass .
+    subsort ObjectProperty < Msg .
 
     --- Fault
-    sorts OWLFaultType OWLFaultCapacity .
-    subsorts OWLFaultType OWLFaultCapacity < Value .
-
-    op ReverseFault : -> OWLFaultType . 
-    op NormalFault : -> OWLFaultType . 
-    op SealingFault : -> OWLFaultCapacity . 
-    op NonSealingFault : -> OWLFaultCapacity . 
-
-    --- GeoUnit
-    sorts OWLRockType OWLPermeability OWLPorosity OWLLocation .
-    subsorts OWLRockType OWLPermeability OWLPorosity OWLLocation < Value .
+    sorts OWLSealingCapacity .
+    subsorts OWLSealingCapacity < Value .
 
     --- values
-    op Sandstone : -> OWLRockType .
-    op Shale : -> OWLRockType .
-    op Permeable : -> OWLPermeability .
-    op NonPermeable : -> OWLPermeability .
-    op Porous : -> OWLPorosity .
-    op NonPorous : -> OWLPorosity .
+    op Sealing : -> OWLSealingCapacity . 
+    op NonSealing : -> OWLSealingCapacity . 
+
+    --- GeoUnit
+    sorts OWLLocation .
+    subsorts OWLLocation < Value .
+
+    --- values
     op FeederChannel : -> OWLLocation .
     op DistributaryChannel : -> OWLLocation .
     op InterChannel1 : -> OWLLocation .
@@ -38,10 +32,10 @@ mod OWL-CONVERTER is
     op GeoUnit : -> ObjectName .
     op Fault : -> ObjectName .
     op Location : -> ValueSet .
-    op Permeability : -> ValueSet .
-    op Porosity : -> ValueSet .
-    op RockType : -> ValueSet .
     op SealingCapacity : -> ValueSet .
+
+    --- object property
+    op frontOf : Oid Oid : -> ObjectProperty .
 
     --- From Geo Assistant (with subsorts of ObjectAttribute added)
     sort ObjectAttribute .
@@ -49,69 +43,38 @@ mod OWL-CONVERTER is
     op null : -> Oid .
 
     --- Fault definition
-    sorts Ftype Ffilling .
+    sorts SealingCapacityT .
 
-    --- Fault types related to external stress
-    op normalfault : -> Ftype [ctor] .
-    op reversefault : -> Ftype [ctor] .
-
-    --- Fault filling
-    op sealing : -> Ffilling .
-    op non-sealing : -> Ffilling .
+    --- Fault sealing or non-sealing
+    op sealing : -> SealingCapacityT .
+    op non-sealing : -> SealingCapacityT .
     
     --- Geo Rocks definition
-    sorts Rtype Location PermeabilityType PorosityType .
-    op sandstone : -> Rtype .
-    op shale : -> Rtype .
+    sorts LocationT .
 
-    op feederChannel : -> Location .
-    op distributaryChannel : -> Location .
-    op interChannel : -> Location .
-    op lobe : -> Location .
-    op lobeFringe : -> Location .
-    op basinPlain : -> Location .
+    op feederChannel : -> LocationT .
+    op distributaryChannel : -> LocationT .
+    op interChannel : -> LocationT .
+    op lobe : -> LocationT .
+    op lobeFringe : -> LocationT .
+    op basinPlain : -> LocationT .
 
-    --- Permeability
-    op permeable : -> PermeabilityType . 
-    op non-permeable : -> PermeabilityType .
-    
-    --- Porosity
-    op porous : -> PorosityType . 
-    op non-porous : -> PorosityType .
-
-    subsorts Ftype Ffilling Rtype Location PermeabilityType PorosityType < ObjectAttribute .
+    subsorts SealingCapacityT LocationT < ObjectAttribute .
     --- End From Geo Assistant
 
     --- Fault object
-    op <_: Fault | FType:_, SealingCapacity:_ > :
-	      Oid Ftype Ffilling -> Object [ctor] .
+    op <_: Fault | SealingCapacity:_ > :
+	      Oid SealingCapacityT -> Object [ctor] .
 
-    op <_: GeoUnit | RockType:_, Permeability:_, Porosity:_, Location:_> :
-        Oid Rtype PermeabilityType PorosityType Location -> Object [ctor] .
-
+    op <_: GeoUnit | Location:_> :
+        Oid LocationT -> Object [ctor] .
 
     --- convert maps OWL leaf classes to object/class propertes in Maude
     op convert : Value -> ObjectAttribute .
 
     --- Fault SealingCapacity
-    eq convert(SealingFault) = sealing .
-    eq convert(NonSealingFault) = non-sealing .
-
-    --- Fault Type
-    eq convert(NormalFault) = normalfault .
-    eq convert(ReverseFault) = reversefault .
-
-    --- GeoUnit Type
-    eq convert(Sandstone) = sandstone .
-    eq convert(Shale) = shale .
-
-    --- GeoUnit Permeability
-    eq convert(Permeable) = permeable .
-    eq convert(NonPermeable) = non-permeable .
-
-    --- GeoUnit Porosity
-    eq convert(Porous) = porous .
-    eq convert(NonPorous) = non-porous .
+    eq convert(Sealing) = sealing .
+    eq convert(NonSealing) = non-sealing .
 
     --- GeoUnit SubmarineFan
     eq convert(FeederChannel) = feederChannel .
@@ -128,38 +91,17 @@ mod OWL-CONVERTER is
     vars C : Configuration .
     vars M : Msg .
     vars O : Oid .
-    vars FC : OWLFaultCapacity .
-    vars FT : OWLFaultType .
-    vars RT : OWLRockType .
-    vars PB : OWLPermeability .
-    vars PR : OWLPorosity .
+    vars SC : OWLSealingCapacity .
     vars L : OWLLocation .
 
     --- construct Fault
-    eq type(FT, O) type(FC, O) type(Fault, O)
+    eq type(Fault, O) type(SC, O) 
       =
-        < O : Fault | FType: convert(FT), SealingCapacity: convert(FC) > .
+        < O : Fault | SealingCapacity: convert(SC) > .
 
     
-    eq type(RT, O) type(PB, O) type(PR, O) type(L, O) type(GeoUnit, O) type(Location, O) type(Porosity, O) type(Permeability, O) type(RockType, O)
+    eq  type(GeoUnit, O) type(Location, O) type(L, O)
       =
-        < O : GeoUnit | RockType: convert(RT), Permeability: convert(PB), Porosity: convert(PR), Location: convert(L) > .
+        < O : GeoUnit | Location: convert(L) > .
     
-    --- constants
-    op unknown1 : -> Configuration .
-    eq unknown1 = type(SealingFault, "gu1") type(ReverseFault, "gu1") type(Fault, "gu1") .
-    
-    op unknown2 : -> Configuration .
-    eq unknown2 = type(NonSealingFault, "2") type(ReverseFault, "2") .
-
-    op unknown3 : -> Configuration .
-    eq unknown3 = type(SealingFault, "3") type(NormalFault, "3") .
-    
-    op unknown4 : -> Configuration .
-    eq unknown4 = type(NonSealingFault, "4") type(NormalFault, "4") .
-
-    op unknown5 : -> Configuration .
-
-    op unknown6 : -> Configuration .
-
 endm
