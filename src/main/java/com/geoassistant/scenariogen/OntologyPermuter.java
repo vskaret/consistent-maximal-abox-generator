@@ -1,10 +1,9 @@
 package com.geoassistant.scenariogen;
 
 import org.semanticweb.owlapi.model.*;
-
+import org.semanticweb.owlapi.profiles.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Queue;
@@ -15,7 +14,9 @@ public class OntologyPermuter extends Ontology {
     private String nonPermutable = "NonPermutable";
 
     // path for maude outputs
-    private String outputPath = "src/maude/combinations/proto-scenario";
+    private String maudePath = "src/maude/";
+    private String aboxPath = maudePath + "combinations/proto-scenario";
+    private String converterPath = maudePath + "converter.maude";
     private boolean printInconsistent = false;
 
 
@@ -23,6 +24,8 @@ public class OntologyPermuter extends Ontology {
     private Set<Set<OWLClassAssertionAxiom>> combinations = new HashSet<>();
     private Set<OWLClassAssertionAxiom> combination = new HashSet<>();
     private Set<OWLClass> classCombination = new HashSet<>();
+
+    private boolean Tbox = true;
 
     public OntologyPermuter() {
     }
@@ -39,8 +42,8 @@ public class OntologyPermuter extends Ontology {
         this.unknownClassName = reservedName;
     }
 
-    public void setOutputPath(String path) {
-        outputPath = path;
+    public void setAboxPath(String path) {
+        aboxPath = path;
     }
 
     /**
@@ -51,22 +54,13 @@ public class OntologyPermuter extends Ontology {
      * @throws Exception
      */
     public void permute() throws Exception {
-        System.out.println("initial ontology");
-        OntologyUtils.printClassAssertions(ontology);
-        System.out.println("***");
-        OWLClass thing = factory.getOWLThing();
+        OWL2DLProfile profile = new OWL2DLProfile();
+        OWLProfileReport report = profile.checkOntology(ontology);
+        for(OWLProfileViolation v:report.getViolations()) {
+            System.out.println(v);}
 
-        //MaudeSerializer.serializeTbox(ontology, reasoner, thing);
-        //System.exit(0);
-
-        Set<OWLClassAssertionAxiom> unknownSet = getClassAssertionAxioms(unknownClassName);
-        OWLClassAssertionAxiom[] unknownArr = unknownSet.toArray(new OWLClassAssertionAxiom[unknownSet.size()]);
-        ArrayList<OWLClassAssertionAxiom> permutables = new ArrayList<>(Arrays.asList(unknownArr));
-
-
-        if (!permutables.isEmpty()) {
-            permute(permutables, thing);
-        }
+        System.out.println(report.getProfile());
+        return;
     }
 
     /**
@@ -78,7 +72,6 @@ public class OntologyPermuter extends Ontology {
      * @throws Exception
      */
     public void permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
-    //public boolean permute(ArrayList<OWLClassAssertionAxiom> permutables, OWLClass root) throws Exception {
         Queue<OWLClass> queue = new LinkedList<>();
 
         OWLClassAssertionAxiom unknownCAA = permutables.get(0);
@@ -112,12 +105,10 @@ public class OntologyPermuter extends Ontology {
         if (queue.isEmpty() && permutables.isEmpty()) {
             // end of one combination when there are more nodes in the queue
             if (!Utils.subsetOf(combination, combinations)) {
+                // serialize ABox
                 System.out.print(++combinationCounter + " ");
                 OntologyUtils.prettyprint(combination);
-
-                //System.out.println(MaudeSerializer.serializeAbox(ontology, reasoner));
-                MaudeSerializer.writeFile(ontology, reasoner, outputPath + combinationCounter + ".maude");
-                //MaudeSerializer.serializeAbox(ontology);
+                MaudeSerializer.writeFile(ontology, reasoner, aboxPath + combinationCounter + ".maude");
 
                 Set<OWLClassAssertionAxiom> result = new HashSet<>(combination);
                 combinations.add(result);
@@ -127,6 +118,7 @@ public class OntologyPermuter extends Ontology {
             permute(permutables, factory.getOWLThing());
             return;
         }
+
 
         // pop front node from queue and print it
         OWLClass currentClass = queue.poll();

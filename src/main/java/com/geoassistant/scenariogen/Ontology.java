@@ -3,7 +3,6 @@ package com.geoassistant.scenariogen;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
@@ -30,9 +29,6 @@ public abstract class Ontology {
     protected final String srcPath = System.getProperty("user.dir") + "/src/";
     protected final String cwd = srcPath + "main/java/com/geoassistant/scenariogen/";
     protected final String owldir = srcPath + "owl/";
-
-    //protected final String cwd = System.getProperty("user.dir") + "/src/main/java/com/geoassistant/scenariogen";
-    //protected String datadir;
 
     // the OWL ontology manager
     protected OWLOntologyManager manager;
@@ -128,7 +124,6 @@ public abstract class Ontology {
      */
     public Set<OWLClassAssertionAxiom> getClassAssertionAxioms(String className) {
         OWLClassExpression oce = factory.getOWLClass(className, pm);
-        //System.out.println(ontology.getClassAssertionAxioms(oce));
         return ontology.getClassAssertionAxioms(oce);
     }
 

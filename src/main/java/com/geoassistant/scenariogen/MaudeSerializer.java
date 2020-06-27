@@ -9,7 +9,7 @@ import java.util.Set;
 import java.io.PrintWriter;
 
 public class MaudeSerializer {
-    static final String prefix = "mod OWL-PERMUTATION is\n" +
+    static final String prefix = "mod OWL-ABOX is\n" +
             //"  PROTECTING OWL-SORTS .\n";
             "  protecting OWL-CONVERTER .\n";
 
@@ -52,11 +52,11 @@ public class MaudeSerializer {
             Set<OWLClassAssertionAxiom> instantiations = ontology.getClassAssertionAxioms(i);
 
             for (OWLClassAssertionAxiom cax : instantiations) {
-                if (reasoner.getSubClasses(cax.getClassExpression(), true).isBottomSingleton()) {
+                //if (reasoner.getSubClasses(cax.getClassExpression(), true).isBottomSingleton()) {
                     String sort = cax.getClassExpression().asOWLClass().getIRI().getShortForm();
                     //System.out.print(sort + "(" + oid + ") ");
-                    result.append("type(" + sort + ", " + oid + ") ");
-                }
+                    result.append("type(" + sort + ", " + '"' + oid + '"' + ") ");
+                //}
             }
 
             //System.out.println(ontology.getObjectPropertyAssertionAxioms(i));

@@ -8,7 +8,6 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
-        //System.out.println( "Hello World!" );
         boolean debugging = false;
         boolean printInconsistent = true;
 
@@ -17,16 +16,6 @@ public class App
         op.setDEBUG(debugging);
         op.setPrintInconsistent(printInconsistent);
         op.loadOntology("geo-maude3.owl");
-        //op.loadOntology("splittest.owl");
-
-        //System.out.println("*********************");
-        //op.serializeTbox();
-        //System.out.println("*********************");
-
         op.permute();
-        //System.out.println();
-        //op.serializeAbox();
-
-
     }
 }

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/MaudeSerializer.java" afterDir="false" />
+    <list default="true" id="1a07ab2e-dce3-4fe8-9547-288ff3b53ff7" name="Default Changelist" comment="changed folder structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latex/pseudokode_ny.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/pseudokode_ny.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenario-gen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/scenario-gen.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/MaudeSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/MaudeSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/Ontology.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/maude/owl2.maude" beforeDir="false" afterPath="$PROJECT_DIR$/src/maude/owl2.maude" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/owl/geo-maude3.owl" beforeDir="false" afterPath="$PROJECT_DIR$/src/owl/geo-maude3.owl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="only-class-permutations" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,7 +35,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -41,10 +42,14 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/main/owl" />
       <recent name="$PROJECT_DIR$/oldfiles" />
     </key>
   </component>
@@ -83,13 +88,14 @@
         <sumatra-path />
         <viewer-command />
         <compiler-arguments />
+        <envs />
         <main-file>$PROJECT_DIR$/latex/permutasjon_klasser.tex</main-file>
-        <aux-dir>false</aux-dir>
-        <out-dir>true</out-dir>
+        <output-path>$USER_HOME$</output-path>
+        <auxil-path>$PROJECT_DIR$/latex</auxil-path>
         <compile-twice>false</compile-twice>
         <output-format>PDF</output-format>
         <has-been-run>true</has-been-run>
-        <bib-run-config />
+        <bib-run-config>[]</bib-run-config>
         <makeindex-run-config />
       </texify>
       <method v="2" />
@@ -101,13 +107,14 @@
         <sumatra-path />
         <viewer-command />
         <compiler-arguments />
+        <envs />
         <main-file>$PROJECT_DIR$/latex/pseudokode_ny.tex</main-file>
-        <aux-dir>false</aux-dir>
-        <out-dir>true</out-dir>
+        <output-path>$USER_HOME$</output-path>
+        <auxil-path>$PROJECT_DIR$/latex</auxil-path>
         <compile-twice>false</compile-twice>
         <output-format>PDF</output-format>
         <has-been-run>true</has-been-run>
-        <bib-run-config />
+        <bib-run-config>[]</bib-run-config>
         <makeindex-run-config />
       </texify>
       <method v="2" />
@@ -118,24 +125,6 @@
       <item itemvalue="LaTeX.permutasjon_klasser" />
       <item itemvalue="LaTeX.pseudokode_ny" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="LaTeX.pseudokode_ny" />
-        <item itemvalue="LaTeX.permutasjon_klasser" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -147,6 +136,32 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578647828946</updated>
+      <workItem from="1584100850388" duration="751000" />
+      <workItem from="1584101615752" duration="27000" />
+      <workItem from="1584101655802" duration="1223000" />
+      <workItem from="1584102956674" duration="3600000" />
+      <workItem from="1584187071293" duration="738000" />
+      <workItem from="1584367121268" duration="1512000" />
+      <workItem from="1584443172151" duration="1342000" />
+      <workItem from="1584453601628" duration="2807000" />
+      <workItem from="1584528318923" duration="2734000" />
+      <workItem from="1589123710646" duration="3774000" />
+      <workItem from="1589201981706" duration="639000" />
+      <workItem from="1589464735277" duration="299000" />
+      <workItem from="1589557816838" duration="4246000" />
+      <workItem from="1590062998195" duration="2160000" />
+      <workItem from="1590252838942" duration="112000" />
+      <workItem from="1590252970454" duration="657000" />
+      <workItem from="1590308311860" duration="7106000" />
+      <workItem from="1590485090410" duration="5951000" />
+      <workItem from="1590773617676" duration="5316000" />
+      <workItem from="1590827542569" duration="5491000" />
+      <workItem from="1590835753046" duration="33135000" />
+      <workItem from="1591470693436" duration="1051000" />
+      <workItem from="1591511361876" duration="1418000" />
+      <workItem from="1591873972808" duration="3452000" />
+      <workItem from="1591963941598" duration="678000" />
+      <workItem from="1593241206845" duration="931000" />
     </task>
     <task id="LOCAL-00001" summary="cleanup">
       <created>1578648376434</created>
@@ -295,8 +310,25 @@
       <option name="project" value="LOCAL" />
       <updated>1580818442130</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="changed folder structure">
+      <created>1584102108327</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1584102108327</updated>
+    </task>
+    <task id="LOCAL-00023" summary="some ontologies copied from school computer">
+      <created>1584102619080</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1584102619080</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="cleanup" />
@@ -318,116 +350,37 @@
     <MESSAGE value="fixed bug where unknown (current individual) was overwritten in recursive calls" />
     <MESSAGE value="noen eksempler" />
     <MESSAGE value="fixed bug where some permutations were added by mistake.&#10;&#10;the problem was that the reserved class name (&quot;Permutable&quot;) was added to the breadth-first queue and thus some axioms were instantiated with it.&#10;this opened for more permutations than there should be." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug where some permutations were added by mistake.&#10;&#10;the problem was that the reserved class name (&quot;Permutable&quot;) was added to the breadth-first queue and thus some axioms were instantiated with it.&#10;this opened for more permutations than there should be." />
+    <MESSAGE value="changed folder structure" />
+    <MESSAGE value="some ontologies copied from school computer" />
+    <option name="LAST_COMMIT_MESSAGE" value="some ontologies copied from school computer" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="243" width="800" height="684" key="#Notifications" timestamp="1579094927635">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state x="486" y="128" width="1377" height="1263" key="CommitChangelistDialog2" timestamp="1593243617852">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="555" y="243" width="800" height="684" key="#Notifications/0.28.1920.1138@0.28.1920.1138" timestamp="1579094927635" />
-    <state x="418" y="255" width="1084" height="687" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579173396079">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state x="486" y="128" width="1377" height="1263" key="CommitChangelistDialog2/0.0.2560.1425@0.0.2560.1425" timestamp="1593243617852" />
+    <state width="1234" height="424" key="GridCell.Tab.0.bottom" timestamp="1591906686708">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="418" y="255" width="1084" height="687" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579173396079" />
-    <state x="692" y="383" width="525" height="437" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1578647949869">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state width="1234" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1425@0.0.2560.1425" timestamp="1591906686708" />
+    <state width="1234" height="424" key="GridCell.Tab.0.center" timestamp="1591906686708">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="692" y="383" width="525" height="437" key="#com.intellij.ide.util.TreeClassChooserDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578647949869" />
-    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579618452866">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state width="1234" height="424" key="GridCell.Tab.0.center/0.0.2560.1425@0.0.2560.1425" timestamp="1591906686708" />
+    <state width="1234" height="424" key="GridCell.Tab.0.left" timestamp="1591906686707">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="643" y="322" width="624" height="557" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579618452866" />
-    <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1578648285526">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state width="1234" height="424" key="GridCell.Tab.0.left/0.0.2560.1425@0.0.2560.1425" timestamp="1591906686707" />
+    <state width="1234" height="424" key="GridCell.Tab.0.right" timestamp="1591906686708">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="693" y="345" width="524" height="511" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648285526" />
-    <state x="245" y="111" width="1528" height="975" key="CommitChangelistDialog2" timestamp="1580818439210">
-      <screen x="0" y="28" width="1920" height="1138" />
+    <state width="1234" height="424" key="GridCell.Tab.0.right/0.0.2560.1425@0.0.2560.1425" timestamp="1591906686708" />
+    <state x="995" y="259" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1591890302847">
+      <screen x="0" y="0" width="2560" height="1425" />
     </state>
-    <state x="245" y="111" width="1528" height="975" key="CommitChangelistDialog2/0.28.1920.1138@0.28.1920.1138" timestamp="1580818439210" />
-    <state x="100" y="128" width="1720" height="938" key="DiffContextDialog" timestamp="1579695817409">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="100" y="128" width="1720" height="938" key="DiffContextDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579695817409" />
-    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl" timestamp="1579199228675">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="743" y="341" width="424" height="522" key="FileChooserDialogImpl/0.28.1920.1138@0.28.1920.1138" timestamp="1579199228675" />
-    <state width="1872" height="175" key="GridCell.Tab.0.bottom" timestamp="1581103139266">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="175" key="GridCell.Tab.0.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
-    <state width="1872" height="175" key="GridCell.Tab.0.center" timestamp="1581103139266">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="175" key="GridCell.Tab.0.center/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
-    <state width="1872" height="175" key="GridCell.Tab.0.left" timestamp="1581103139266">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="175" key="GridCell.Tab.0.left/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
-    <state width="1872" height="175" key="GridCell.Tab.0.right" timestamp="1581103139266">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="175" key="GridCell.Tab.0.right/0.28.1920.1138@0.28.1920.1138" timestamp="1581103139266" />
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom" timestamp="1580846207815">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.bottom/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207815" />
-    <state width="1872" height="373" key="GridCell.Tab.1.center" timestamp="1580846207814">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.center/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
-    <state width="1872" height="373" key="GridCell.Tab.1.left" timestamp="1580846207814">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.left/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
-    <state width="1872" height="373" key="GridCell.Tab.1.right" timestamp="1580846207814">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state width="1872" height="373" key="GridCell.Tab.1.right/0.28.1920.1138@0.28.1920.1138" timestamp="1580846207814" />
-    <state x="456" y="216" width="1007" height="737" key="SettingsEditor" timestamp="1579194506833">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="456" y="216" width="1007" height="737" key="SettingsEditor/0.28.1920.1138@0.28.1920.1138" timestamp="1579194506833" />
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1580818445680">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="555" y="333" width="800" height="535" key="Vcs.Push.Dialog.v2/0.28.1920.1138@0.28.1920.1138" timestamp="1580818445680" />
-    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579796715916">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="746" y="235" width="417" height="751" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.28.1920.1138@0.28.1920.1138" timestamp="1579796715916" />
-    <state x="738" y="516" width="443" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579698719097">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="738" y="516" width="443" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.28.1920.1138@0.28.1920.1138" timestamp="1579698719097" />
-    <state x="612" y="171" width="696" height="852" key="find.popup" timestamp="1579020093259">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="612" y="171" width="696" height="852" key="find.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579020093259" />
-    <state x="657" y="386" width="596" height="428" key="git4idea.merge.GitMergeDialog" timestamp="1578648453901">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="657" y="386" width="596" height="428" key="git4idea.merge.GitMergeDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1578648453901" />
-    <state x="645" y="386" width="620" height="428" key="git4idea.merge.GitPullDialog" timestamp="1579107530331">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="645" y="386" width="620" height="428" key="git4idea.merge.GitPullDialog/0.28.1920.1138@0.28.1920.1138" timestamp="1579107530331" />
-    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1579619385429">
-      <screen x="0" y="28" width="1920" height="1138" />
-    </state>
-    <state x="623" y="281" width="672" height="678" key="search.everywhere.popup/0.28.1920.1138@0.28.1920.1138" timestamp="1579619385429" />
+    <state x="995" y="259" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.2560.1425@0.0.2560.1425" timestamp="1591890302847" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/geoassistant/scenariogen/OntologyPermuter.java</url>
-          <line>96</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="this" />
