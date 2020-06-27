@@ -35,7 +35,7 @@ mod OWL-CONVERTER is
     op SealingCapacity : -> ValueSet .
 
     --- object property
-    op frontOf : Oid Oid : -> ObjectProperty .
+    op frontOf : Oid Oid -> ObjectProperty .
 
     --- From Geo Assistant (with subsorts of ObjectAttribute added)
     sort ObjectAttribute .
